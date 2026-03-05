@@ -1,0 +1,109 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
+def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+android {
+    namespace = "com.buson.warehousemanagement"
+    compileSdk = 36
+    ndkVersion = "26.1.10909125"
+    // compileSdk flutter.compileSdkVersion
+    // ndkVersion flutter.ndkVersion
+    
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId = "com.buson.warehousemanagement"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 1
+        versionName = "0.0.8"
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // applicationId "com.buson.warehousemanagement"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        // minSdkVersion 23
+        // targetSdk = 36
+        // versionCode = 17
+        // versionName = "0.1.7"
+        // targetSdkVersion flutter.targetSdkVersion
+        // versionCode flutterVersionCode.toInteger()
+        // versionName flutterVersionName
+        
+        multiDexEnabled= true
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+    }
+    signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
+
+    buildTypes {
+       release {
+            signingConfig= signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
+        debug {
+            signingConfig= signingConfigs.debug
+        }
+    }
+}
+
+// Suppress all Java warnings
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:none"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        allWarningsAsErrors = false
+        suppressWarnings = true
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+   coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
+}

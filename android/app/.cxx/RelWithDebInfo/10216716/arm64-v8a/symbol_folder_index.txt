@@ -1,0 +1,1 @@
+D:\warehousemanagement\build\app\intermediates\cxx\RelWithDebInfo\10216716\obj\arm64-v8a

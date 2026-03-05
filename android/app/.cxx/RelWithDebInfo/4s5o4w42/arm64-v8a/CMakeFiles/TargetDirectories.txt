@@ -1,0 +1,2 @@
+D:/Uma/warehousemanagement/android/app/.cxx/RelWithDebInfo/4s5o4w42/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Uma/warehousemanagement/android/app/.cxx/RelWithDebInfo/4s5o4w42/arm64-v8a/CMakeFiles/rebuild_cache.dir

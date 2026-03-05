@@ -1,0 +1,2 @@
+D:/warehousemanagement/android/app/.cxx/Debug/w2k26772/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/warehousemanagement/android/app/.cxx/Debug/w2k26772/arm64-v8a/CMakeFiles/rebuild_cache.dir
