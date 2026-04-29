@@ -19,23 +19,24 @@ class Dboperation {
 
     return List.generate(result.length, (i) {
       return wmstranspurchaseSerialModel(
-        scannedqty: int.parse(result[i]['Scannedqty'].toString()) , 
-        docentry:int.parse(result[i]['Docentry'].toString()) , 
-        itemCode: result[i]['ItemCode'].toString(), 
-        itemDescription: result[i]['ItemDescription'].toString(), 
-        lineNum: int.parse(result[i]['LineNum'].toString()) , 
-        price: double.parse(result[i]['Price'].toString()) , 
-        quantity:int.parse(result[i]['Quantity'].toString()) , 
-        manufacturerSerialNumber: result[i]['ManufacturerSerialNumber'].toString(), 
-        internalSerialNumber: result[i]['InternalSerialNumber'].toString(), 
-        notes: result[i]['Notes'].toString(),
-         manageby: result[i]['ManageBy'].toString()
-        );
+          scannedqty: int.parse(result[i]['Scannedqty'].toString()),
+          docentry: int.parse(result[i]['Docentry'].toString()),
+          itemCode: result[i]['ItemCode'].toString(),
+          itemDescription: result[i]['ItemDescription'].toString(),
+          lineNum: int.parse(result[i]['LineNum'].toString()),
+          price: double.parse(result[i]['Price'].toString()),
+          quantity: int.parse(result[i]['Quantity'].toString()),
+          manufacturerSerialNumber:
+              result[i]['ManufacturerSerialNumber'].toString(),
+          internalSerialNumber: result[i]['InternalSerialNumber'].toString(),
+          notes: result[i]['Notes'].toString(),
+          manageby: result[i]['ManageBy'].toString(),
+          taxRate: int.parse(result[i]['taxRate'].toString()));
     });
   }
+
   static Future<List<wmstranspurchaseitemModel>> purchaseinwsaveAllDatafinal(
       String docEntry, String itemCode, String lineNO, Database db) async {
-   
     final List<Map<String, Object?>> result = await db.rawQuery(
       'SELECT * FROM wmstranspurchaseitemtable WHERE Docentry = "$docEntry" AND ItemCode ="$itemCode" AND LineNum = "$lineNO" ',
     );
@@ -44,24 +45,24 @@ class Dboperation {
 
     return List.generate(result.length, (i) {
       return wmstranspurchaseitemModel(
-        scannedqty:int.parse(result[i]['Scannedqty'].toString()) , 
-        
-        baseEntry:int.parse(result[i]['BaseEntry'].toString()) , 
-        docentry:int.parse(result[i]['Docentry'].toString()) , 
-        baseLine:int.parse(result[i]['BaseLine'].toString()) , 
-        baseType: result[i]['BaseType'].toString(), 
-        itemCode: result[i]['ItemCode'].toString(), 
-        itemDescription: result[i]['ItemDescription'].toString(), 
-        lineNum: int.parse(result[i]['LineNum'].toString()) , 
-        manageBy: result[i]['ManageBy'].toString(), 
-        price:double.parse(result[i]['Price'].toString()) , 
-        quantity: int.parse(result[i]['Quantity'].toString()) , 
-        salesPersonCode:int.parse(result[i]['SalesPersonCode'].toString()) , 
-        taxCode: result[i]['TaxCode'].toString(), 
-        warehouseCode: result[i]['WarehouseCode'].toString()
-        );
+          scannedqty: int.parse(result[i]['Scannedqty'].toString()),
+          baseEntry: int.parse(result[i]['BaseEntry'].toString()),
+          docentry: int.parse(result[i]['Docentry'].toString()),
+          baseLine: int.parse(result[i]['BaseLine'].toString()),
+          baseType: result[i]['BaseType'].toString(),
+          itemCode: result[i]['ItemCode'].toString(),
+          itemDescription: result[i]['ItemDescription'].toString(),
+          lineNum: int.parse(result[i]['LineNum'].toString()),
+          manageBy: result[i]['ManageBy'].toString(),
+          price: double.parse(result[i]['Price'].toString()),
+          quantity: int.parse(result[i]['Quantity'].toString()),
+          salesPersonCode: int.parse(result[i]['SalesPersonCode'].toString()),
+          taxCode: result[i]['TaxCode'].toString(),
+          taxRate: int.parse(result[i]['taxRate'].toString()),
+          warehouseCode: result[i]['WarehouseCode'].toString());
     });
   }
+
   static Future<int> purchaseinwgetoverallcount(
       Database db, String? docentry, String? itemcode, int? linenum) async {
     log("docentry::${itemcode}" + docentry.toString());
@@ -77,6 +78,7 @@ class Dboperation {
       return 0;
     }
   }
+
   static Future<void> purchaseinwitemdeletefinal(
       int docEntry, Database db) async {
     // final Database db = await createDB();
@@ -85,6 +87,7 @@ class Dboperation {
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> purchaseinwserialdeletefinal(
       int docEntry, Database db) async {
     // final Database db = await createDB();
@@ -93,6 +96,7 @@ class Dboperation {
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> purchaseinwitemdelete(
       int docEntry, String itemCode, String lineNO, Database db) async {
     // final Database db = await createDB();
@@ -101,6 +105,7 @@ class Dboperation {
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> purchaseinwserialdelete(
       int docEntry, String itemCode, String lineNO, Database db) async {
     // final Database db = await createDB();
@@ -109,6 +114,7 @@ class Dboperation {
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<List<wmstranspurchaseSerialModel>> getdatapurchaseinw(
     Database db,
     String? docentry,
@@ -118,23 +124,23 @@ class Dboperation {
 ''');
     return List.generate(result.length, (i) {
       return wmstranspurchaseSerialModel(
-        
-        scannedqty:int.parse(result[i]['Scannedqty'].toString()) , 
-        docentry:int.parse(result[i]['Docentry'].toString())  , 
-        itemCode: result[i]['ItemCode'].toString(), 
-        itemDescription: result[i]['ItemDescription'].toString(), 
-        lineNum:int.parse(result[i]['LineNum'].toString()) , 
-        price: double.parse(result[i]['Price'].toString()) , 
-        quantity: int.parse(result[i]['Quantity'].toString()) , 
-        manufacturerSerialNumber: result[i]['ManufacturerSerialNumber'].toString(), 
-        internalSerialNumber: result[i]['InternalSerialNumber'].toString(), 
-        notes: result[i]['Notes'].toString(),
-        manageby: result[i]['ManageBy'].toString()
-        );
+          scannedqty: int.parse(result[i]['Scannedqty'].toString()),
+          docentry: int.parse(result[i]['Docentry'].toString()),
+          itemCode: result[i]['ItemCode'].toString(),
+          itemDescription: result[i]['ItemDescription'].toString(),
+          lineNum: int.parse(result[i]['LineNum'].toString()),
+          price: double.parse(result[i]['Price'].toString()),
+          quantity: int.parse(result[i]['Quantity'].toString()),
+          manufacturerSerialNumber:
+              result[i]['ManufacturerSerialNumber'].toString(),
+          internalSerialNumber: result[i]['InternalSerialNumber'].toString(),
+          notes: result[i]['Notes'].toString(),
+          manageby: result[i]['ManageBy'].toString(),
+          taxRate: int.parse(result[i]['taxRate'].toString()));
     });
   }
-   
-   static Future<int?> purchaseinwitemuidExists(
+
+  static Future<int?> purchaseinwitemuidExists(
       String docEntry, String itemCode, String lineNO, Database db) async {
     //  final Database db = await createDB();
     log("wwww::::${docEntry}::${itemCode}::${lineNO}");
@@ -237,11 +243,11 @@ class Dboperation {
   //   log("inserted");
   //   await batch.commit();
   // }
- static Future<List<wmstranspurchaseSerialModel>> purchasegetBinAndSerailNo(
+  static Future<List<wmstranspurchaseSerialModel>> purchasegetBinAndSerailNo(
       String docEntry, String itemCode, int? linenum, Database db) async {
     log("${docEntry}::${itemCode}::${linenum}");
     //  final Database db = await createDB();
-    
+
     final List<Map<String, Object?>> result = await db.rawQuery(
       "SELECT * FROM wmstranspurchaseSerial WHERE Docentry = '$docEntry' AND ItemCode ='$itemCode' AND LineNum ='$linenum'",
     );
@@ -249,20 +255,22 @@ class Dboperation {
 
     return List.generate(result.length, (i) {
       return wmstranspurchaseSerialModel(
-        scannedqty:int.parse(result[i]['Scannedqty'].toString()) , 
-        docentry:int.parse(result[i]['Docentry'].toString()) , 
-        itemCode: result[i]['ItemCode'].toString(), 
-        itemDescription: result[i]['ItemDescription'].toString(), 
-        lineNum:int.parse( result[i]['LineNum'].toString()), 
-        price: double.parse(result[i]['Price'].toString()) , 
-        quantity:int.parse(result[i]['Quantity'].toString()) , 
-        manufacturerSerialNumber: result[i]['ManufacturerSerialNumber'].toString(), 
-        internalSerialNumber: result[i]['InternalSerialNumber'].toString(),  
-        notes: result[i]['Notes'].toString(),
-        manageby: result[i]['ManageBy'].toString()
-        );
+          scannedqty: int.parse(result[i]['Scannedqty'].toString()),
+          docentry: int.parse(result[i]['Docentry'].toString()),
+          itemCode: result[i]['ItemCode'].toString(),
+          itemDescription: result[i]['ItemDescription'].toString(),
+          lineNum: int.parse(result[i]['LineNum'].toString()),
+          price: double.parse(result[i]['Price'].toString()),
+          quantity: int.parse(result[i]['Quantity'].toString()),
+          manufacturerSerialNumber:
+              result[i]['ManufacturerSerialNumber'].toString(),
+          internalSerialNumber: result[i]['InternalSerialNumber'].toString(),
+          notes: result[i]['Notes'].toString(),
+          manageby: result[i]['ManageBy'].toString(),
+          taxRate: int.parse(result[i]['taxRate'].toString()));
     });
   }
+
   static Future<List<wmstransInwtabSerialModel>> InwgetBinAndSerailNo(
       String docEntry, String itemCode, int? linenum, Database db) async {
     log("${docEntry}::${itemCode}::${linenum}");
@@ -289,6 +297,7 @@ class Dboperation {
           transtype: result[i]['Transtype'].toString());
     });
   }
+
   static Future<List<wmstransoutwardtabSerialModel>> outwardgetBinAndSerailNo(
       String docEntry, String itemCode, int? linenum, Database db) async {
     log("${docEntry}::${itemCode}::${linenum}");
@@ -362,7 +371,7 @@ class Dboperation {
   //   print("alredy serial present: $exists");
   //   return exists; //its retur 1 if its present
   // }
-    static Future<int?> InwuidExists(
+  static Future<int?> InwuidExists(
       String docEntry, String itemCode, String lineNO, Database db) async {
     //  final Database db = await createDB();
     var result = await db.rawQuery(
@@ -385,7 +394,8 @@ class Dboperation {
     //    print("data: present $exists");
     return exists; //its retur 1 if its present
   }
-static Future<void> transferInwexistdelete(
+
+  static Future<void> transferInwexistdelete(
       int docEntry, String itemCode, String lineNO, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
@@ -393,23 +403,25 @@ static Future<void> transferInwexistdelete(
     );
     // print("delete id: "+id.toString());
   }
-  static Future<void> Transferinwfinaldelete(
-      int docEntry,  Database db) async {
+
+  static Future<void> Transferinwfinaldelete(int docEntry, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
       "DELETE FROM $wmstransinwitemtable WHERE UTransNum = '$docEntry' ",
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> TransferInwfinalserialdelete(
-      int docEntry,  Database db) async {
+      int docEntry, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
       "DELETE FROM $wmstransInwSerialtable WHERE TransNum = '$docEntry' ",
     );
     // print("delete id: "+id.toString());
   }
-   static Future<void> TransferInwexistserialdelete(
+
+  static Future<void> TransferInwexistserialdelete(
       int docEntry, String itemCode, String lineNO, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
@@ -417,15 +429,17 @@ static Future<void> transferInwexistdelete(
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> outitemdeletebytransnum(
-      String docEntry,  Database db) async {
+      String docEntry, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
       "DELETE FROM $wmstransoutwarditemtable WHERE UTransNum = '$docEntry' ",
     );
     // print("delete id: "+id.toString());
   }
-    static Future<void> outserialdeletebytransnum(
+
+  static Future<void> outserialdeletebytransnum(
       String docEntry, Database db) async {
     // final Database db = await createDB();
     var id = await db.rawQuery(
@@ -433,6 +447,7 @@ static Future<void> transferInwexistdelete(
     );
     // print("delete id: "+id.toString());
   }
+
   static Future<void> outexistdelete(
       int docEntry, String itemCode, String lineNO, Database db) async {
     // final Database db = await createDB();
@@ -477,12 +492,11 @@ static Future<void> transferInwexistdelete(
   //   final id = await db.insert(tablename, values.toMap());
   //   print("result: $id");
   // }
-static Future<int> getoverallcounttransInwa(
+  static Future<int> getoverallcounttransInwa(
       Database db, String? docentry, String? itemcode, int? linenum) async {
     log("docentry::" + docentry.toString());
-    var result2 =await db.rawQuery(
-        "select * from $wmstransInwSerialtable");
-        log("result2::"+result2.toString());
+    var result2 = await db.rawQuery("select * from $wmstransInwSerialtable");
+    log("result2::" + result2.toString());
     var result = await db.rawQuery(
         "select SUM(Scannedqty) AS TotalQuantity from $wmstransInwSerialtable where TransNum='$docentry' AND ItemCode='$itemcode' AND LineID='$linenum' group by TransNum,ItemCode");
     log("result::" + result.toString());
@@ -492,6 +506,7 @@ static Future<int> getoverallcounttransInwa(
       return 0;
     }
   }
+
   static Future<int> getoverallcountoutward(
       Database db, String? docentry, String? itemcode, int? linenum) async {
     log("docentry::" + docentry.toString());
@@ -517,7 +532,7 @@ static Future<int> getoverallcounttransInwa(
   //     return 0;
   //   }
   // }
-static Future<List<wmstransInwtabSerialModel>> getdataTransinw(
+  static Future<List<wmstransInwtabSerialModel>> getdataTransinw(
     Database db,
     String? docentry,
   ) async {
@@ -537,6 +552,7 @@ static Future<List<wmstransInwtabSerialModel>> getdataTransinw(
           transtype: result[i]['Transtype'].toString());
     });
   }
+
   static Future<List<wmstransoutwardtabSerialModel>> getdataoutward(
     Database db,
     String? docentry,
@@ -553,7 +569,7 @@ static Future<List<wmstransInwtabSerialModel>> getdataTransinw(
           qty: double.parse(result[i]['Qty'].toString()),
           serialnum: result[i]['Serialnum'].toString(),
           transNum: result[i]['TransNum'].toString(),
-            manageby: result[i]['ManageBy'].toString(),
+          manageby: result[i]['ManageBy'].toString(),
           transtype: result[i]['Transtype'].toString());
     });
   }
@@ -587,9 +603,8 @@ static Future<List<wmstransInwtabSerialModel>> getdataTransinw(
 //           expirydate: result[i]['Expirydate'].toString());
 //     });
 //   }
-static Future<List<wmstransInwtabSerialModel>>
-      inwsaveAllserialDatafinal(
-          String docEntry, String itemCode, String lineNO, Database db) async {
+  static Future<List<wmstransInwtabSerialModel>> inwsaveAllserialDatafinal(
+      String docEntry, String itemCode, String lineNO, Database db) async {
     //  final Database db = await createDB();
     final List<Map<String, Object?>> result = await db.rawQuery(
       'SELECT * FROM wmstransInwSerial WHERE TransNum = "$docEntry" AND ItemCode ="$itemCode" AND LineID = "$lineNO" ',
@@ -610,6 +625,7 @@ static Future<List<wmstransInwtabSerialModel>>
           transtype: result[i]['Transtype'].toString());
     });
   }
+
   static Future<List<wmstransoutwardtabSerialModel>>
       outwardsaveAllserialDatafinal(
           String docEntry, String itemCode, String lineNO, Database db) async {
@@ -620,7 +636,6 @@ static Future<List<wmstransInwtabSerialModel>>
     print("resultfinal: $result");
     //  print("result length : present ${result.length}");
 
-
     return List.generate(result.length, (i) {
       return wmstransoutwardtabSerialModel(
           branch: result[i]['Branch'].toString(),
@@ -630,11 +645,12 @@ static Future<List<wmstransInwtabSerialModel>>
           qty: double.parse(result[i]['Qty'].toString()),
           serialnum: result[i]['Serialnum'].toString(),
           transNum: result[i]['TransNum'].toString(),
-           manageby: result[i]['ManageBy'].toString(),
+          manageby: result[i]['ManageBy'].toString(),
           transtype: result[i]['Transtype'].toString());
     });
   }
-static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
+
+  static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
       String docEntry, String itemCode, String lineNO, Database db) async {
     //  final Database db = await createDB();
     // final List<Map<String, Object?>> result2 = await db.rawQuery(
@@ -649,17 +665,18 @@ static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
 
     return List.generate(result.length, (i) {
       return wmstransInwtabitemModel(
-        docentry: int.parse(result[i]['Docentry'].toString()),
+          docentry: int.parse(result[i]['Docentry'].toString()),
           fromWarehouse: result[i]['FromWarehouse'].toString(),
           itemCode: result[i]['ItemCode'].toString(),
-          lineID: int.parse(result[i]['LineID'].toString()), 
+          lineID: int.parse(result[i]['LineID'].toString()),
           quantity: double.parse(result[i]['Quantity'].toString()),
           scannedqty: int.parse(result[i]['Scannedqty'].toString()),
           toWarehouse: result[i]['ToWarehouse'].toString(),
-          manageby:result[i]['ManageBy'].toString() ,
+          manageby: result[i]['ManageBy'].toString(),
           uTransNum: result[i]['UTransNum'].toString());
     });
   }
+
   static Future<List<wmstransoutwardtabitemModel>> outwardsaveAllDatafinal(
       String docEntry, String itemCode, String lineNO, Database db) async {
     //  final Database db = await createDB();
@@ -677,7 +694,7 @@ static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
       return wmstransoutwardtabitemModel(
           fromWarehouse: result[i]['FromWarehouse'].toString(),
           itemCode: result[i]['ItemCode'].toString(),
-          baseentry: int.parse(result[i]['Baseentry'].toString()) ,
+          baseentry: int.parse(result[i]['Baseentry'].toString()),
           lineID: int.parse(result[i]['LineID'].toString()),
           quantity: double.parse(result[i]['Quantity'].toString()),
           scannedqty: int.parse(result[i]['Scannedqty'].toString()),
@@ -685,8 +702,6 @@ static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
           uTransNum: result[i]['UTransNum'].toString());
     });
   }
-
-
 
   // static Future<List<Documents>> saveAllDatafinal(
   //     String docEntry, String itemCode, String lineNO, Database db) async {
@@ -719,5 +734,4 @@ static Future<List<wmstransInwtabitemModel>> inwsaveAllDatafinal(
   //         expirydate: result[i]['Expirydate'].toString());
   //   });
   // }
-
 }

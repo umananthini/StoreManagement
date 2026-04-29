@@ -75,7 +75,7 @@ class _TransferOutwardScreenState extends State<TransferOutwardScreen> {
                         child: Icon(Icons.arrow_back,)),
                         SizedBox(width: Screens.width(context)*0.015,),
                       Text(
-                        "Transfer Outeward",
+                        "Transfer Outward",
                         style: theme.textTheme.bodyMedium!.copyWith(
                             color: white, fontWeight: FontWeight.w600, fontSize: 22),
                       ),

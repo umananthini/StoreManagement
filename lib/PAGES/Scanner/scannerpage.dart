@@ -207,6 +207,7 @@ class QRscannerState extends State<QRscanner> {
                     //   detailinwardscan = false;
                     //   log("barcodes length::${barcodes.length}");
                     // }
+                    
                   }
                 })));
   }
@@ -223,4 +224,5 @@ class QRscannerState extends State<QRscanner> {
         textColor: Colors.white,
         fontSize: 14.0);
   }
+
 }

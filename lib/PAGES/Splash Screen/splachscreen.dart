@@ -29,21 +29,17 @@ class _Splash2ScreenState extends State<Splash2Screen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-       context.read<Splachctrl>().init(context);
+      context.read<Splachctrl>().init(context);
     });
-   
   }
-   DateTime? currentBackPressTime;
+
+  DateTime? currentBackPressTime;
 
   Future<bool> onbackpress() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > const Duration(seconds: 1)) {
       currentBackPressTime = now;
-     
-     
-                         
-      
     }
     return Future.value(true);
   }
@@ -54,7 +50,7 @@ class _Splash2ScreenState extends State<Splash2Screen> {
 
     return Scaffold(
       // backgroundColor: themeprimarycolor,
-      body:   Container(
+      body: Container(
         padding:
             EdgeInsets.symmetric(horizontal: Screens.width(context) * 0.01),
         decoration: BoxDecoration(
@@ -163,7 +159,6 @@ class _Splash2ScreenState extends State<Splash2Screen> {
                 ],
               ),
             ),
-           
           ],
         ),
       ),

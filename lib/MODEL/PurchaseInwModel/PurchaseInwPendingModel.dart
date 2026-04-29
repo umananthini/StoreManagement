@@ -84,6 +84,8 @@ class PendingVendorModel {
   String? Address;
   String? GST;
   String? Brand;
+  String? PORef;
+
   PendingVendorModel(
       {required this.Address,
       required this.Brand,
@@ -94,19 +96,22 @@ class PendingVendorModel {
       required this.GST,
       required this.Name,
       required this.Vendor,
-      required this.VendorCode});
+      required this.VendorCode,
+      required this.PORef});
   factory PendingVendorModel.fromJson(Map<String, dynamic> json) {
     return PendingVendorModel(
-        Address: json['Address'] ?? '',
-        Brand: json['Brand'] ?? '',
-        Code: json['Code'] ?? 0,
-        DocDate: json['DocDate'] ?? '',
-        DocNum: json['DocNum'] ?? 0,
-        DocTotal: json['DocTotal'] ?? '',
-        GST: json['GST'] ?? '',
-        Name: json['Name'] ?? '',
-        Vendor: json['Vendor'] ?? '',
-        VendorCode: json['VendorCode'] ?? '');
+      Address: json['Address'] ?? '',
+      Brand: json['Brand'] ?? '',
+      Code: json['Code'] ?? 0,
+      DocDate: json['DocDate'] ?? '',
+      DocNum: json['DocNum'] ?? 0,
+      DocTotal: json['DocTotal'] ?? '',
+      GST: json['GST'] ?? '',
+      Name: json['Name'] ?? '',
+      Vendor: json['Vendor'] ?? '',
+      VendorCode: json['VendorCode'] ?? '',
+      PORef: json['PORef'] ?? '',
+    );
   }
 }
 
@@ -127,9 +132,12 @@ class PurchaseInwPendingDetailList {
   String? MRP;
   String? Segment;
   String? manageBy;
+  String? priceedit;
+  // String? linetotal;
 
   PurchaseInwPendingDetailList(
-      {required this.DiscP,
+      {required this.priceedit,
+      required this.DiscP,
       required this.DocEntry,
       required this.ItemName,
       required this.LineNum,
@@ -148,6 +156,7 @@ class PurchaseInwPendingDetailList {
   factory PurchaseInwPendingDetailList.fromJson(Map<String, dynamic> json) {
     // log("hgg::"+json["DocEntry"].toString());
     return PurchaseInwPendingDetailList(
+        priceedit: null,
         DiscP: json['DiscP'] ?? '',
         u_category: json['Category'] ?? '',
         DocEntry: json['DocEntry'] ?? 0,
@@ -162,7 +171,7 @@ class PurchaseInwPendingDetailList {
         TaxCode: json['TaxCode'] ?? '',
         TaxRate: json['TaxRate'] ?? '',
         WhsCode: json['WhsCode'] ?? '',
-        manageBy: json['ManageBy']??"",
+        manageBy: json['ManageBy'] ?? "",
         itemcode: json['itemcode'] ?? '');
   }
 }

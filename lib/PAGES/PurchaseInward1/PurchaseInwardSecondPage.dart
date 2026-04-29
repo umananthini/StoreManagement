@@ -74,7 +74,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
   }
 
   FocusNode focusnode2 = FocusNode();
-  
+
   FocusNode focusnode5 = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -659,10 +659,10 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                       .read<
                                                           PurchaseInwardCtrl>()
                                                       .ACSerial = false;
-                                                     context
+                                                  context
                                                       .read<
                                                           PurchaseInwardCtrl>()
-                                                      . quantityEnable=false;
+                                                      .quantityEnable = false;
                                                   context
                                                       .read<
                                                           PurchaseInwardCtrl>()
@@ -798,6 +798,186 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                         ),
                                                       ),
                                                       Divider(),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                "Unit Price",
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                        color: Colors.grey[
+                                                                            500],
+                                                                        fontSize:
+                                                                            14),
+                                                              ),
+                                                              SizedBox(
+                                                                height: Screens
+                                                                        .padingHeight(
+                                                                            context) *
+                                                                    0.01,
+                                                              ),
+                                                              Text(
+                                                                  "${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].Price}")
+                                                            ],
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.edit,
+                                                                size: 20),
+                                                            onPressed: () {
+                                                              context
+                                                                      .read<
+                                                                          PurchaseInwardCtrl>()
+                                                                      .priceController
+                                                                      .text =
+                                                                  context
+                                                                      .read<
+                                                                          PurchaseInwardCtrl>()
+                                                                      .filtersecondvendoritemlist[
+                                                                          i]
+                                                                      .Price
+                                                                      .toString();
+
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "Edit Price"),
+                                                                    content:
+                                                                        TextFormField(
+                                                                      controller: context
+                                                                          .read<
+                                                                              PurchaseInwardCtrl>()
+                                                                          .priceController,
+                                                                      keyboardType:
+                                                                          TextInputType
+                                                                              .number,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        border:
+                                                                            OutlineInputBorder(),
+                                                                        hintText:
+                                                                            "Enter new price",
+                                                                      ),
+                                                                    ),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child: Text(
+                                                                            "Cancel"),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed: context.read<PurchaseInwardCtrl>().priceController.text.isEmpty
+                                                                            ? () {
+                                                                                setState(() {
+                                                                                  context.read<PurchaseInwardCtrl>().showtoastInwneww();
+                                                                                });
+                                                                              }
+                                                                            : () {
+                                                                                setState(() {
+                                                                                  context.read<PurchaseInwardCtrl>().editclick(i);
+                                                                                });
+
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                        child: Text(
+                                                                            "Save"),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: Screens
+                                                                .padingHeight(
+                                                                    context) *
+                                                            0.01,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              Text(
+                                                                "Taxcode",
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                        color: Colors.grey[
+                                                                            500],
+                                                                        fontSize:
+                                                                            14),
+                                                              ),
+                                                              SizedBox(
+                                                                height: Screens
+                                                                        .padingHeight(
+                                                                            context) *
+                                                                    0.01,
+                                                              ),
+                                                              Text(
+                                                                  "${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].TaxCode}")
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                "Line total",
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                        color: Colors.grey[
+                                                                            500],
+                                                                        fontSize:
+                                                                            14),
+                                                              ),
+                                                              SizedBox(
+                                                                height: Screens
+                                                                        .padingHeight(
+                                                                            context) *
+                                                                    0.01,
+                                                              ),
+                                                              Text(
+                                                                  "${context.read<PurchaseInwardCtrl>().itemlinetotal(double.parse(context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].Price.toString()), double.parse(context.read<PurchaseInwardCtrl>().getqty[i].toString()), double.parse(context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].TaxRate.toString()))}")
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: Screens
+                                                                .padingHeight(
+                                                                    context) *
+                                                            0.01,
+                                                      ),
                                                       Container(
                                                         padding: EdgeInsets.symmetric(
                                                             horizontal:
@@ -841,7 +1021,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                             CircleAvatar(
                                                               radius: Screens.width(
                                                                       context) *
-                                                                  0.035,
+                                                                  0.038,
                                                               backgroundColor:
                                                                   thirdcolor,
                                                               child: const Icon(
@@ -849,7 +1029,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                                     .keyboard_arrow_right_rounded,
                                                                 color: Colors
                                                                     .white,
-                                                                size: 30,
+                                                                size: 28,
                                                               ),
                                                             )
                                                           ],
@@ -861,6 +1041,64 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                               ),
                                             ));
                                       })),
+
+                      SizedBox(
+                        height: Screens.padingHeight(context) * 0.01,
+                      ),
+                      Container(
+                        width: Screens.width(context),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  width: Screens.width(context) * 0.25,
+                                  // color: Colors.amber,
+                                  child: Text("Basic value : "),
+                                ),
+                                Container(
+                                  child: Text(
+                                      "${context.read<PurchaseInwardCtrl>().getlinetotalwithouttax()}"),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: Screens.padingHeight(context) * 0.01,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  width: Screens.width(context) * 0.25,
+                                  child: Text("Tax Total :"),
+                                ),
+                                Container(
+                                  child: Text(
+                                      "${context.read<PurchaseInwardCtrl>().gettaxtotAL()}"),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: Screens.padingHeight(context) * 0.01,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  width: Screens.width(context) * 0.25,
+                                  child: Text("Gross Total : "),
+                                ),
+                                Container(
+                                  child: Text(
+                                      "${context.read<PurchaseInwardCtrl>().grosstotal()}" ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
 
                       SizedBox(
                         height: Screens.padingHeight(context) * 0.01,
@@ -909,9 +1147,51 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                 .commentcontroller
                                                 .text
                                                 .isNotEmpty) {
-                                          context
-                                              .read<PurchaseInwardCtrl>()
-                                              .savefinal(context);
+                                          bool checkprice = false;
+                                          checkprice = false;
+                                          String messagechek = '';
+                                          messagechek = '';
+
+                                          for (int i = 0;
+                                              i <
+                                                  context
+                                                      .read<
+                                                          PurchaseInwardCtrl>()
+                                                      .filtersecondvendoritemlist
+                                                      .length;
+                                              i++) {
+                                            if (context
+                                                        .read<
+                                                            PurchaseInwardCtrl>()
+                                                        .getqty[i] >
+                                                    0 &&
+                                                double.parse(context
+                                                        .read<
+                                                            PurchaseInwardCtrl>()
+                                                        .filtersecondvendoritemlist[
+                                                            i]
+                                                        .Price!) ==
+                                                    0.0) {
+                                              checkprice = true;
+                                              messagechek =
+                                                  '${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].ItemName} price should be greater then 0';
+                                              break;
+                                            }
+                                          }
+                                          if (checkprice == false) {
+                                            setState(() {
+                                              context
+                                                  .read<PurchaseInwardCtrl>()
+                                                  .savefinal(context);
+                                            });
+                                          } else if (checkprice == true) {
+                                            setState(() {
+                                              context
+                                                  .read<PurchaseInwardCtrl>()
+                                                  .showtoastInwneww22(
+                                                      messagechek);
+                                            });
+                                          }
                                         } else {
                                           setState(() {
                                             context
@@ -1121,7 +1401,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                   children: [
                                     Container(
                                         // color: Colors.red,
-                                        width: Screens.width(context) * 0.6,
+                                        width: Screens.width(context) * 0.5,
                                         child: context
                                                     .read<PurchaseInwardCtrl>()
                                                     .thirdvendoritemlist !=
@@ -1137,27 +1417,37 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                               )
                                             : Container()),
                                     Container(
+                                        width: Screens.width(context) * 0.4,
                                         child: Row(
-                                      children: [
-                                        Text(
-                                          "Quantita :${context
-                                                    .read<PurchaseInwardCtrl>()
-                                                    .thirdvendoritemlist!
-                                                    .u_category}",
-                                          style: theme.textTheme.bodyMedium!
-                                              .copyWith(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[500]),
-                                        ),
-                                        context
-                                                    .watch<PurchaseInwardCtrl>()
-                                                    .thirdvendoritemlist !=
-                                                null
-                                            ? Text(
-                                                "${context.read<PurchaseInwardCtrl>().ScannedQty()}/${context.read<PurchaseInwardCtrl>().thirdvendoritemlist!.Qty!}")
-                                            : Container(),
-                                      ],
-                                    ))
+                                          children: [
+                                            Container(
+                                              width:
+                                                  Screens.width(context) * 0.2,
+                                              child: Text(
+                                                "Quantity :",
+                                                style: theme
+                                                    .textTheme.bodyMedium!
+                                                    .copyWith(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Colors.grey[500]),
+                                              ),
+                                            ),
+                                            context
+                                                        .watch<
+                                                            PurchaseInwardCtrl>()
+                                                        .thirdvendoritemlist !=
+                                                    null
+                                                ? Container(
+                                                    width:
+                                                        Screens.width(context) *
+                                                            0.15,
+                                                    child: Text(
+                                                        "${context.read<PurchaseInwardCtrl>().ScannedQty()}/${context.read<PurchaseInwardCtrl>().thirdvendoritemlist!.Qty!}"),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ))
                                   ],
                                 ),
                                 SizedBox(
@@ -1255,22 +1545,24 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                       .read<
                                                           PurchaseInwardCtrl>()
                                                       .quantityEnable = true;
-                                                      context
+                                                  context
                                                       .read<
                                                           PurchaseInwardCtrl>()
                                                       .quantitycontroller
                                                       .text = "1";
-                                                    
-                                                   Future.delayed(Duration(milliseconds: 300),(){
-                                                     FocusScope.of(context)
-                                                      .unfocus();
-                                                       FocusScope.of(context).requestFocus(focusnode5);
-                                         
+
+                                                  Future.delayed(
+                                                      Duration(
+                                                          milliseconds: 300),
+                                                      () {
+                                                    FocusScope.of(context)
+                                                        .unfocus();
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            focusnode5);
                                                   });
-                                                
                                                 });
-                                                
-                                                              } else {
+                                              } else {
                                                 context
                                                     .read<PurchaseInwardCtrl>()
                                                     .afterserialscanned(
@@ -1303,79 +1595,93 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                       builder: (context) =>
                                                           const QRscanner()))
                                               .then((value) {
-                                            context
-                                                    .read<PurchaseInwardCtrl>()
-                                                    .scancontroller1
-                                                    .text =
-                                                context
-                                                    .read<PurchaseInwardCtrl>()
-                                                    .scanedvalueee1
-                                                    .toString();
-
                                             if (context
                                                     .read<PurchaseInwardCtrl>()
-                                                    .thirdvendoritemlist!
-                                                    .u_category ==
-                                                "AC") {
-                                              setState(() {
-                                                context
-                                                    .read<PurchaseInwardCtrl>()
-                                                    .ACSerial = true;
-                                                Future.delayed(
-                                                    Duration(milliseconds: 100),
-                                                    () {
-                                                  FocusScope.of(context)
-                                                      .unfocus();
+                                                    .scanedvalueee1 !=
+                                                null) {
+                                              context
+                                                      .read<PurchaseInwardCtrl>()
+                                                      .scancontroller1
+                                                      .text =
+                                                  context
+                                                      .read<
+                                                          PurchaseInwardCtrl>()
+                                                      .scanedvalueee1
+                                                      .toString();
 
-                                                  FocusScope.of(context)
-                                                      .requestFocus(focusnode2);
-                                                });
-                                              });
-                                            } else {
                                               if (context
                                                       .read<
                                                           PurchaseInwardCtrl>()
                                                       .thirdvendoritemlist!
-                                                      .manageBy
-                                                      ?.toLowerCase()
-                                                      .toString() ==
-                                                  "b") {
+                                                      .u_category ==
+                                                  "AC") {
                                                 setState(() {
-                                                  print(
-                                                      ">>>>>>>>>>>>${context.read<PurchaseInwardCtrl>().thirdvendoritemlist!.manageBy}");
-                                                  setState(() {
-                                                    context
-                                                        .read<
-                                                            PurchaseInwardCtrl>()
-                                                        .quantityEnable = true;
-                                                   
-                                                      context
-                                                        .read<
-                                                            PurchaseInwardCtrl>()
-                                                        .quantitycontroller
-                                                        .text = "1";
-                                                         Future.delayed(Duration(milliseconds: 300),(){
-                                                     FocusScope.of(context)
-                                                      .unfocus();
-                                                       FocusScope.of(context).requestFocus(focusnode5);
-                                         
-                                                  });
-                                                        
-                                                          //  FocusScope.of(context).requestFocus(focusnode5);
-                                                   
+                                                  context
+                                                      .read<
+                                                          PurchaseInwardCtrl>()
+                                                      .ACSerial = true;
+                                                  Future.delayed(
+                                                      Duration(
+                                                          milliseconds: 100),
+                                                      () {
+                                                    FocusScope.of(context)
+                                                        .unfocus();
+
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            focusnode2);
                                                   });
                                                 });
                                               } else {
-                                                context
-                                                    .read<PurchaseInwardCtrl>()
-                                                    .afterserialscanned(
-                                                        context
-                                                            .read<
-                                                                PurchaseInwardCtrl>()
-                                                            .scanedvalueee1
-                                                            .toString(),
-                                                        "",
-                                                        context);
+                                                if (context
+                                                        .read<
+                                                            PurchaseInwardCtrl>()
+                                                        .thirdvendoritemlist!
+                                                        .manageBy
+                                                        ?.toLowerCase()
+                                                        .toString() ==
+                                                    "b") {
+                                                  setState(() {
+                                                    print(
+                                                        ">>>>>>>>>>>>${context.read<PurchaseInwardCtrl>().thirdvendoritemlist!.manageBy}");
+                                                    setState(() {
+                                                      context
+                                                          .read<
+                                                              PurchaseInwardCtrl>()
+                                                          .quantityEnable = true;
+
+                                                      context
+                                                          .read<
+                                                              PurchaseInwardCtrl>()
+                                                          .quantitycontroller
+                                                          .text = "1";
+                                                      Future.delayed(
+                                                          Duration(
+                                                              milliseconds:
+                                                                  300), () {
+                                                        FocusScope.of(context)
+                                                            .unfocus();
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                focusnode5);
+                                                      });
+
+                                                      //  FocusScope.of(context).requestFocus(focusnode5);
+                                                    });
+                                                  });
+                                                } else {
+                                                  context
+                                                      .read<
+                                                          PurchaseInwardCtrl>()
+                                                      .afterserialscanned(
+                                                          context
+                                                              .read<
+                                                                  PurchaseInwardCtrl>()
+                                                              .scanedvalueee1
+                                                              .toString(),
+                                                          "",
+                                                          context);
+                                                }
                                               }
                                             }
                                           });
@@ -1417,8 +1723,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                           IntrinsicHeight(
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceAround,
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 Container(
                                                   padding: EdgeInsets.only(
@@ -1427,7 +1732,9 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                             0.02,
                                                   ),
                                                   alignment: Alignment.center,
-                                                 width: Screens.width(context) * 0.75,
+                                                  width:
+                                                      Screens.width(context) *
+                                                          0.75,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -1489,18 +1796,21 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                     });
                                                   },
                                                   child: Container(
-                                                       padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    Screens.width(context) *
-                                                        0.018,
-                                                vertical: Screens.padingHeight(
-                                                        context) *
-                                                    0.01),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: secondary,
-                                            ),
+                                                      padding: EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              Screens.width(
+                                                                      context) *
+                                                                  0.018,
+                                                          vertical: Screens
+                                                                  .padingHeight(
+                                                                      context) *
+                                                              0.01),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: secondary,
+                                                      ),
                                                       alignment:
                                                           Alignment.center,
                                                       child: Icon(
@@ -1625,33 +1935,39 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                             builder: (context) =>
                                                                 const QRscanner()))
                                                     .then((value) {
-                                                  context
+                                                  if (context
                                                           .read<
                                                               PurchaseInwardCtrl>()
-                                                          .scancontroller2
-                                                          .text =
-                                                      context
-                                                          .read<
-                                                              PurchaseInwardCtrl>()
-                                                          .scanedvalueee2
-                                                          .toString();
-                                                  context
-                                                      .read<
-                                                          PurchaseInwardCtrl>()
-                                                      .afterserialscanned(
-                                                          context
-                                                              .read<
-                                                                  PurchaseInwardCtrl>()
-                                                              .scancontroller1
-                                                              .text
-                                                              .toString(),
-                                                          context
-                                                              .read<
-                                                                  PurchaseInwardCtrl>()
-                                                              .scancontroller2
-                                                              .text
-                                                              .toString(),
-                                                          context);
+                                                          .scanedvalueee2 !=
+                                                      null) {
+                                                    context
+                                                            .read<
+                                                                PurchaseInwardCtrl>()
+                                                            .scancontroller2
+                                                            .text =
+                                                        context
+                                                            .read<
+                                                                PurchaseInwardCtrl>()
+                                                            .scanedvalueee2
+                                                            .toString();
+                                                    context
+                                                        .read<
+                                                            PurchaseInwardCtrl>()
+                                                        .afterserialscanned(
+                                                            context
+                                                                .read<
+                                                                    PurchaseInwardCtrl>()
+                                                                .scancontroller1
+                                                                .text
+                                                                .toString(),
+                                                            context
+                                                                .read<
+                                                                    PurchaseInwardCtrl>()
+                                                                .scancontroller2
+                                                                .text
+                                                                .toString(),
+                                                            context);
+                                                  }
                                                 });
                                               },
                                               child: Container(

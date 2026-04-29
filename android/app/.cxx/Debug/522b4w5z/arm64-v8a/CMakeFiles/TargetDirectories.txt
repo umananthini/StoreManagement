@@ -1,0 +1,2 @@
+E:/kani/Supreme warehousemanagement/android/app/.cxx/Debug/522b4w5z/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/kani/Supreme warehousemanagement/android/app/.cxx/Debug/522b4w5z/arm64-v8a/CMakeFiles/rebuild_cache.dir

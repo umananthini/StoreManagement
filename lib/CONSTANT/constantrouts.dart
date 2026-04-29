@@ -23,12 +23,6 @@ class ConstantRoutes {
     static String requestScreen = "/requestScreen";
      static String restrictionpage = "/restrictionpage";
 
-
-
-
-
-
-
 }
 
 class Constant {

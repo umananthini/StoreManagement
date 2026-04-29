@@ -22,7 +22,8 @@ class savefinalPurchaseInwApi {
   ) async {
     int rescode = 500;
     try {
-      log("aaaaa::"+ jsonEncode({
+      log("aaaaa::" +
+          jsonEncode({
             "cardCode": "$cardcode",
             "cardName": "$cardname",
             "numAtCard": "$numAtCard",
@@ -35,10 +36,10 @@ class savefinalPurchaseInwApi {
             "taxDate": "$taxDate",
             "documentLines": itemlist.map((e) => e.toJson()).toList()
           }));
-      log("ConstantValues.token::" + ConstantValues.token.toString());
+      log("${URL.queryApi}Inv/v1/AddPurchaseInward?type=P::::ConstantValues.token::" +
+          ConstantValues.token.toString());
       final responce = await http.post(
-          Uri.parse(
-              "${URL.queryApi}Inv/v1/AddPurchaseInward?type=P"),
+          Uri.parse("${URL.queryApi}Inv/v1/AddPurchaseInward?type=P"),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "bearer " + ConstantValues.token,
@@ -57,7 +58,7 @@ class savefinalPurchaseInwApi {
             "documentLines": itemlist.map((e) => e.toJson()).toList()
           }));
       log("asjasjajs" +
-          jsonEncode({            
+          jsonEncode({
             "cardCode": "$cardcode",
             "cardName": "$cardname",
             "numAtCard": "$numAtCard",
@@ -78,7 +79,6 @@ class savefinalPurchaseInwApi {
       } else {
         return finalsaveModel.exception(
             json.decode(responce.body), responce.statusCode);
-        
       }
     } catch (e) {
       log("catche::${e.toString()}");
@@ -175,20 +175,21 @@ class serialNumbers {
   String? notes;
   int? quantity;
   serialNumbers(
-      {required this.manufacturerSerialNumber,required this.internalSerialNumber, required this.notes, required this.quantity});
+      {required this.manufacturerSerialNumber,
+      required this.internalSerialNumber,
+      required this.notes,
+      required this.quantity});
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       // "batchNumber":"$manufacturerSerialNumber",
       "manufacturerSerialNumber": "$manufacturerSerialNumber",
-      "internalSerialNumber":internalSerialNumber==null|| internalSerialNumber!.isEmpty? "$manufacturerSerialNumber":"$internalSerialNumber",
+      "internalSerialNumber":
+          internalSerialNumber == null || internalSerialNumber!.isEmpty
+              ? "$manufacturerSerialNumber"
+              : "$internalSerialNumber",
       "notes": "$notes",
       "quantity": quantity
     };
     return map;
   }
-
 }
-
-
-
-

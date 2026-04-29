@@ -9,7 +9,6 @@ import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/CONTROLLER/DashBoardController/dashboardctrl.dart';
 // import 'package:warehousemanagement/PAGES/PurchaseInward/Purchaseinward/purchaseinwardpage.dart';
 
-
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -52,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-     DateTime now = DateTime.now();
+    DateTime now = DateTime.now();
 
     String greeting = "";
     int hours = now.hour;
@@ -66,28 +65,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else {
       greeting = "Good Night";
     }
- 
-   
-    
 
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
-          children:  [
+          children: [
             DrawerHeader(
-              decoration:
-                  BoxDecoration(color: secondary),
+              decoration: BoxDecoration(color: secondary),
               child: Center(
-                  child: Text(
-                                   "${ConstantValues.username}",
+                  child: Text("${ConstantValues.username}",
                       style: TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 22,
                           fontWeight: FontWeight.w600))),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(ConstantRoutes.report);
               },
               child: ListTile(
@@ -95,113 +89,117 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 title: Text('Report'),
               ),
             ),
-             InkWell(
-           onTap: (){
-             showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) {
-          final theme = Theme.of(context);
-          return StatefulBuilder(builder: (context, setst) {
-            return WillPopScope(
-              onWillPop: () async => false,
-              child: AlertDialog(
-                contentPadding: EdgeInsets.all(0),
-                content: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                  )),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: thirdcolor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                            )),
-                        width: Screens.width(context),
-                        height: Screens.padingHeight(context) * 0.05,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Alert",
-                          style: theme.textTheme.bodyMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text("Want To Logout!!"),
-                         
-                            SizedBox(
-                              height: Screens.padingHeight(context) * 0.01,
-                            ),
-                        
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                   style: ElevatedButton.styleFrom(
-                                        backgroundColor:thirdcolor 
-                                      ),
-                                    onPressed: () {
-                                      setst(() {
-                                        helperfunction.clearLoginBranch();
-                                        helperfunction.clearloginpassword();
-                                        // helperfunction.clearusername();
-                                        helperfunction.clearLoginBranch();
-                                        helperfunction.clearLoginBranch();
+            InkWell(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) {
+                      final theme = Theme.of(context);
+                      return StatefulBuilder(builder: (context, setst) {
+                        return WillPopScope(
+                          onWillPop: () async => false,
+                          child: AlertDialog(
+                            contentPadding: EdgeInsets.all(0),
+                            content: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                              )),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: thirdcolor,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(5),
+                                          topRight: Radius.circular(5),
+                                        )),
+                                    width: Screens.width(context),
+                                    height:
+                                        Screens.padingHeight(context) * 0.05,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Alert",
+                                      style: theme.textTheme.bodyMedium!
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text("Want To Logout!!"),
 
-                                       Get.toNamed(ConstantRoutes.login);
-                                
-                                       
-                                      });
-                                    },
-                                    child: Text("Yes")),
-                                     ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:thirdcolor 
-                                      ),
-                                    onPressed: () {
-                                      setst(() {
-                                        // isfinalloop = false;
-                                
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Text("no")),
-                              ],
-                            )
-                            //   ],
-                            // )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                                        SizedBox(
+                                          height:
+                                              Screens.padingHeight(context) *
+                                                  0.01,
+                                        ),
+
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        thirdcolor),
+                                                onPressed: () {
+                                                  setst(() {
+                                                    helperfunction
+                                                        .clearLoginBranch();
+                                                    helperfunction
+                                                        .clearloginpassword();
+                                                    // helperfunction.clearusername();
+                                                    helperfunction
+                                                        .clearLoginBranch();
+                                                    helperfunction
+                                                        .clearLoginBranch();
+
+                                                    Get.toNamed(
+                                                        ConstantRoutes.login);
+                                                  });
+                                                },
+                                                child: Text("Yes")),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        thirdcolor),
+                                                onPressed: () {
+                                                  setst(() {
+                                                    // isfinalloop = false;
+
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                child: Text("no")),
+                                          ],
+                                        )
+                                        //   ],
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                    });
+              },
+              child: ListTile(
+                leading: Icon(Icons.logout_outlined, color: Colors.red),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.red),
                 ),
               ),
-            );
-          });
-        });
-           },
-               child: ListTile(
-                leading: Icon(Icons.logout_outlined,
-                color: Colors.red
-                ),
-                title: Text('Logout',
-                style: TextStyle(
-                  color: Colors.red
-                ),
-                ),
-                           ),
-             ),
+            ),
           ],
         ),
       ),
@@ -221,11 +219,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius:
                       BorderRadius.only(bottomRight: Radius.circular(30)),
                   gradient: LinearGradient(
-                    colors: [ primarycolor,secondary],
+                    colors: [primarycolor, secondary],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
-                  // color: secondary   
+                  // color: secondary
                 ),
                 child: IntrinsicHeight(
                   child: Row(
@@ -272,23 +270,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   children: [
                                     Text(
                                       "Hi",
-                                      style: theme.textTheme.bodyMedium!.copyWith(
-                                          color: white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 22),
+                                      style: theme.textTheme.bodyMedium!
+                                          .copyWith(
+                                              color: white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 22),
                                     ),
-                                    SizedBox(width: Screens.width(context)*0.01,),
-                                     Text(
-                                     "${  ConstantValues.username}..!",
-                                      style: theme.textTheme.bodyMedium!.copyWith(
-                                          color: white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 22),
+                                    SizedBox(
+                                      width: Screens.width(context) * 0.01,
+                                    ),
+                                    Text(
+                                      "${ConstantValues.username}..!",
+                                      style: theme.textTheme.bodyMedium!
+                                          .copyWith(
+                                              color: white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 22),
                                     ),
                                   ],
                                 ),
                                 Text(
-                                 "$greeting", 
+                                  "$greeting",
                                   style: theme.textTheme.bodyMedium!.copyWith(
                                       color: white,
                                       // fontWeight: FontWeight.w600,
@@ -302,90 +304,92 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [ 
-                         
-                         
-                              // Container(
-                              //   padding: EdgeInsets.all(7),
-                              //   decoration: BoxDecoration(
-                              //       color: Colors.white.withOpacity(0.2),
-                              //       shape: BoxShape.circle),
-                              //   child: Icon(
-                              //     Icons.notification_important,
-                              //     color: white,
-                              //     size: 25,
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   width: Screens.width(context) * 0.03,
-                              // ),
-                              // Container(
-                              //   height: Screens.padingHeight(context) * 0.05,
-                              //   width: Screens.width(context) * 0.1,
-                                          
-                              //   //  padding: EdgeInsets.all(7),
-                              //   decoration: BoxDecoration(
-                              //       shape: BoxShape.circle,
-                              //       // color: white,
-                              //       image: DecorationImage(
-                              //           image: AssetImage(
-                              //             "Assets/profileimage.jpeg",
-                              //           ),
-                              //           fit: BoxFit.fill)),
-                              // ),
-                         
-                          
-                                        ConstantValues.isapprover!.toLowerCase() =='y'||ConstantValues.isapprover!.toLowerCase() =='b'?        InkWell(
-                            onTap: (){
-                              Get.toNamed(ConstantRoutes.approval);
-                            },
-                            child: Container(
-                              
-                              padding: EdgeInsets.symmetric(vertical: Screens.padingHeight(context)*0.01,
-                              horizontal: Screens.width(context)*0.03
-                              ),
-                              decoration: BoxDecoration(
-                              color:secondary,
-                            border: Border.all(color: thirdcolor),
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                              ),
-                              child: Text('Approve',
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                color: white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              ),
-                            ),
-                          ):Container(),
-                           Container(
+                        children: [
+                          // Container(
+                          //   padding: EdgeInsets.all(7),
+                          //   decoration: BoxDecoration(
+                          //       color: Colors.white.withOpacity(0.2),
+                          //       shape: BoxShape.circle),
+                          //   child: Icon(
+                          //     Icons.notification_important,
+                          //     color: white,
+                          //     size: 25,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   width: Screens.width(context) * 0.03,
+                          // ),
+                          // Container(
+                          //   height: Screens.padingHeight(context) * 0.05,
+                          //   width: Screens.width(context) * 0.1,
+
+                          //   //  padding: EdgeInsets.all(7),
+                          //   decoration: BoxDecoration(
+                          //       shape: BoxShape.circle,
+                          //       // color: white,
+                          //       image: DecorationImage(
+                          //           image: AssetImage(
+                          //             "Assets/profileimage.jpeg",
+                          //           ),
+                          //           fit: BoxFit.fill)),
+                          // ),
+
+                          ConstantValues.isapprover!.toLowerCase() == 'y' ||
+                                  ConstantValues.isapprover!.toLowerCase() ==
+                                      'b'
+                              ? InkWell(
+                                  onTap: () {
+                                    Get.toNamed(ConstantRoutes.approval);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            Screens.padingHeight(context) *
+                                                0.01,
+                                        horizontal:
+                                            Screens.width(context) * 0.03),
+                                    decoration: BoxDecoration(
+                                        color: secondary,
+                                        border: Border.all(color: thirdcolor),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Text(
+                                      'Approve',
+                                      style:
+                                          theme.textTheme.bodyMedium!.copyWith(
+                                        color: white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          Container(
                             padding: EdgeInsets.symmetric(
-                              vertical: Screens.padingHeight(context)*0.005,
-                              horizontal: Screens.width(context)*0.01,
-
+                              vertical: Screens.padingHeight(context) * 0.005,
+                              horizontal: Screens.width(context) * 0.01,
                             ),
-                             child: Container(
-                               child: Row(
-                                                   children: [
-                                                     Text("Version :",
-                                                     
-                                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                                       color: white,
-                                                          
-                                                     ),
-                                                     ),
-                                                      Text(
-                                                        "${ConstantValues.versionNum}",
-                                                       style: theme.textTheme.bodyMedium!.copyWith(
-                                                       color: white,
-
-                                                     ),)
-                                                   ],
-                                                 ),
-                             ),
-                           )
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Version :",
+                                    style: theme.textTheme.bodyMedium!.copyWith(
+                                      color: white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${ConstantValues.versionNum}",
+                                    style: theme.textTheme.bodyMedium!.copyWith(
+                                      color: white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       )
-                   
                     ],
                   ),
                 ),
@@ -399,10 +403,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius: BorderRadius.only(),
                   gradient: LinearGradient(
                     colors: [
-                       secondary,primarycolor,],
+                      secondary,
+                      primarycolor,
+                    ],
                     // begin: Alignment.topCenter,
                     // end: Alignment.bottomCenter,
-                   
                   ),
                   color: secondary,
                 ),
@@ -410,25 +415,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   width: Screens.width(context),
                   decoration: BoxDecoration(
                       color: grey,
-                      borderRadius:BorderRadius.only(
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                       )),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                     SizedBox(
-                      height: Screens.padingHeight(context)*0.04,
-                     ),
+                      SizedBox(
+                        height: Screens.padingHeight(context) * 0.04,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
-                              onTap: () {
-                                      Get.toNamed(ConstantRoutes.purchaseinwnew);
-                                    },
+                            onTap: () {
+                              Get.toNamed(ConstantRoutes.purchaseinwnew);
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
+                                  vertical:
+                                      Screens.padingHeight(context) * 0.02),
                               height: Screens.padingHeight(context) * 0.2,
                               width: Screens.width(context) * 0.4,
                               decoration: BoxDecoration(
@@ -450,20 +456,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text(
                                     "Purchase Inward",
                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.grey,
-                                        fontSize: 14),
+                                        color: Colors.grey, fontSize: 14),
                                   )
                                 ],
                               ),
                             ),
                           ),
                           InkWell(
-                              onTap: () {
-                                      Get.toNamed(ConstantRoutes.transferinward);
-                                    },
+                            onTap: () {
+                              Get.toNamed(ConstantRoutes.transferinward);
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
+                                  vertical:
+                                      Screens.padingHeight(context) * 0.02),
                               height: Screens.padingHeight(context) * 0.2,
                               width: Screens.width(context) * 0.4,
                               decoration: BoxDecoration(
@@ -485,8 +491,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text(
                                     "Transfer Inward",
                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.grey,
-                                        fontSize: 14),
+                                        color: Colors.grey, fontSize: 14),
                                   )
                                 ],
                               ),
@@ -494,20 +499,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                     
-                     SizedBox(
-                      height: Screens.padingHeight(context)*0.04,
-                     ),
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      SizedBox(
+                        height: Screens.padingHeight(context) * 0.04,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           InkWell(
-                                    onTap: () {
-                                      Get.toNamed(ConstantRoutes.transferoutward);
-                                    },
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed(ConstantRoutes.transferoutward);
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
+                                  vertical:
+                                      Screens.padingHeight(context) * 0.02),
                               height: Screens.padingHeight(context) * 0.2,
                               width: Screens.width(context) * 0.4,
                               decoration: BoxDecoration(
@@ -538,67 +543,75 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                           ),
-                          
-                        ConstantValues.isapprover!.toLowerCase()=="t"||ConstantValues.isapprover!.toLowerCase()=="b"?
-                        
-                            InkWell(
-                              onTap: () {
-                                      Get.toNamed(ConstantRoutes.requestScreen);
-                                    },
-                              child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
-                              height: Screens.padingHeight(context) * 0.2,
-                              width: Screens.width(context) * 0.4,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white),
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Get.toNamed(ConstantRoutes.requestScreen);
-                                    },
-                                    child: Container(
-                                      height: Screens.padingHeight(context) * 0.1,
-                                      width: Screens.width(context) * 0.1,
-                                      // color: Colors.amber,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                        image: AssetImage(
-                                          "Assets/request.png",
+                          ConstantValues.isapprover!.toLowerCase() == "t" ||
+                                  ConstantValues.isapprover!.toLowerCase() ==
+                                      "b"
+                              ? InkWell(
+                                  onTap: () {
+                                    Get.toNamed(ConstantRoutes.requestScreen);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical:
+                                            Screens.padingHeight(context) *
+                                                0.02),
+                                    height: Screens.padingHeight(context) * 0.2,
+                                    width: Screens.width(context) * 0.4,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white),
+                                    child: Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                                ConstantRoutes.requestScreen);
+                                          },
+                                          child: Container(
+                                            height:
+                                                Screens.padingHeight(context) *
+                                                    0.1,
+                                            width: Screens.width(context) * 0.1,
+                                            // color: Colors.amber,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                              image: AssetImage(
+                                                "Assets/request.png",
+                                              ),
+                                              fit: BoxFit.contain,
+                                            )),
+                                          ),
                                         ),
-                                        fit: BoxFit.contain,
-                                      )),
+                                        Text(
+                                          "Request",
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(
+                                                  color: Colors.grey,
+                                                  // fontWeight: FontWeight.w600,
+                                                  fontSize: 14),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    "Request",
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.grey,
-                                        // fontWeight: FontWeight.w600,
-                                        fontSize: 14),
-                                  )
-                                ],
-                              ),
-                                                        ),
-                            ):SizedBox()
-                        
+                                )
+                              : SizedBox()
                         ],
                       ),
-                       SizedBox(
-                      height: Screens.padingHeight(context)*0.04,
-                     ),
-                         Row(
+                      SizedBox(
+                        height: Screens.padingHeight(context) * 0.04,
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
-                             onTap: () {
-                                      Get.toNamed(ConstantRoutes.sellabletodisplayScreen);
-                                    },
+                            onTap: () {
+                              Get.toNamed(
+                                  ConstantRoutes.sellabletodisplayScreen);
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
+                                  vertical:
+                                      Screens.padingHeight(context) * 0.02),
                               height: Screens.padingHeight(context) * 0.2,
                               width: Screens.width(context) * 0.4,
                               decoration: BoxDecoration(
@@ -621,21 +634,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text(
                                     "Sellable to display",
                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.grey,                                    
-                                        fontSize: 14),
+                                        color: Colors.grey, fontSize: 14),
                                   )
                                 ],
                               ),
                             ),
                           ),
                           InkWell(
-                             onTap: () {
-                                      Get.toNamed(
-                                          ConstantRoutes.displaytosellable);
-                                    },
+                            onTap: () {
+                              Get.toNamed(ConstantRoutes.displaytosellable);
+                            },
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: Screens.padingHeight(context) * 0.02),
+                                  vertical:
+                                      Screens.padingHeight(context) * 0.02),
                               height: Screens.padingHeight(context) * 0.2,
                               width: Screens.width(context) * 0.4,
                               decoration: BoxDecoration(
@@ -668,8 +680,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                     
-                   
                     ],
                   ),
                 ),

@@ -24,6 +24,8 @@ class PurchaseInwardCtrl extends ChangeNotifier {
   TextEditingController searchfilter1 = TextEditingController();
   TextEditingController searchfilter2 = TextEditingController();
 
+  TextEditingController priceController = TextEditingController();
+
   bool? quantityEnable = false;
   String? searchpurchase;
   List<int> getqty = [];
@@ -55,6 +57,31 @@ class PurchaseInwardCtrl extends ChangeNotifier {
   bool invoicepressed = false;
 
   bool searchfield = false;
+  showtoastInwneww22(String msg) {
+    Fluttertoast.cancel();
+
+    Fluttertoast.showToast(
+        msg: "$msg",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 0,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 14.0);
+  }
+
+  showtoastInwneww() {
+    Fluttertoast.cancel();
+
+    Fluttertoast.showToast(
+        msg: "Enter Price",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 0,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 14.0);
+  }
 
   showtoastInw() {
     Fluttertoast.cancel();
@@ -196,11 +223,13 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               itemCode: thirdvendoritemlist!.itemcode,
               itemDescription: thirdvendoritemlist!.ItemName,
               lineNum: thirdvendoritemlist!.LineNum,
-              manageBy:   "${thirdvendoritemlist!.manageBy}",
+              manageBy: "${thirdvendoritemlist!.manageBy}",
               price: double.parse(thirdvendoritemlist!.Price.toString()),
               quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
               salesPersonCode: 1,
               taxCode: thirdvendoritemlist!.TaxCode,
+              taxRate:
+                  double.parse(thirdvendoritemlist!.TaxRate.toString()).toInt(),
               warehouseCode: ConstantValues.branch);
           values222 = val22;
           await Dboperation.insertpurchaseinwitemdata([values222], db);
@@ -222,6 +251,8 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               manufacturerSerialNumber: DBdata[i1].manufacturerSerialNumber,
               internalSerialNumber: DBdata[i1].internalSerialNumber,
               manageby: DBdata[i1].manageby,
+              taxRate:
+                  double.parse(thirdvendoritemlist!.TaxRate.toString()).toInt(),
               notes: DBdata[i1].notes);
           values = val;
           await Dboperation.insertpurchaseinwserialdata(values, db)
@@ -273,7 +304,9 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
               salesPersonCode: 1,
               taxCode: thirdvendoritemlist!.TaxCode,
-              warehouseCode: ConstantValues.branch);
+              warehouseCode: ConstantValues.branch,
+              taxRate: double.parse(thirdvendoritemlist!.TaxRate.toString())
+                  .toInt());
           values222 = val22;
         }
 
@@ -294,6 +327,8 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               manufacturerSerialNumber: DBdata[i1].manufacturerSerialNumber,
               manageby: DBdata[i1].manageby,
               internalSerialNumber: DBdata[i1].internalSerialNumber,
+              taxRate:
+                  double.parse(thirdvendoritemlist!.TaxRate.toString()).toInt(),
               notes: DBdata[i1].notes);
           values = val;
           await Dboperation.insertpurchaseinwserialdata(values, db)
@@ -438,7 +473,8 @@ class PurchaseInwardCtrl extends ChangeNotifier {
           });
         });
   }
-FocusNode focusnode4=FocusNode();
+
+  FocusNode focusnode4 = FocusNode();
   ScannedQty() {
     int qty = 0;
     for (int i = 0; i < DBdata.length; i++) {
@@ -450,6 +486,31 @@ FocusNode focusnode4=FocusNode();
       // notifyListeners();
     }
     return qty;
+  }
+
+  itemlinetotal(double price, double qty, double tax) {
+    double linetotal = 0.0;
+    linetotal = 0.0;
+
+    double taxamount = 0.0;
+    taxamount = 0.0;
+    taxamount = taxamount + (double.parse(price.toString()) * qty) * tax / 100;
+    linetotal = linetotal + (double.parse(price.toString()) * qty) + taxamount;
+    return linetotal;
+  }
+
+  lineTotal() {
+    // Linetotal = price * scanned qty * (1+taxrate/100)
+    double lineTotal = 0.0;
+    for (int i = 0; i < DBdata.length; i++) {
+      double price = DBdata[i].price ?? 0;
+      double qty = (DBdata[i].scannedqty ?? 0).toDouble();
+      double tax = (DBdata[i].taxRate ?? 0).toDouble();
+
+      lineTotal = lineTotal = price * qty * (1 + tax / 100);
+    }
+    return lineTotal;
+    // log('linetotal');
   }
 
   bool? ACSerial = false;
@@ -482,8 +543,12 @@ FocusNode focusnode4=FocusNode();
 
       // await  playsound("scan_serial_wrong");
       notifyListeners();
-    }
-     else if (qtys <= ScannedQty() || qtys < ScannedQty() + (thirdvendoritemlist!.manageBy!.toLowerCase() =='b'?int.parse(quantitycontroller.text):1)) {
+    } else if (qtys <= ScannedQty() ||
+        qtys <
+            ScannedQty() +
+                (thirdvendoritemlist!.manageBy!.toLowerCase() == 'b'
+                    ? int.parse(quantitycontroller.text)
+                    : 1)) {
       scancontroller1.clear();
       notifyListeners();
       scanedvalueee1 = '';
@@ -505,26 +570,25 @@ FocusNode focusnode4=FocusNode();
 //  await      playsound("when_checklist_popup");
       // notifyListeners();
       // focus.requestFocus();
-    } 
-    else {
+    } else {
       if (DBdata.length > 0 && scancontroller1.text.isNotEmpty) {
         int datapresent = 0;
-          int? dataindex = null;
+        int? dataindex = null;
         for (int i = 0; i < DBdata.length; i++) {
           print("for serail1111: " + DBdata[i].manufacturerSerialNumber!);
           // print("for serail1111: " + DBdata[i].internalSerialNumber!);
-          
+
           if (DBdata[i].internalSerialNumber!.isNotEmpty) {
             if (DBdata[i].manufacturerSerialNumber == scancontroller1.text &&
                 DBdata[i].internalSerialNumber == scancontroller2.text) {
               datapresent = datapresent + 1;
-              dataindex=i;
+              dataindex = i;
               notifyListeners();
             }
           } else {
             if (DBdata[i].manufacturerSerialNumber == scancontroller1.text) {
               datapresent = datapresent + 1;
-                dataindex=i;
+              dataindex = i;
               notifyListeners();
             }
           }
@@ -551,10 +615,12 @@ FocusNode focusnode4=FocusNode();
                       manageby: thirdvendoritemlist!.manageBy,
                       price:
                           double.parse(thirdvendoritemlist!.Price.toString()),
-                      quantity: int.parse(thirdvendoritemlist!.Qty.toString())
-                          ,
+                      quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
                       manufacturerSerialNumber: scancontroller1.text,
                       internalSerialNumber: scancontroller2.text,
+                      taxRate:
+                          double.parse(thirdvendoritemlist!.TaxRate.toString())
+                              .toInt(),
                       notes: ""));
                   // final audio = AudioPlayer();
                   // await audio.stop();
@@ -609,63 +675,67 @@ FocusNode focusnode4=FocusNode();
                 notifyListeners();
               }
             } else {
-              
               if (scancontroller1.text.isNotEmpty &&
                   scancontroller1.text != '') {
-                     if(thirdvendoritemlist!.manageBy!.toLowerCase() =='b' ){
-               DBdata.add(wmstranspurchaseSerialModel(
-                    scannedqty: int.parse(quantitycontroller.text),
-                    docentry: thirdvendoritemlist!.DocEntry,
-                    itemCode: thirdvendoritemlist!.itemcode,
-                    itemDescription: thirdvendoritemlist!.ItemName,
-                    lineNum: thirdvendoritemlist!.LineNum,
-                    manageby: thirdvendoritemlist?.manageBy.toString(),
-                    price: double.parse(thirdvendoritemlist!.Price.toString()),
-                    quantity: int.parse(thirdvendoritemlist!.Qty.toString())
-                       ,
-                    // int.parse(thirdvendoritemlist!.Qty.toString()),
-                    manufacturerSerialNumber: scancontroller1.text,
-                    internalSerialNumber: scancontroller2.text,
-                    notes: ""));
-                notifyListeners();
-                scancontroller1.clear();
-                scanedvalueee1 = null;
-                quantityEnable=true;
-                scancontroller2.clear();
-                ACSerial = false;
-                scanedvalueee2 = '';
-                notifyListeners();
-             }else{
- DBdata.add(wmstranspurchaseSerialModel(
-                    scannedqty: 1,
-                    docentry: thirdvendoritemlist!.DocEntry,
-                    itemCode: thirdvendoritemlist!.itemcode,
-                    itemDescription: thirdvendoritemlist!.ItemName,
-                    lineNum: thirdvendoritemlist!.LineNum,
-                    manageby: thirdvendoritemlist?.manageBy.toString(),
-                    price: double.parse(thirdvendoritemlist!.Price.toString()),
-                    quantity: int.parse(thirdvendoritemlist!.Qty.toString())
-                       ,
-                    // int.parse(thirdvendoritemlist!.Qty.toString()),
-                    manufacturerSerialNumber: scancontroller1.text,
-                    internalSerialNumber: scancontroller2.text,
-                    notes: ""));
-                notifyListeners();
-                scancontroller1.clear();
-                scanedvalueee1 = null;
-                scancontroller2.clear();
-                ACSerial = false;
-                scanedvalueee2 = '';
-                notifyListeners();
+                if (thirdvendoritemlist!.manageBy!.toLowerCase() == 'b') {
+                  DBdata.add(wmstranspurchaseSerialModel(
+                      scannedqty: int.parse(quantitycontroller.text),
+                      docentry: thirdvendoritemlist!.DocEntry,
+                      itemCode: thirdvendoritemlist!.itemcode,
+                      itemDescription: thirdvendoritemlist!.ItemName,
+                      lineNum: thirdvendoritemlist!.LineNum,
+                      manageby: thirdvendoritemlist?.manageBy.toString(),
+                      price:
+                          double.parse(thirdvendoritemlist!.Price.toString()),
+                      quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
+                      // int.parse(thirdvendoritemlist!.Qty.toString()),
+                      manufacturerSerialNumber: scancontroller1.text,
+                      internalSerialNumber: scancontroller2.text,
+                      taxRate:
+                          int.parse(thirdvendoritemlist!.TaxCode.toString()),
+                      notes: ""));
+                  notifyListeners();
+                  scancontroller1.clear();
+                  scanedvalueee1 = null;
+                  quantityEnable = true;
+                  scancontroller2.clear();
+                  ACSerial = false;
+                  scanedvalueee2 = '';
+                  notifyListeners();
+                } else {
+                  DBdata.add(wmstranspurchaseSerialModel(
+                      scannedqty: 1,
+                      docentry: thirdvendoritemlist!.DocEntry,
+                      itemCode: thirdvendoritemlist!.itemcode,
+                      itemDescription: thirdvendoritemlist!.ItemName,
+                      lineNum: thirdvendoritemlist!.LineNum,
+                      manageby: thirdvendoritemlist?.manageBy.toString(),
+                      price:
+                          double.parse(thirdvendoritemlist!.Price.toString()),
+                      quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
+                      // int.parse(thirdvendoritemlist!.Qty.toString()),
+                      manufacturerSerialNumber: scancontroller1.text,
+                      internalSerialNumber: scancontroller2.text,
+                      taxRate:
+                          double.parse(thirdvendoritemlist!.TaxRate.toString())
+                              .toInt(),
+                      notes: ""));
+                  notifyListeners();
+                  scancontroller1.clear();
+                  scanedvalueee1 = null;
+                  scancontroller2.clear();
+                  ACSerial = false;
+                  scanedvalueee2 = '';
+                  notifyListeners();
 
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio.play();
-                // savelistinwardState().   playsound("scan_serial_correct");
-                notifyListeners();
-             }
-               
+                  // final audio = AudioPlayer();
+                  // await audio.stop();
+                  // await audio.setAsset("Asset/scan_serial_correct.mp3");
+                  // audio.play();
+                  // savelistinwardState().   playsound("scan_serial_correct");
+                  notifyListeners();
+                }
+
                 // mycontroller[1].clear();
                 // serialscannedData = '';
                 // mycontroller[2].clear();
@@ -716,150 +786,150 @@ FocusNode focusnode4=FocusNode();
           //                 isfinalloop = false;
           notifyListeners();
         } else {
-          if(thirdvendoritemlist!.manageBy!.toLowerCase() =='b'){
-           
-          if(DBdata[dataindex!].scannedqty!+int.parse(quantitycontroller.text) >= int.parse(thirdvendoritemlist!.Qty!) ){
-scancontroller1.clear();
-          scanedvalueee1 = '';
-          scancontroller2.clear();
-          ACSerial = false;
-          scanedvalueee2 = '';
-          //                 mycontroller[2].clear();
-          //                 mycontroller[2].text = '1';
-          notifyListeners();
+          if (thirdvendoritemlist!.manageBy!.toLowerCase() == 'b') {
+            if (DBdata[dataindex!].scannedqty! +
+                    int.parse(quantitycontroller.text) >=
+                int.parse(thirdvendoritemlist!.Qty!)) {
+              scancontroller1.clear();
+              scanedvalueee1 = '';
+              scancontroller2.clear();
+              ACSerial = false;
+              scanedvalueee2 = '';
+              //                 mycontroller[2].clear();
+              //                 mycontroller[2].text = '1';
+              notifyListeners();
 
-          // audio.play();
+              // audio.play();
 
-          // showtoastInw(
-          //   "Serial number already added..!!",
-          // );
-          isfinalloop = true;
-          notifyListeners();
-          showdialogtoast(context, "Greater then Quantity..!!");
-          notifyListeners();
-          }else{
-              DBdata[dataindex].scannedqty = DBdata[dataindex].scannedqty! +int.parse(quantitycontroller.text);
-                notifyListeners();
-                scancontroller1.clear();
-                scanedvalueee1 = null;
-                scancontroller2.clear();
-                ACSerial = false;
-                  quantityEnable=false;
-                scanedvalueee2 = '';
-                notifyListeners();
+              // showtoastInw(
+              //   "Serial number already added..!!",
+              // );
+              isfinalloop = true;
+              notifyListeners();
+              showdialogtoast(context, "Greater then Quantity..!!");
+              notifyListeners();
+            } else {
+              DBdata[dataindex].scannedqty = DBdata[dataindex].scannedqty! +
+                  int.parse(quantitycontroller.text);
+              notifyListeners();
+              scancontroller1.clear();
+              scanedvalueee1 = null;
+              scancontroller2.clear();
+              ACSerial = false;
+              quantityEnable = false;
+              scanedvalueee2 = '';
+              notifyListeners();
 
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio.play();
-                // savelistinwardState().   playsound("scan_serial_correct");
-                notifyListeners();
-            
-          }
+              // final audio = AudioPlayer();
+              // await audio.stop();
+              // await audio.setAsset("Asset/scan_serial_correct.mp3");
+              // audio.play();
+              // savelistinwardState().   playsound("scan_serial_correct");
+              notifyListeners();
+            }
+          } else {
+            scancontroller1.clear();
+            scanedvalueee1 = '';
+            scancontroller2.clear();
+            ACSerial = false;
+            quantityEnable = false;
+            scanedvalueee2 = '';
+            //                 mycontroller[2].clear();
+            //                 mycontroller[2].text = '1';
+            notifyListeners();
 
-          }else{
- scancontroller1.clear();
-          scanedvalueee1 = '';
-          scancontroller2.clear();
-          ACSerial = false;
-            quantityEnable=false;
-          scanedvalueee2 = '';
-          //                 mycontroller[2].clear();
-          //                 mycontroller[2].text = '1';
-          notifyListeners();
+            // audio.play();
 
-          // audio.play();
-
-          // showtoastInw(
-          //   "Serial number already added..!!",
-          // );
-          isfinalloop = true;
-          notifyListeners();
-          showdialogtoast(context, "Serial number already added..!!");
-          // isfinalloop = false;
-          notifyListeners();
-          //  await  playsound("scan_serial_wrong");
-          notifyListeners();
+            // showtoastInw(
+            //   "Serial number already added..!!",
+            // );
+            isfinalloop = true;
+            notifyListeners();
+            showdialogtoast(context, "Serial number already added..!!");
+            // isfinalloop = false;
+            notifyListeners();
+            //  await  playsound("scan_serial_wrong");
+            notifyListeners();
           }
           //  final audio = AudioPlayer();
           //                 await audio.stop();
           //                 await audio.setAsset("Asset/scan_serial_wrong.mp3");
-         
         }
       } else {
-        if(thirdvendoritemlist!.manageBy!.toLowerCase() =='b'){
-          
-         DBdata.add(wmstranspurchaseSerialModel(
-                    scannedqty: int.parse(quantitycontroller.text),
-                    docentry: thirdvendoritemlist!.DocEntry,
-                    itemCode: thirdvendoritemlist!.itemcode,
-                    itemDescription: thirdvendoritemlist!.ItemName,
-                    lineNum: thirdvendoritemlist!.LineNum,
-                    manageby: thirdvendoritemlist!.manageBy,
-                    price: double.parse(thirdvendoritemlist!.Price.toString()),
-                    quantity:  int.parse(thirdvendoritemlist!.Qty.toString())  ,
-                    // int.parse(thirdvendoritemlist!.Qty.toString()),
-                    manufacturerSerialNumber: scancontroller1.text,
-                    internalSerialNumber: scancontroller2.text,
-                    notes: ""));
-                scancontroller1.clear();
-                scanedvalueee1 = null;
-                scancontroller2.clear();
-                ACSerial = false;
-                quantityEnable=false;
-                scanedvalueee2 = '';
-                notifyListeners();
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio
-                //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
-                // notifyListeners();
-                // mycontroller[1].clear();
-                // serialscannedData = '';
-                // mycontroller[2].clear();
-                // mycontroller[3].clear();
-                // mycontroller[2].text = '1';
-                // notifyListeners();
-                isfinalloop = false;
-                notifyListeners();
-
-        }else{
-
-         DBdata.add(wmstranspurchaseSerialModel(
-                    scannedqty: 1,
-                    docentry: thirdvendoritemlist!.DocEntry,
-                    itemCode: thirdvendoritemlist!.itemcode,
-                    itemDescription: thirdvendoritemlist!.ItemName,
-                    lineNum: thirdvendoritemlist!.LineNum,
-                    manageby: thirdvendoritemlist!.manageBy,
-                    price: double.parse(thirdvendoritemlist!.Price.toString()),
-                    quantity:  int.parse(thirdvendoritemlist!.Qty.toString())  ,
-                    // int.parse(thirdvendoritemlist!.Qty.toString()),
-                    manufacturerSerialNumber: scancontroller1.text,
-                    internalSerialNumber: scancontroller2.text,
-                    notes: ""));
-                scancontroller1.clear();
-                scanedvalueee1 = null;
-                scancontroller2.clear();
-                ACSerial = false;
-                quantityEnable=false;
-                scanedvalueee2 = '';
-                notifyListeners();
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio
-                //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
-                // notifyListeners();
-                // mycontroller[1].clear();
-                // serialscannedData = '';
-                // mycontroller[2].clear();
-                // mycontroller[3].clear();
-                // mycontroller[2].text = '1';
-                // notifyListeners();
-                isfinalloop = false;
-                notifyListeners();
+        if (thirdvendoritemlist!.manageBy!.toLowerCase() == 'b') {
+          DBdata.add(wmstranspurchaseSerialModel(
+              scannedqty: int.parse(quantitycontroller.text),
+              docentry: thirdvendoritemlist!.DocEntry,
+              itemCode: thirdvendoritemlist!.itemcode,
+              itemDescription: thirdvendoritemlist!.ItemName,
+              lineNum: thirdvendoritemlist!.LineNum,
+              manageby: thirdvendoritemlist!.manageBy,
+              price: double.parse(thirdvendoritemlist!.Price.toString()),
+              quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
+              // int.parse(thirdvendoritemlist!.Qty.toString()),
+              manufacturerSerialNumber: scancontroller1.text,
+              internalSerialNumber: scancontroller2.text,
+              taxRate:
+                  double.parse(thirdvendoritemlist!.TaxRate.toString()).toInt(),
+              notes: ""));
+          scancontroller1.clear();
+          scanedvalueee1 = null;
+          scancontroller2.clear();
+          ACSerial = false;
+          quantityEnable = false;
+          scanedvalueee2 = '';
+          notifyListeners();
+          // final audio = AudioPlayer();
+          // await audio.stop();
+          // await audio.setAsset("Asset/scan_serial_correct.mp3");
+          // audio
+          //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
+          // notifyListeners();
+          // mycontroller[1].clear();
+          // serialscannedData = '';
+          // mycontroller[2].clear();
+          // mycontroller[3].clear();
+          // mycontroller[2].text = '1';
+          // notifyListeners();
+          isfinalloop = false;
+          notifyListeners();
+        } else {
+          DBdata.add(wmstranspurchaseSerialModel(
+              scannedqty: 1,
+              docentry: thirdvendoritemlist!.DocEntry,
+              itemCode: thirdvendoritemlist!.itemcode,
+              itemDescription: thirdvendoritemlist!.ItemName,
+              lineNum: thirdvendoritemlist!.LineNum,
+              manageby: thirdvendoritemlist!.manageBy,
+              price: double.parse(thirdvendoritemlist!.Price.toString()),
+              quantity: int.parse(thirdvendoritemlist!.Qty.toString()),
+              // int.parse(thirdvendoritemlist!.Qty.toString()),
+              manufacturerSerialNumber: scancontroller1.text,
+              internalSerialNumber: scancontroller2.text,
+              taxRate:
+                  double.parse(thirdvendoritemlist!.TaxRate.toString()).toInt(),
+              notes: ""));
+          scancontroller1.clear();
+          scanedvalueee1 = null;
+          scancontroller2.clear();
+          ACSerial = false;
+          quantityEnable = false;
+          scanedvalueee2 = '';
+          notifyListeners();
+          // final audio = AudioPlayer();
+          // await audio.stop();
+          // await audio.setAsset("Asset/scan_serial_correct.mp3");
+          // audio
+          //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
+          // notifyListeners();
+          // mycontroller[1].clear();
+          // serialscannedData = '';
+          // mycontroller[2].clear();
+          // mycontroller[3].clear();
+          // mycontroller[2].text = '1';
+          // notifyListeners();
+          isfinalloop = false;
+          notifyListeners();
         }
         // Dboperation.purchaseinwserialExists(
         //         thirdvendoritemlist!.DocEntry.toString(),
@@ -870,9 +940,9 @@ scancontroller1.clear();
         //     if (valueSerial < 1) {
         //       if (scancontroller1.text.isNotEmpty &&
         //           scancontroller1.text != '') {
-               
+
         //       }
-        //     } 
+        //     }
         //     else {
         //       scancontroller1.clear();
         //       isfinalloop = true;
@@ -1055,6 +1125,7 @@ scancontroller1.clear();
           vendoritemlist[i].DocEntry.toString());
       if (vendoritemlist[i].DocEntry == secondpagevendorlist!.Code) {
         secondvendoritemlist.add(PurchaseInwPendingDetailList(
+            priceedit: null,
             DiscP: vendoritemlist[i].DiscP,
             u_category: vendoritemlist[i].u_category,
             DocEntry: vendoritemlist[i].DocEntry,
@@ -1095,7 +1166,8 @@ scancontroller1.clear();
   bool finallodaing = false;
   List<wmstranspurchaseitemModel> finalsavelist = [];
   List<wmstranspurchaseSerialModel> finalseriallist = [];
-  methodfinalsave333(wmstranspurchaseSerialModel values) {
+  methodfinalsave333(
+      wmstranspurchaseSerialModel values, wmstranspurchaseitemModel itemtax) {
     // binlinelist222.clear();
     bool finaladded = false;
     int? finalindex;
@@ -1129,11 +1201,13 @@ scancontroller1.clear();
         quantity: values.quantity,
         manufacturerSerialNumber: values.manufacturerSerialNumber,
         internalSerialNumber: values.internalSerialNumber,
+        taxRate: itemtax.taxRate,
         notes: values.notes));
   }
 
   GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
-  methodfinalsave2222(wmstranspurchaseitemModel values) {
+  methodfinalsave2222(
+      wmstranspurchaseitemModel values, PurchaseInwPendingDetailList itemlist) {
     // binlinelist222.clear();
     bool finaladded = false;
     int? finalindex;
@@ -1166,11 +1240,12 @@ scancontroller1.clear();
         itemDescription: values.itemDescription,
         lineNum: values.lineNum,
         manageBy: values.manageBy,
-        price: values.price,
+        price: double.parse(itemlist.Price.toString()),
         quantity: values.quantity,
         salesPersonCode: values.salesPersonCode,
         taxCode: values.taxCode,
-        warehouseCode: values.warehouseCode));
+        warehouseCode: values.warehouseCode,
+        taxRate: values.taxRate));
   }
 
   int? overallqty;
@@ -1194,10 +1269,8 @@ scancontroller1.clear();
           finalseriallist[i].lineNum == finalitemlist.lineNum &&
           finalseriallist[i].itemCode == finalitemlist.itemCode) {
         seriallist.add(serialNumbers(
-            manufacturerSerialNumber:finalseriallist[i].internalSerialNumber,
-                
-            internalSerialNumber:finalseriallist[i].manufacturerSerialNumber,
-          
+            manufacturerSerialNumber: finalseriallist[i].internalSerialNumber,
+            internalSerialNumber: finalseriallist[i].manufacturerSerialNumber,
             notes: finalseriallist[i].notes,
             quantity: finalseriallist[i].scannedqty));
       }
@@ -1241,6 +1314,7 @@ scancontroller1.clear();
   TextEditingController invoicenumcontroller = TextEditingController();
   TextEditingController invoicedatecontroller = TextEditingController();
   TextEditingController quantitycontroller = TextEditingController();
+  TextEditingController savecontroller = TextEditingController();
 
   savefinal(BuildContext context) async {
     finalsavelist.clear();
@@ -1261,7 +1335,7 @@ scancontroller1.clear();
           if (value != null) {
             for (int ik = 0; ik < value.length; ik++) {
               //  binlinelist222.clear();
-              methodfinalsave2222(value[ik]);
+              methodfinalsave2222(value[ik], secondvendoritemlist[i]);
             }
           }
           log("finalsavelist::${finalsavelist.length}");
@@ -1278,7 +1352,7 @@ scancontroller1.clear();
         if (value != null) {
           for (int ik = 0; ik < value.length; ik++) {
             //  binlinelist222.clear();
-            methodfinalsave333(value[ik]);
+            methodfinalsave333(value[ik], finalsavelist[i]);
           }
         }
       });
@@ -1467,6 +1541,86 @@ scancontroller1.clear();
 
   List<PurchaseInwPendingDetailList> secondvendoritemlist = [];
   List<PurchaseInwPendingDetailList> filtersecondvendoritemlist = [];
+
+  editclick(int i) {
+    filtersecondvendoritemlist[i].priceedit =
+        filtersecondvendoritemlist[i].Price;
+    filtersecondvendoritemlist[i].Price = priceController.text;
+    notifyListeners();
+  }
+
+  getlinetotalwithouttax() {
+    double? total = 0.0;
+    if (filtersecondvendoritemlist.isNotEmpty &&
+        getqty.isNotEmpty &&
+        getqty.length == filtersecondvendoritemlist.length) {
+      log("getqty::" + getqty.length.toString());
+      log("filtersecondvendoritemlist::" +
+          filtersecondvendoritemlist.length.toString());
+      for (int i = 0; i < filtersecondvendoritemlist.length; i++) {
+        double scanvalue = getqty == null || getqty.isEmpty
+            ? 0.0
+            : getqty[i] == 0
+                ? 0.0
+                : getqty[i].toDouble();
+        log("${scanvalue}TaxRate::${filtersecondvendoritemlist[i].Price}" +
+            filtersecondvendoritemlist[i].TaxRate.toString());
+        total = total! +
+            (double.parse(filtersecondvendoritemlist[i].Price!) * scanvalue);
+        // total = total! +
+        //     ((double.parse(filtersecondvendoritemlist[i].Price!) * scanvalue) /
+        //         (1 +
+        //             double.parse(filtersecondvendoritemlist[i].TaxRate!) /
+        //                 100));
+      }
+    }
+
+    log("totaltotal::" + total.toString());
+    return total!.toStringAsFixed(2);
+  }
+
+  gettaxtotAL() {
+    double? taxtotal = 0.0;
+
+    if (filtersecondvendoritemlist.isNotEmpty &&
+        getqty.isNotEmpty &&
+        getqty.length == filtersecondvendoritemlist.length) {
+      for (int i = 0; i < filtersecondvendoritemlist.length; i++) {
+        double scanvalue = getqty.isEmpty
+            ? 0.0
+            : getqty[i] == 0
+                ? 0.0
+                : getqty[i].toDouble();
+        log("${scanvalue}TaxRate::${filtersecondvendoritemlist[i].Price}" +
+            filtersecondvendoritemlist[i].TaxRate.toString());
+        taxtotal = taxtotal! +
+            (double.parse(filtersecondvendoritemlist[i].Price.toString()) *
+                    scanvalue) *
+                double.parse(filtersecondvendoritemlist[i].TaxRate!) /
+                100;
+        // taxtotal = taxtotal! +
+        //     (double.parse(filtersecondvendoritemlist[i].TaxRate!) *
+        //             (double.parse(filtersecondvendoritemlist[i].Price!) *
+        //                 scanvalue) /
+        //             (1 +
+        //                 double.parse(filtersecondvendoritemlist[i].TaxRate!) /
+        //                     100)) /
+        //         100;
+      }
+    }
+
+    log("totaltotal::" + taxtotal.toString());
+    return taxtotal!.toStringAsFixed(2);
+  }
+
+  grosstotal() {
+    double total = 0.0;
+    double linetotal = double.parse(getlinetotalwithouttax());
+    double Taxtotal = double.parse(gettaxtotAL());
+
+    total = total + linetotal + Taxtotal;
+    return total.toStringAsFixed(2);
+  }
 
   filtersecondvendoritem(String v) {
     print('saearch :' + v!);

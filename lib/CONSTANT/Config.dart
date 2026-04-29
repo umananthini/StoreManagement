@@ -15,11 +15,11 @@ class Config {
     return currentDateTime.trim();
   }
 
-   static String currentDate1() {
+  static String currentDate1() {
     DateTime now = DateTime.now();
 
     String currentDateTime =
-        "${now.year.toString()}-${(now.month-1).toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}T${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+        "${now.year.toString()}-${(now.month - 1).toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}T${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
     print("date: $currentDateTime");
     return currentDateTime.trim();
   }
@@ -77,8 +77,7 @@ class Config {
     return null;
   }
 
-   
-   String alignDate1(String date) {
+  String alignDate1(String date) {
     var inputFormat = DateFormat('yyyy-MM-dd');
     var date1 = inputFormat.parse(date);
     // log("------------------------------------------------------------------------------------------------");

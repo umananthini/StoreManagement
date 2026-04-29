@@ -11,15 +11,17 @@ class FinalSaveservices {
     try {
       log("sapcloudcenter22::" + jsonEncode({
  
-  "approved": true,
+   "approved": true,
     "transNum": "$transnum",
     "transferQty": 0,
     "transtype": "inward",
      "branch": "${ConstantValues.branch}",
      "inwardLineNums":save.map((e) => e.toJson()).toList()
-          }));
+         }));
       log("postInward:${URL.queryApi}Inv/v1/AddStockInward");
       log("token:${ConstantValues.token}");
+
+      
       final responce = await http.post(
           Uri.parse(
               "${URL.queryApi}Inv/v1/AddStockInward"),

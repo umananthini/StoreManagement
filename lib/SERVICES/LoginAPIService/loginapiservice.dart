@@ -14,20 +14,20 @@ class LoginAPIServices {
   int rescode = 500;
   static Future<LoginmodelHeader> getdata(PostLoginModel loginmodell) async {
     try {
-      final responce = await http.post(
-          Uri.parse(
-              "${URL.queryApi}Inv/v1/StoreMobileLogin"),
-          headers: {
-            "Content-Type": "application/json", 
-          },
-          body: jsonEncode({
-            "userCode": "${loginmodell.userCode}",
-            "password": "${loginmodell.password}",
-            "database": "${loginmodell.database}",
-            "branch": "${loginmodell.branch}",
-            "fcmToken": "${loginmodell.fcmToken}",
-            "deviceCode": "${loginmodell.deviceCode}"
-          }));
+      log("login url - ${URL.queryApi}Inv/v1/StoreMobileLogin");
+      final responce =
+          await http.post(Uri.parse("${URL.queryApi}Inv/v1/StoreMobileLogin"),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: jsonEncode({
+                "userCode": "${loginmodell.userCode}",
+                "password": "${loginmodell.password}",
+                "database": "${loginmodell.database}",
+                "branch": "${loginmodell.branch}",
+                "fcmToken": "${loginmodell.fcmToken}",
+                "deviceCode": "${loginmodell.deviceCode}"
+              }));
       log("request::" +
           jsonEncode({
             "userCode": "${loginmodell.userCode}",
@@ -37,14 +37,14 @@ class LoginAPIServices {
             "fcmToken": "${loginmodell.fcmToken}",
             "deviceCode": "${loginmodell.deviceCode}"
           }));
-      log("bodylogin::" + "${responce.statusCode}");
-      log("bodylogin::" + "${responce.body}");
+      log("login stscode::" + "${responce.statusCode}");
+      log("body login::" + "${responce.body}");
       if (responce.statusCode == 200) {
         Config config = new Config();
         Map<String, dynamic> tokenNew3 = json.decode(responce.body);
-        Map<String, dynamic> jres =   
+        Map<String, dynamic> jres =
             config.parseJwt("${tokenNew3['data'].toString()}");
-        log("ABCD7333:::" + jres.toString()); 
+        log("ABCD7333:::" + jres.toString());
         EncryptData Encrupt = new EncryptData();
         String? testData2 = Encrupt.decrypt(jres['encryptedClaims']);
         Map<String, dynamic> jres2 = jsonDecode("${testData2}");

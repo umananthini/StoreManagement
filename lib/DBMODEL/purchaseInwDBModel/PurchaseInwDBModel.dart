@@ -12,6 +12,7 @@ class wmstranspurchaseSerialColumn {
   static String scannedqty = "Scannedqty";
   static String notes = "Notes";
   static String manageby = "ManageBy";
+  static String taxrate = "taxRate";
 }
 
 class wmstranspurchaseSerialModel {
@@ -26,19 +27,20 @@ class wmstranspurchaseSerialModel {
   String? internalSerialNumber;
   String? notes;
   String? manageby;
-  wmstranspurchaseSerialModel({
-    required this.scannedqty,
-    required this.docentry,
-    required this.itemCode,
-    required this.itemDescription,
-    required this.lineNum,
-    required this.price,
-    required this.quantity,
-    required this.internalSerialNumber,
-    required this.manufacturerSerialNumber,
-    required this.notes,
-    required this.manageby
-  });
+  int? taxRate;
+  wmstranspurchaseSerialModel(
+      {required this.scannedqty,
+      required this.docentry,
+      required this.itemCode,
+      required this.itemDescription,
+      required this.lineNum,
+      required this.price,
+      required this.quantity,
+      required this.internalSerialNumber,
+      required this.manufacturerSerialNumber,
+      required this.notes,
+      required this.manageby,
+      required this.taxRate});
 
   Map<String, Object?> toMap() => {
         wmstranspurchaseSerialColumn.scannedqty: scannedqty,
@@ -48,10 +50,12 @@ class wmstranspurchaseSerialModel {
         wmstranspurchaseSerialColumn.lineNum: lineNum,
         wmstranspurchaseSerialColumn.price: price,
         wmstranspurchaseSerialColumn.quantity: quantity,
-        wmstranspurchaseSerialColumn.manufacturerSerialNumber: manufacturerSerialNumber,
+        wmstranspurchaseSerialColumn.manufacturerSerialNumber:
+            manufacturerSerialNumber,
         wmstranspurchaseSerialColumn.internalSerialNumber: internalSerialNumber,
         wmstranspurchaseSerialColumn.notes: notes,
-      wmstranspurchaseSerialColumn.manageby:manageby
+        wmstranspurchaseSerialColumn.manageby: manageby,
+        wmstranspurchaseSerialColumn.taxrate: taxRate
       };
 }
 
@@ -72,6 +76,7 @@ class wmstranspurchaseitemColumn {
   static String taxCode = "TaxCode";
   static String manageBy = "ManageBy";
   static String scannedqty = "Scannedqty";
+  static String taxRate = "taxRate";
 }
 
 class wmstranspurchaseitemModel {
@@ -88,6 +93,7 @@ class wmstranspurchaseitemModel {
   int? baseLine;
   String? taxCode;
   String? manageBy;
+  int? taxRate;
   int? scannedqty;
   wmstranspurchaseitemModel(
       {required this.scannedqty,
@@ -102,6 +108,7 @@ class wmstranspurchaseitemModel {
       required this.price,
       required this.quantity,
       required this.salesPersonCode,
+      required this.taxRate,
       required this.taxCode,
       required this.warehouseCode});
 
@@ -120,5 +127,6 @@ class wmstranspurchaseitemModel {
         wmstranspurchaseitemColumn.salesPersonCode: salesPersonCode,
         wmstranspurchaseitemColumn.taxCode: taxCode,
         wmstranspurchaseitemColumn.warehouseCode: warehouseCode,
+        wmstranspurchaseitemColumn.taxRate: taxRate,
       };
 }

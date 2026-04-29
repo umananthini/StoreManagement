@@ -12,16 +12,18 @@ import 'package:warehousemanagement/SERVICES/Display2sellableApi/finaldisplayApi
 
 class DisplayToSellablectrl extends ChangeNotifier {
   TextEditingController displayproductserial = TextEditingController();
+
+  TextEditingController displaynewcontroller = TextEditingController();
   TextEditingController diaplayboxsereial = TextEditingController();
   bool isshowtextfield1 = false;
   String? diplayScanvalue1;
-    String? test;
+  String? test;
   String? diplayScanvalue2;
   bool? isloadingg = false;
 
   init() {
     log("DisptoSellableController created");
-    
+    displaynewcontroller.clear();
     notifyListeners();
   }
 
@@ -34,8 +36,12 @@ class DisplayToSellablectrl extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   showdialogsave(
-      BuildContext context, String? image, String title, ) {
+    BuildContext context,
+    String? image,
+    String title,
+  ) {
     showDialog(
         context: context,
         builder: (_) {
@@ -90,9 +96,8 @@ class DisplayToSellablectrl extends ChangeNotifier {
                           height: Screens.padingHeight(context) * 0.01,
                         ),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: thirdcolor
-                          ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: thirdcolor),
                             onPressed: () {
                               setst(() {
                                 if (title.contains("Success")) {
@@ -113,48 +118,60 @@ class DisplayToSellablectrl extends ChangeNotifier {
         });
   }
 
-  bool finalloading =false;
-  GlobalKey<FormState> formkey =GlobalKey<FormState>();
-finalvalidate(BuildContext context)async{
-  if(formkey.currentState!.validate()){
-    if(productseriallist[0].DistNumber ==diaplayboxsereial.text){
-finalloading =true;
-  notifyListeners();
-  await Display2sellableFinalApi.getData(productseriallist[0].ItemCode, diaplayboxsereial.text, 1, productseriallist[0].BoxNo, displayproductserial.text).then((value) {
-     if (value.stcode! >= 200 && value.stcode! <= 210) {
-             finalloading=false;
+  bool finalloading = false;
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  finalvalidate(BuildContext context) async {
+    if (formkey.currentState!.validate()) {
+      if (productseriallist[0].DistNumber == diaplayboxsereial.text) {
+        finalloading = true;
         notifyListeners();
-      
-             finalloading=false;
+        await Display2sellableFinalApi.getData(
+                productseriallist[0].ItemCode,
+                diaplayboxsereial.text,
+                1,
+                productseriallist[0].BoxNo,
+                displayproductserial.text)
+            .then((value) {
+          if (value.stcode! >= 200 && value.stcode! <= 210) {
+            finalloading = false;
+            notifyListeners();
 
- showdialogsave(context, "Assets/check.png", "Success",
+            finalloading = false;
+
+            showdialogsave(
+              context,
+              "Assets/check.png",
+              "Success",
             );
-       
           } else if (value.stcode! >= 400 && value.stcode! <= 410) {
-             finalloading=false;
-        notifyListeners();
-            showdialogsave(context, "Assets/cancel.png", "Failed",
-               );
+            finalloading = false;
+            notifyListeners();
+            showdialogsave(
+              context,
+              "Assets/cancel.png",
+              "Failed",
+            );
           } else {
-             finalloading=false;
-        notifyListeners();
-            showdialogsave(context, "Assets/cancel.png", "Failed",
-               );
+            finalloading = false;
+            notifyListeners();
+            showdialogsave(
+              context,
+              "Assets/cancel.png",
+              "Failed",
+            );
           }
-
-  });
-    }else{
-        finalloading=false;
+        });
+      } else {
+        finalloading = false;
         diaplayboxsereial.clear();
         notifyListeners();
-            showdialogsave(context, "Assets/cancel.png",
-                "Invalid Box Serial Number..!!");
-                 notifyListeners();
+        showdialogsave(
+            context, "Assets/cancel.png", "Invalid Box Serial Number..!!");
+        notifyListeners();
+      }
     }
-  
   }
 
-}
   bool serialcheck = false;
   String? boxscanvalue;
   List<GetProductSerial> productseriallist = [];
@@ -182,39 +199,42 @@ finalloading =true;
       await GetProductSerialApi.getData(displayproductserial.text)
           .then((value) {
         if (value.rescode! >= 200 && value.rescode! <= 210) {
-          if(value.data !=null && value.data!.isNotEmpty){
-             productseriallist = value.data!;
-          isloadingg = false;
-          notifyListeners();
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DisplaytoSellable2screen()));
-          notifyListeners();
-          }else if(value.data ==null || value.data!.isEmpty){
+          if (value.data != null && value.data!.isNotEmpty) {
+            productseriallist = value.data!;
             isloadingg = false;
-          displayproductserial.clear();
-          showdialogtoast(context,"No data..!!"); 
+            notifyListeners();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DisplaytoSellable2screen()));
+            notifyListeners();
+          } else if (value.data == null || value.data!.isEmpty) {
+            isloadingg = false;
+            displaynewcontroller.clear();
+            displayproductserial.clear();
+            showdialogtoast(context, "No data..!!");
           }
-         
         } else if (value.rescode! >= 400 && value.rescode! <= 410) {
           isloadingg = false;
+          displaynewcontroller.clear();
           displayproductserial.clear();
           showdialogtoast(context, "${value.execption}..!!");
           notifyListeners();
         } else {
           isloadingg = false;
+          displaynewcontroller.clear();
           displayproductserial.clear();
           showdialogtoast(context, "${value.execption}..!!");
           notifyListeners();
         }
       });
       notifyListeners();
-    }else{
-        isloadingg = false;
-          displayproductserial.clear();
-          showdialogtoast(context, "Scan code is Empty..!!");
-          notifyListeners();
+    } else {
+      displaynewcontroller.clear();
+      isloadingg = false;
+      displayproductserial.clear();
+      showdialogtoast(context, "Scan code is Empty..!!");
+      notifyListeners();
     }
   }
 
@@ -267,11 +287,10 @@ finalloading =true;
                             SizedBox(
                               height: Screens.padingHeight(context) * 0.01,
                             ),
-                          
+
                             ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: thirdcolor
-                              ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: thirdcolor),
                                 onPressed: () {
                                   setst(() {
                                     // isfinalloop = false;

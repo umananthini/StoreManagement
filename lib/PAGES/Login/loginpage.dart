@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return PopScope(
       canPop: false,
@@ -114,9 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )),
                             child: Container(
                                 padding: EdgeInsets.only(
-                                  top: Screens.width(context) * 0.1,
+                                    top: Screens.width(context) * 0.1,
                                     left: Screens.width(context) * 0.015),
-                                    
                                 width: Screens.width(context),
                                 decoration: BoxDecoration(
                                     color: grey,
@@ -128,25 +127,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                     top: Screens.padingHeight(context) * 0.01,
                                     left: Screens.width(context) * 0.05,
                                     right: Screens.width(context) * 0.05,
-                                   
                                   ),
                                   width: Screens.width(context),
                                   decoration: BoxDecoration(
-                                  // color: Colors.amber,
-                                
+                                      // color: Colors.amber,
+
                                       borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(100),
-                                    
                                   )),
                                   child:
                                       context.watch<LoginCtrl>().isloading ==
                                               true
                                           ? Center(
-                                              child:
-                                                  CircularProgressIndicator(
-                                
-                                                    color: thirdcolor,
-                                                  ),
+                                              child: CircularProgressIndicator(
+                                                color: thirdcolor,
+                                              ),
                                             )
                                           : SingleChildScrollView(
                                               child: Column(
@@ -168,8 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                 .fromARGB(255,
                                                                 55, 55, 55),
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w500,
+                                                                FontWeight.w500,
                                                             fontSize: 20),
                                                   ),
                                                   Container(
@@ -177,10 +171,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           Alignment.center,
                                                       width: Screens.width(
                                                           context),
-                                                      height: Screens
-                                                              .padingHeight(
-                                                                   context) *
-                                                          0.03,
+                                                      height:
+                                                          Screens.padingHeight(
+                                                                  context) *
+                                                              0.03,
                                                       // color: Colors.amber,
                                                       child: Text(
                                                         context
@@ -189,8 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         style: theme.textTheme
                                                             .bodyMedium!
                                                             .copyWith(
-                                                                color: Colors
-                                                                    .red),
+                                                                color:
+                                                                    Colors.red),
                                                       )),
                                                   Container(
                                                     // padding: EdgeInsets.symmetric(
@@ -200,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     //     Screens.padingHeight(
                                                     //         context)*0.6,
                                                     decoration: BoxDecoration(
-                                                        color:grey,
+                                                        color: grey,
                                                         borderRadius:
                                                             BorderRadius.only(
                                                           topLeft:
@@ -212,7 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           .read<LoginCtrl>()
                                                           .formKey,
                                                       child: Column(
-                                                       
                                                         children: [
                                                           //   Container(
                                                           //                      decoration: BoxDecoration(
@@ -221,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           //                      ),
                                                           //                      child: TextFormField(
                                                           //                cursorColor: secondary,
-                                
+
                                                           //                        controller: context.read<LoginCtrl>().companyctrl,
                                                           // validator: (value){
                                                           //  if(value!.isEmpty){
@@ -234,11 +227,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           //                         suffixIcon: IconButton(
                                                           //                           iconSize: 30,
                                                           //                           onPressed: (){
-                                
+
                                                           //                           }, icon: Icon(Icons.arrow_drop_down),),
                                                           //  fillColor: white,
                                                           //  filled: true,
-                                
+
                                                           //  hintText: "Company",
                                                           //  hintStyle:
                                                           //      TextStyle(color: Colors.grey),
@@ -259,94 +252,81 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                         context) *
                                                                 0.02,
                                                           ),
-                                
+
                                                           Container(
                                                             decoration: BoxDecoration(
                                                                 color: white,
                                                                 border: Border.all(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
-      
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20))),
-                                                            child:
-                                                                DropdownButtonFormField(
-                                                                  
-                                                                    value: context
+                                                            child: DropdownButtonFormField(
+                                                                value: context.read<LoginCtrl>().valuedropdown,
+                                                                validator: (val) {
+                                                                  if (val ==
+                                                                      null) {
+                                                                    return "*Required";
+                                                                  }
+                                                                  return null;
+                                                                },
+                                                                decoration: InputDecoration(
+                                                                    fillColor: white,
+                                                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                                    focusedErrorBorder: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(20)),
+                                                                      borderSide: BorderSide(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              228,
+                                                                              228,
+                                                                              228)),
+                                                                    ),
+                                                                    enabledBorder: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                                    focusedBorder: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                                    errorBorder: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(20)))),
+                                                                hint: Text(
+                                                                  "Company",
+                                                                  style: TextStyle(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          122,
+                                                                          122,
+                                                                          122),
+                                                                      fontSize:
+                                                                          14),
+                                                                ),
+                                                                items: context.watch<LoginCtrl>().DropDownList.map((e) {
+                                                                  return DropdownMenuItem(
+                                                                      value:
+                                                                          "${e.Database}",
+                                                                      child:
+                                                                          Text(
+                                                                        "${e.Database}",
+                                                                        style: theme
+                                                                            .textTheme
+                                                                            .bodyMedium!
+                                                                            .copyWith(
+                                                                                color: Colors.grey,
+                                                                                fontSize: 13),
+                                                                      ));
+                                                                }).toList(),
+                                                                onChanged: (val) {
+                                                                  setState(() {
+                                                                    context
                                                                         .read<
                                                                             LoginCtrl>()
-                                                                        .valuedropdown,
-                                                                    validator:
-                                                                        (val) {
-                                                                      if (val ==
-                                                                          null) {
-                                                                        return "*Required";
-                                                                      }
-                                                                      return null;
-                                                                    },
-                                                                    decoration: InputDecoration(
-                                                                        fillColor:
-                                                                            white,
-                                                                        border: OutlineInputBorder(
-                                                                            borderSide: BorderSide
-                                                                                .none),
-                                                                                 focusedErrorBorder:
-                                                                  OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
-                                                                            20)),
-                                                                borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
-                                                              ),
-                                                                        enabledBorder: OutlineInputBorder(
-                                                                            borderSide: BorderSide
-                                                                                .none,
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
-                                                                                20))),
-                                                                        focusedBorder: OutlineInputBorder(
-                                                                            borderSide: BorderSide
-                                                                                .none,
-                                                                            borderRadius: BorderRadius.all(Radius.circular(
-                                                                                20))),
-                                                                                
-                                                                        errorBorder: OutlineInputBorder(
-                                                                            borderSide: BorderSide.none,
-                                                                            borderRadius: BorderRadius.all(Radius.circular(20)))),
-                                                                    hint: Text(
-                                                                      "Company",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Color.fromARGB(255, 122, 122, 122),
-                                                                          fontSize: 14),
-                                                                    ),
-                                                                    items: context.watch<LoginCtrl>().DropDownList.map((e) {
-                                                                      return DropdownMenuItem(
-                                                                          value:
-                                                                              "${e.Database}",
-                                                                          child:
-                                                                              Text(
-                                                                            "${e.Database}",
-                                                                            style: theme.textTheme.bodyMedium!.copyWith(color: Colors.grey, fontSize: 13),
-                                                                          ));
-                                                                    }).toList(),
-                                                                    onChanged: (val) {
-                                                                      setState(
-                                                                          () {
-                                                                        context
-                                                                            .read<LoginCtrl>()
-                                                                            .valuedropdown = val.toString();
-                                                                      });
-                                                                    }),
+                                                                        .valuedropdown = val.toString();
+                                                                  });
+                                                                }),
                                                           ),
                                                           SizedBox(
                                                             height: Screens
@@ -369,83 +349,81 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                 .read<
                                                                     LoginCtrl>()
                                                                 .branchcodectrl,
-                                                            validator:
-                                                                (value) {
+                                                            validator: (value) {
                                                               if (value!
                                                                   .isEmpty) {
                                                                 return "*Required";
                                                               } else {
-                                                                return null; 
+                                                                return null;
                                                               }
                                                             },
                                                             decoration:
-                                                           const     InputDecoration(
-                                                              fillColor:
-                                                                  white,
+                                                                const InputDecoration(
+                                                              fillColor: white,
                                                               filled: true,
-                                                            
                                                               labelText:
                                                                   "Branch Code",
                                                               hintStyle: TextStyle(
                                                                   color: Colors
                                                                       .grey,
-                                                                  fontSize:
-                                                                      14),
-                                
+                                                                  fontSize: 14),
                                                               border:
                                                                   OutlineInputBorder(),
                                                               focusedBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
-                                                               focusedErrorBorder:
+                                                              focusedErrorBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
-                                                              
                                                               errorBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                             ),
                                                           ),
@@ -470,8 +448,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                 .read<
                                                                     LoginCtrl>()
                                                                 .usernamectrl,
-                                                            validator:
-                                                                (value) {
+                                                            validator: (value) {
                                                               if (value!
                                                                   .isEmpty) {
                                                                 return "*Required";
@@ -481,8 +458,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                             },
                                                             decoration:
                                                                 InputDecoration(
-                                                              fillColor:
-                                                                  white,
+                                                              fillColor: white,
                                                               filled: true,
                                                               //  prefixIcon: Icon(Icons.person,
                                                               //   color: const Coolr.fromARGB(525, 93 ,93, 93),
@@ -492,61 +468,65 @@ class _LoginScreenState extends State<LoginScreen> {
                                                               hintStyle: TextStyle(
                                                                   color: Colors
                                                                       .grey,
-                                                                  fontSize:
-                                                                      14),
-                                
+                                                                  fontSize: 14),
+
                                                               border:
                                                                   OutlineInputBorder(),
                                                               focusedBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
-                                                              focusedErrorBorder:   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                              focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               errorBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                             ),
                                                           ),
@@ -571,8 +551,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                 .read<
                                                                     LoginCtrl>()
                                                                 .passwordctrl,
-                                                            validator:
-                                                                (value) {
+                                                            validator: (value) {
                                                               if (value!
                                                                   .isEmpty) {
                                                                 return "*Required";
@@ -582,69 +561,71 @@ class _LoginScreenState extends State<LoginScreen> {
                                                             },
                                                             decoration:
                                                                 InputDecoration(
-                                                              fillColor:
-                                                                  white,
+                                                              fillColor: white,
                                                               filled: true,
                                                               labelText:
                                                                   "Password",
                                                               hintStyle: TextStyle(
                                                                   color: Colors
                                                                       .grey,
-                                                                  fontSize:
-                                                                      14),
+                                                                  fontSize: 14),
                                                               border:
                                                                   OutlineInputBorder(),
-                                                                   focusedErrorBorder:
+                                                              focusedErrorBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               focusedBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                               errorBorder:
                                                                   OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.all(
-                                                                        Radius.circular(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
                                                                             20)),
                                                                 borderSide: BorderSide(
-                                                                    color: Color.fromARGB(
-                                                                        255,
-                                                                        228,
-                                                                        228,
-                                                                        228)),
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            228,
+                                                                            228,
+                                                                            228)),
                                                               ),
                                                             ),
                                                           ),
@@ -654,7 +635,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                         context) *
                                                                 0.02,
                                                           ),
-                                
+
                                                           Container(
                                                             decoration:
                                                                 BoxDecoration(
@@ -663,8 +644,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                     BorderSide
                                                                         .none,
                                                               ),
-                                                              color:
-                                                                  secondary,
+                                                              color: secondary,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -699,39 +679,62 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                     child: context.watch<LoginCtrl>().loginloading ==
                                                                             true
                                                                         ? Center(
-                                                                            child: CircularProgressIndicator(
-                                                                            color: white,
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                            color:
+                                                                                white,
                                                                           ))
                                                                         : Text(
                                                                             "Login",
-                                                                            style: theme.textTheme.bodyMedium!.copyWith(color: white, fontSize: 14, fontWeight: FontWeight.w500),
+                                                                            style: theme.textTheme.bodyMedium!.copyWith(
+                                                                                color: white,
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500),
                                                                           )),
                                                           ),
-                                                          SizedBox(height: Screens.padingHeight(context)*0.08,),
+                                                          SizedBox(
+                                                            height: Screens
+                                                                    .padingHeight(
+                                                                        context) *
+                                                                0.08,
+                                                          ),
                                                           Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
-                                                           children: [
-                                                   Text("Version :",
-                                                   style: theme.textTheme.bodyMedium!.copyWith(
-                                                     color: Colors.grey,
-                              decoration: TextDecoration.underline,
-
-                                                   ),
-                                                   ),
-                                                    Text(" ${ConstantValues.versionNum}",
-                                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                                     color: Colors.grey,
-                              decoration: TextDecoration.underline,
-
-                                                   ),)
-                                                 ],
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Text(
+                                                                "Version :",
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .underline,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                " ${ConstantValues.versionNum}",
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .underline,
+                                                                ),
+                                                              )
+                                                            ],
                                                           )
-                                
                                                         ],
                                                       ),
                                                     ),
                                                   ),
-                                                
                                                 ],
                                               ),
                                             ),

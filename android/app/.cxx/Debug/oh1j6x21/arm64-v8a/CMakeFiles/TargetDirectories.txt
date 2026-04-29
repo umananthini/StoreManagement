@@ -1,0 +1,2 @@
+D:/Anbu/store-Manage-/warehousemanagement/android/app/.cxx/Debug/oh1j6x21/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Anbu/store-Manage-/warehousemanagement/android/app/.cxx/Debug/oh1j6x21/arm64-v8a/CMakeFiles/rebuild_cache.dir

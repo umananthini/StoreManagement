@@ -13,10 +13,14 @@ class purchasePendingInwardApi {
     int resCode = 500;
     try {
       log("ConstantValues.token::" + ConstantValues.token.toString());
+
+      log("${URL.queryApi}Inv/v1/LoadOpenPurchaseOrder?whscode=${ConstantValues.branch}&Fromdate=2024-11-10&Todate=${Config.currentDate()}");
+
+      log("bearer ${ConstantValues.token}");
       final response = await http.get(
           Uri.parse(
-              "${URL.queryApi}Inv/v1/LoadOpenPurchaseOrder?whscode=${ConstantValues.branch}&Fromdate=2024-11-10&Todate=${Config.currentDate()}"),    
-              // ${Config.currentDate1()}
+              "${URL.queryApi}Inv/v1/LoadOpenPurchaseOrder?whscode=${ConstantValues.branch}&Fromdate=2024-11-10&Todate=${Config.currentDate()}"),
+          // ${Config.currentDate1()}
           headers: {
             "content-type": "application/json",
             "Authorization": 'bearer ${ConstantValues.token}',
@@ -38,10 +42,3 @@ class purchasePendingInwardApi {
     }
   }
 }
-
-
-
-
-
-
-

@@ -57,6 +57,7 @@ class DBHelper {
                  ${wmstranspurchaseSerialColumn.manufacturerSerialNumber} varchar,
                  ${wmstranspurchaseSerialColumn.internalSerialNumber} varchar,
                  ${wmstranspurchaseSerialColumn.notes} varchar,
+                  ${wmstranspurchaseSerialColumn.taxrate} varchar,
                   ${wmstranspurchaseSerialColumn.manageby} varchar
                  )
                  ''');
@@ -76,6 +77,7 @@ class DBHelper {
                  ${wmstranspurchaseitemColumn.baseLine} int,
                  ${wmstranspurchaseitemColumn.taxCode} varchar,
                  ${wmstranspurchaseitemColumn.manageBy} varchar,
+                 ${wmstranspurchaseitemColumn.taxRate} int,
                  ${wmstranspurchaseitemColumn.scannedqty} int
                  )
                  ''');
@@ -107,7 +109,7 @@ class DBHelper {
                  ${wmstransoutwardtabitemColumn.baseentry} int
                  )
                  ''');
-                  await database.execute('''
+    await database.execute('''
                  create table $wmstransInwSerialtable(
                  NId integer primary key autoincrement,
                  ${wmstransInwtabSerialColumn.branch} varchar,
