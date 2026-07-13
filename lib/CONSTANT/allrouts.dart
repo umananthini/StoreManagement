@@ -31,6 +31,7 @@ import 'package:warehousemanagement/PAGES/request/request_Screen.dart';
 class Routes {
   static List<GetPage> allRoutes = [
     GetPage<dynamic>(
+        // name: "/dashboard",
         name: ConstantRoutes.dashboard,
         page: () => const DashboardScreen(),
         transition: Transition.fade,
@@ -85,7 +86,7 @@ class Routes {
         page: () => const LoadTransferInwardpage(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-        GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.approval,
         page: () => const ApprovalScreen(),
         transition: Transition.fade,
@@ -110,38 +111,38 @@ class Routes {
         page: () => const SellabletodisplayScreen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-         GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.displaytosellable,
         page: () => const DisplaytoSellable(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-         GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.displaytosellable2,
         page: () => const DisplaytoSellable2screen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-         GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.qrpage,
         page: () => const QRscanner(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-          GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.report,
         page: () => const ReportScreen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-        GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.secondreport,
         page: () => const reportSecondscreen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
 
-        GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.requestScreen,
         page: () => const RequestScreen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-        GetPage<dynamic>(
+    GetPage<dynamic>(
         name: ConstantRoutes.restrictionpage,
         page: () => const Restrictionpage(),
         transition: Transition.fade,

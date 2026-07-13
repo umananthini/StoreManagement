@@ -13,7 +13,7 @@ class GetOutwardApi {
     try {
       final responce = await http.get(
           Uri.parse(
-               "${URL.queryApi}Inv/v1/GetOutwardDocment?FromBranch=$tobranch&LoginBranch=${ConstantValues.branch}"),
+              "${URL.queryApi}Inv/v1/GetOutwardDocment?FromBranch=$tobranch&LoginBranch=${ConstantValues.branch}"),
           headers: {"Authorization": "bearer ${ConstantValues.token}"});
       log("GetOutward body:::${responce.body.toString()}");
       log("GetOutward statusCode:::${responce.statusCode.toString()}");
@@ -28,8 +28,6 @@ class GetOutwardApi {
     } catch (e) {
       log("GetOutwardcatch:::${e.toString()}");
       return GetOutwardHeader.issues(e.toString(), 500);
-    }                                                                                                                                                                                                                                   
+    }
   }
-
-
 }

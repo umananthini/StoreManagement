@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:warehousemanagement/CONSTANT/Config.dart';
@@ -195,13 +196,13 @@ class TransferOutwardctrl extends ChangeNotifier {
             selectedtransno2.toString(), db);
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         finallodaing = false;
-        showdialogsave(
-            context, "Assets/cancel.png", "Failed", value.exception.toString());
+        showdialogsave(context, "Assets/cancel.png", "Failed - 400",
+            value.exception.toString());
         notifyListeners();
       } else {
         finallodaing = false;
         showdialogsave(
-            context, "Assets/cancel.png", "Failed", value.exception.toString());
+            context, "Assets/cancel.png", "Failed", 'Server Not Connect');
         notifyListeners();
       }
     });
@@ -1253,10 +1254,26 @@ class TransferOutwardctrl extends ChangeNotifier {
         log("Serialnumlength:::${Outwarditems.length}");
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         error = value.execption!;
+        Fluttertoast.showToast(
+            msg: value.execption!,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         outwardloading = false;
         notifyListeners();
       } else {
         error = value.execption!;
+        Fluttertoast.showToast(
+            msg: "Server not Connect",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         outwardloading = false;
         notifyListeners();
       }
@@ -1302,10 +1319,26 @@ class TransferOutwardctrl extends ChangeNotifier {
         log("Serialnumlengtgh::${Serialnum.length}");
       } else if (value.rescode! >= 400 && value.rescode! <= 410) {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: value.execption.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         serialloading = false;
         notifyListeners();
       } else {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: "Server not Connect",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         serialloading = false;
         notifyListeners();
       }
@@ -1333,10 +1366,26 @@ class TransferOutwardctrl extends ChangeNotifier {
         log("Branchlistdatalength::${Branchlistdata.length}");
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: value.execption.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         BranchListloading = false;
         notifyListeners();
       } else {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: "Server not Connect",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         BranchListloading = false;
         notifyListeners();
       }

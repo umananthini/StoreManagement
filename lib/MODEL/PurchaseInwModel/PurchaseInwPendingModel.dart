@@ -98,7 +98,9 @@ class PendingVendorModel {
       required this.Vendor,
       required this.VendorCode,
       required this.PORef});
-  factory PendingVendorModel.fromJson(Map<String, dynamic> json) {
+  factory PendingVendorModel.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return PendingVendorModel(
       Address: json['Address'] ?? '',
       Brand: json['Brand'] ?? '',

@@ -157,7 +157,7 @@ class DisplayToSellablectrl extends ChangeNotifier {
             showdialogsave(
               context,
               "Assets/cancel.png",
-              "Failed",
+              "Server not Connect",
             );
           }
         });
@@ -194,7 +194,7 @@ class DisplayToSellablectrl extends ChangeNotifier {
     isloadingg = true;
     diaplayboxsereial.clear();
     notifyListeners();
-    displayproductserial.text = codee.toString();
+    displayproductserial.text = codee.toString().trim();
     if (codee != null && codee != 'null') {
       await GetProductSerialApi.getData(displayproductserial.text)
           .then((value) {
@@ -224,7 +224,7 @@ class DisplayToSellablectrl extends ChangeNotifier {
           isloadingg = false;
           displaynewcontroller.clear();
           displayproductserial.clear();
-          showdialogtoast(context, "${value.execption}..!!");
+          showdialogtoast(context, "Server not Connect");
           notifyListeners();
         }
       });

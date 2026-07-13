@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -51,8 +50,7 @@ class ReportmodelPendingDetailheader {
 class Reportmodel {
   List<Reportmodeltable1>? itemlist;
   List<Reportmodeltable2>? itemlist22;
-  Reportmodel(
-      {required this.itemlist, required this.itemlist22});
+  Reportmodel({required this.itemlist, required this.itemlist22});
   factory Reportmodel.fromJson(Map<String, dynamic> jsons) {
     if (jsons != null) {
       var list = jsons['Table1'] as List;
@@ -60,11 +58,9 @@ class Reportmodel {
       if (list.isNotEmpty && list2.isNotEmpty) {
         List<Reportmodeltable1> datalist =
             list.map((data) => Reportmodeltable1.fromJson(data)).toList();
-        List<Reportmodeltable2> datalist2 = list2
-            .map((data) => Reportmodeltable2.fromJson(data))
-            .toList();
-        return Reportmodel(
-            itemlist: datalist, itemlist22: datalist2);
+        List<Reportmodeltable2> datalist2 =
+            list2.map((data) => Reportmodeltable2.fromJson(data)).toList();
+        return Reportmodel(itemlist: datalist, itemlist22: datalist2);
       } else {
         return Reportmodel(itemlist: null, itemlist22: null);
       }
@@ -104,10 +100,10 @@ class Reportmodeltable1 {
         DocDate: json['DocDate'] ?? '',
         DocNum: json['DocNum'] ?? 0,
         DocTotal: json['DocTotal'] ?? '',
-        GST: json['GST'] ??'',
-        Name: json['Name'] ??'',
-        Vendor: json['Vendor'] ??'',
-        VendorCode: json['VendorCode'] ??'');
+        GST: json['GST'] ?? '',
+        Name: json['Name'] ?? '',
+        Vendor: json['Vendor'] ?? '',
+        VendorCode: json['VendorCode'] ?? '');
   }
 }
 

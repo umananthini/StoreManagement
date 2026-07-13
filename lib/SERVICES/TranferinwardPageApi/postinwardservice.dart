@@ -7,43 +7,47 @@ import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
 
 class FinalSaveservices {
   int rescode = 500;
-  static Future<finalsaveModel> getdata(List<posttransInwModel> save,String catagory,String product,String itemname,String transnum,String brand,) async {
+  static Future<finalsaveModel> getdata(
+    List<posttransInwModel> save,
+    String catagory,
+    String product,
+    String itemname,
+    String transnum,
+    String brand,
+  ) async {
     try {
-      log("sapcloudcenter22::" + jsonEncode({
- 
-   "approved": true,
-    "transNum": "$transnum",
-    "transferQty": 0,
-    "transtype": "inward",
-     "branch": "${ConstantValues.branch}",
-     "inwardLineNums":save.map((e) => e.toJson()).toList()
-         }));
-      log("postInward:${URL.queryApi}Inv/v1/AddStockInward");
-      log("token:${ConstantValues.token}");
+      log("posttransInward Body ::" +
+          jsonEncode({
+            "approved": true,
+            "transNum": "$transnum",
+            "transferQty": 0,
+            "transtype": "inward",
+            "branch": "${ConstantValues.branch}",
+            "inwardLineNums": save.map((e) => e.toJson()).toList()
+          }));
+      log("postInward URL:${URL.queryApi}Inv/v1/AddStockInward");
+      log("postinwardservice token:${ConstantValues.token}");
 
-      
-      final responce = await http.post(
-          Uri.parse(
-              "${URL.queryApi}Inv/v1/AddStockInward"),
-          headers: {
-            "Authorization": "bearer ${ConstantValues.token}",
-            "Content-Type": "application/json",
-          },
-          body: jsonEncode([{
+      final responce =
+          await http.post(Uri.parse("${URL.queryApi}Inv/v1/AddStockInward"),
+              headers: {
+                "Authorization": "bearer ${ConstantValues.token}",
+                "Content-Type": "application/json",
+              },
+              body: jsonEncode([
+                {
+                  "approved": true,
+                  "transNum": "$transnum",
+                  "transferQty": 0,
+                  "transtype": "inward",
+                  "branch": "${ConstantValues.branch}",
+                  "inwardLineNums": save.map((e) => e.toJson()).toList()
+                }
+              ]));
+      log("posttransInward Response Body::" + responce.body.toString());
 
+      log("posttransInward Statuscode::" + responce.statusCode.toString());
 
-
-   "approved": true,
-    "transNum": "$transnum",
-    "transferQty": 0,
-    "transtype": "inward",
-     "branch": "${ConstantValues.branch}",
-     "inwardLineNums":save.map((e) => e.toJson()).toList()
-          }]));
-      log("sapcloudcenter::" + responce.body.toString());
-
-      log("sapcloudcenter::" + responce.statusCode.toString());
-      
       if (responce.statusCode == 200) {
         return finalsaveModel.fromJson(
             jsonDecode(responce.body), responce.statusCode);
@@ -57,19 +61,20 @@ class FinalSaveservices {
   }
 }
 
-
-
 class finalsaveModel {
   String? exception;
   int? stcode;
-  List<String>?dataa;
+  List<String>? dataa;
   finalsaveModel({
     required this.exception,
     required this.stcode,
     // required this.dataa,
   });
   factory finalsaveModel.fromJson(Map<String, dynamic> json, int stcode) {
-    return finalsaveModel(exception: null, stcode: stcode, );
+    return finalsaveModel(
+      exception: null,
+      stcode: stcode,
+    );
   }
   factory finalsaveModel.exception(Map<String, dynamic> json, int stcode) {
     return finalsaveModel(exception: json['respDesc'], stcode: stcode);
@@ -109,7 +114,6 @@ class finalsaveModel {
 // required this.transNum,
 // required this.transferQty,
 // required this.transtype,
-
 
 // });
 //  Map<String, dynamic> toJson() {
@@ -158,13 +162,13 @@ class posttransInwModel {
       // "warehouseCode": "$warehouseCode",
       // "qty": qty,
 
-       "itemCode":"$itemCode",
-        "fromWarehouseCode":  "$fromWarehouseCode",
-        "warehouseCode": "$warehouseCode",
-        "qty": qty,
-        "manageBy":"$manageBy",
-        "lineNum": linenum,
-        "docEntry": docentry,
+      "itemCode": "$itemCode",
+      "fromWarehouseCode": "$fromWarehouseCode",
+      "warehouseCode": "$warehouseCode",
+      "qty": qty,
+      "manageBy": "$manageBy",
+      "lineNum": linenum,
+      "docEntry": docentry,
       "serialBatchNums": serialbatch!.map((e) => e.toJson()).toList()
     };
     return map;
@@ -182,11 +186,10 @@ class serialBatchNums {
   });
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      "manufacturerSerialNumber":"$manufacturerSerialNumber",
-      "internalSerialNumber":"$internalSerialNumber",
+      "manufacturerSerialNumber": "$manufacturerSerialNumber",
+      "internalSerialNumber": "$internalSerialNumber",
       "qty": qty
     };
     return map;
   }
 }
-

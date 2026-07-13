@@ -27,8 +27,6 @@ class LoginCtrl extends ChangeNotifier {
     getdropdownapi();
   }
 
- 
-
   clear() {
     valuedropdown = null;
     isloading = false;
@@ -39,12 +37,12 @@ class LoginCtrl extends ChangeNotifier {
   }
 
   Config config = Config();
-  bool loginloading =false;
+  bool loginloading = false;
   Validateuser() async {
-  ConstantValues.isapprover ='';
-  notifyListeners();
+    ConstantValues.isapprover = '';
+    notifyListeners();
     if (formKey.currentState!.validate()) {
-      message="";
+      message = "";
       PostLoginModel postlogin = PostLoginModel();
       postlogin.branch = branchcodectrl.text;
       postlogin.database = valuedropdown.toString();
@@ -53,71 +51,88 @@ class LoginCtrl extends ChangeNotifier {
       postlogin.userCode = usernamectrl.text;
       postlogin.fcmToken = "AGAAGASAHHSHSH";
       postlogin.deviceCode = deviceid.toString();
- loginloading =true;
-          notifyListeners();
+      loginloading = true;
+      notifyListeners();
 
-      await LoginAPIServices.getdata(postlogin).then((value) async{
+      await LoginAPIServices.getdata(postlogin).then((value) async {
         if (value.rescode! >= 200 && value.rescode! <= 210) {
-         await helperfunction. clearLoginBranch();
-         notifyListeners();
-          await helperfunction. clearloginpassword();
-         notifyListeners();
-          await helperfunction. clearloginDatabase();
-         notifyListeners();
-          await helperfunction. clearusername();
-         notifyListeners();
-          await  helperfunction.saveloggedinSharedPreference(true);
+          await helperfunction.clearLoginBranch();
           notifyListeners();
-             log("value user code::${value.loginitems!.Branch}");
-       await  helperfunction.loginusernameSharedPreference(value.loginitems!.UserCode.toString());
+          await helperfunction.clearloginpassword();
+          notifyListeners();
+          await helperfunction.clearloginDatabase();
+          notifyListeners();
+          await helperfunction.clearusername();
+          notifyListeners();
+          await helperfunction.saveloggedinSharedPreference(true);
+          notifyListeners();
+          log("value user code::${value.loginitems!.Branch}");
+          await helperfunction.loginusernameSharedPreference(
+              value.loginitems!.UserCode.toString());
           notifyListeners();
           log("value user code::${value.loginitems!.UserCode}");
-      
-       await  helperfunction.LoginBranchSharedPreference(value.loginitems!.Branch.toString());
+
+          await helperfunction.LoginBranchSharedPreference(
+              value.loginitems!.Branch.toString());
           notifyListeners();
-       
-        await helperfunction.LoginPasswordSharedPreference(passwordctrl.text);
+
+          await helperfunction.LoginPasswordSharedPreference(passwordctrl.text);
           notifyListeners();
-       
-       await  helperfunction.LoginDatabaseSharedPreference(value.loginitems!.SAPDb.toString());
+
+          await helperfunction.LoginDatabaseSharedPreference(
+              value.loginitems!.SAPDb.toString());
           notifyListeners();
           log("value user code::${value.loginitems!.SAPDb}");
-      
-         ConstantValues.Usercode=value.loginitems!.UserCode;
-          notifyListeners();
-         
-         ConstantValues.branch=value.loginitems!.Branch;
 
-ConstantValues.isapprover =value.loginitems!.IsApprover;
-log("ConstantValues.isapprover::::::::::::::${ConstantValues.isapprover}");
-ConstantValues.constantdevicecode =value.loginitems!.devicecode;
-log("ConstantValues.constantdevicecode::::::::::::::${ConstantValues.constantdevicecode}");
-  notifyListeners();
+          ConstantValues.Usercode = value.loginitems!.UserCode;
           notifyListeners();
-          ConstantValues.username=value.loginitems!.UserCode;
+
+          ConstantValues.branch = value.loginitems!.Branch;
+
+          ConstantValues.isapprover = value.loginitems!.IsApprover;
+          log("ConstantValues.isapprover::::::::::::::${ConstantValues.isapprover}");
+          ConstantValues.constantdevicecode = value.loginitems!.devicecode;
+          log("ConstantValues.constantdevicecode::::::::::::::${ConstantValues.constantdevicecode}");
+          notifyListeners();
+          notifyListeners();
+          ConstantValues.username = value.loginitems!.UserCode;
           notifyListeners();
           log("user name::::::::::::::${value.loginitems!.UserCode}");
-Get.offAllNamed(ConstantRoutes.dashboard);
+          Get.offAllNamed(ConstantRoutes.dashboard);
           notifyListeners();
-          loginloading =false; 
+          loginloading = false;
           notifyListeners();
-
-
         } else if (value.rescode! >= 400 && value.rescode! <= 410) {
-          loginloading =false;
+          loginloading = false;
           notifyListeners();
 
-           message = value.execption;
+          message = value.execption;
+          Fluttertoast.showToast(
+              msg: value.execption.toString(),
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           notifyListeners();
 
           log("${value.execption}");
         } else if (value.rescode! >= 500 && value.rescode! <= 510) {
-         loginloading =false;
+          loginloading = false;
           notifyListeners();
-       
-            message = value.execption;
-        
+
+          message = value.execption;
+
           log("error:::${message = value.execption}");
+          Fluttertoast.showToast(
+              msg: "Server Not Connect",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
 
           notifyListeners();
         }
@@ -127,9 +142,9 @@ Get.offAllNamed(ConstantRoutes.dashboard);
     }
   }
 
-  String? message="";
-   loginerrormsg() {
-  return  "$message";
+  String? message = "";
+  loginerrormsg() {
+    return "$message";
   }
   //  showtoastInw(String message) {
 
@@ -160,15 +175,39 @@ Get.offAllNamed(ConstantRoutes.dashboard);
       if (value.rescode! >= 200 && value.rescode! <= 210) {
         error = '';
         DropDownList = value.data!;
+        Fluttertoast.showToast(
+            msg: "value.data!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         isloading = false;
         notifyListeners();
       } else if (value.rescode! >= 400 && value.rescode! <= 410) {
         isloading = false;
         error = value.execption!;
+        Fluttertoast.showToast(
+            msg: "value.execption!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
       } else {
         isloading = false;
         error = value.execption!;
+        Fluttertoast.showToast(
+            msg: "Server not connect",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
 
         notifyListeners();
       }

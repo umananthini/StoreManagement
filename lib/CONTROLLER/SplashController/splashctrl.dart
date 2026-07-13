@@ -1,6 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:path/path.dart';
@@ -82,13 +85,31 @@ class Splachctrl extends ChangeNotifier {
         Exception = '';
         isversionloading = false;
         errorr = value.execption!;
+        Fluttertoast.showToast(
+            msg: value.execption!,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
       } else {
-        Exception = '';
-        isversionloading = false;
-        errorr = value.execption!;
+        Fluttertoast.showToast(
+            msg: "Please turn on your mobile data or Wi-Fi",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.TOP,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
 
-        notifyListeners();
+        Future.delayed(const Duration(seconds: 5), () {
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else {
+            exit(0);
+          }
+        });
       }
     });
   }
@@ -147,6 +168,14 @@ class Splachctrl extends ChangeNotifier {
         notifyListeners();
 
         log("${value.execption}");
+        Fluttertoast.showToast(
+            msg: "${value.execption}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Get.toNamed(ConstantRoutes.login);
         notifyListeners();
       } else if (value.rescode! >= 500 && value.rescode! <= 510) {
@@ -156,6 +185,14 @@ class Splachctrl extends ChangeNotifier {
         message = value.execption;
 
         log("error:::${message = value.execption}");
+        Fluttertoast.showToast(
+            msg: "Server Not Connect",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
 
         notifyListeners();
         Get.toNamed(ConstantRoutes.login);

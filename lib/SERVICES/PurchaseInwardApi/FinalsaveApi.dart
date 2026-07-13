@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:warehousemanagement/PAGES/PurchaseInward1/PurchaseInwardSecondPage.dart';
 import 'package:warehousemanagement/SERVICES/URL.dart';
 import 'package:http/http.dart' as http;
 import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
@@ -19,10 +20,11 @@ class savefinalPurchaseInwApi {
     String? taxDate,
     String towhse,
     String? Comments,
+    List<PostAttachment> images,
   ) async {
     int rescode = 500;
     try {
-      log("aaaaa::" +
+      log("API CAll::" +
           jsonEncode({
             "cardCode": "$cardcode",
             "cardName": "$cardname",
@@ -34,6 +36,7 @@ class savefinalPurchaseInwApi {
             "reference2": "$reference2",
             "comments": "$Comments",
             "taxDate": "$taxDate",
+            "attachment": images,
             "documentLines": itemlist.map((e) => e.toJson()).toList()
           }));
       log("${URL.queryApi}Inv/v1/AddPurchaseInward?type=P::::ConstantValues.token::" +
@@ -46,6 +49,7 @@ class savefinalPurchaseInwApi {
           },
           body: jsonEncode({
             "cardCode": "$cardcode",
+            // "cardCode": "$cardcode",
             "cardName": "$cardname",
             "numAtCard": "$numAtCard",
             "docType": "$docType",
@@ -55,24 +59,25 @@ class savefinalPurchaseInwApi {
             "reference2": "$reference2",
             "comments": "$Comments",
             "taxDate": "$taxDate",
+            "attachment": images,
             "documentLines": itemlist.map((e) => e.toJson()).toList()
           }));
-      log("asjasjajs" +
-          jsonEncode({
-            "cardCode": "$cardcode",
-            "cardName": "$cardname",
-            "numAtCard": "$numAtCard",
-            "docType": "$docType",
-            "docDate": "$docDate",
-            "docTotal": docTotal,
-            "reference1": "$reference1",
-            "reference2": "$reference2",
-            "comments": "$Comments",
-            "taxDate": "$taxDate",
-            "documentLines": itemlist.map((e) => e.toJson()).toList()
-          }));
-      log("aaabb" + responce.statusCode.toString());
-      log("aaabbbsavefinalPurchaseInwApi" + responce.body.toString());
+      // log("kanisjajs" +
+      //     jsonEncode({
+      //       "cardCode": "$cardcode",
+      //       "cardName": "$cardname",
+      //       "numAtCard": "$numAtCard",
+      //       "docType": "$docType",
+      //       "docDate": "$docDate",
+      //       "docTotal": docTotal,
+      //       "reference1": "$reference1",
+      //       "reference2": "$reference2",
+      //       "comments": "$Comments",
+      //       "taxDate": "$taxDate",
+      //       "documentLines": itemlist.map((e) => e.toJson()).toList()
+      //     }));
+      log("StatusCode" + responce.statusCode.toString());
+      log("body" + responce.body.toString());
       if (responce.statusCode == 200) {
         return finalsaveModel.fromJson(
             json.decode(responce.body), responce.statusCode);
@@ -81,7 +86,7 @@ class savefinalPurchaseInwApi {
             json.decode(responce.body), responce.statusCode);
       }
     } catch (e) {
-      log("catche::${e.toString()}");
+      log("error::${e.toString()}");
       return finalsaveModel.issues(e.toString(), rescode);
     }
   }

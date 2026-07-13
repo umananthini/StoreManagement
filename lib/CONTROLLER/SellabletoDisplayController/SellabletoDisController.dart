@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:math'hide log;
+import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,10 +9,8 @@ import 'package:warehousemanagement/CONSTANT/color.dart';
 import 'package:warehousemanagement/CONSTANT/constantrouts.dart';
 import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/MODEL/GetBoxSerialModel/getboxserial.dart';
-import 'package:warehousemanagement/SERVICES/Sellable2DisplayApi/FinalsaveApi.dart';
+import 'package:warehousemanagement/SERVICES/Sellable2DisplayApi/FinalsaveApi1.dart';
 import 'package:warehousemanagement/SERVICES/Sellable2DisplayApi/GetBoxSerialDetailsApi.dart';
-
-
 
 class SellableoDispController extends ChangeNotifier {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -23,40 +21,39 @@ class SellableoDispController extends ChangeNotifier {
       // if (randomnumber == '') {
       //   showtoastmsg();
       //   notifyListeners();
-      // } 
+      // }
       // else {
-        finalloading = true;
-        notifyListeners();
-        await SellableFinalApi.getData(GetBoxSeriallist[0].ItemCode,
-                scancontroller2.text, 1, scancontroller.text)
-            .then((value) {
-          if (value.stcode! >= 200 && value.stcode! <= 210) {
-            finalloading = false;
-            notifyListeners();
-            showdialogsave(
-              context,
-              "Assets/check.png",
-              "Success",
-            );
-          } else if (value.stcode! >= 400 && value.stcode! <= 410) {
-            finalloading = false;
-            notifyListeners();
-            showdialogsave(
-              context,
-              "Assets/cancel.png",
-              "Failed",
-            );
-          } else {
-            finalloading = false;
-            notifyListeners();
-            showdialogsave(
-              context,
-              "Assets/cancel.png",
-              "Failed",
-            );
-          }
-        });
-
+      finalloading = true;
+      notifyListeners();
+      await SellableFinalApi.getData(GetBoxSeriallist[0].ItemCode,
+              scancontroller2.text, 1, scancontroller.text)
+          .then((value) {
+        if (value.stcode! >= 200 && value.stcode! <= 210) {
+          finalloading = false;
+          notifyListeners();
+          showdialogsave(
+            context,
+            "Assets/check.png",
+            "Success",
+          );
+        } else if (value.stcode! >= 400 && value.stcode! <= 410) {
+          finalloading = false;
+          notifyListeners();
+          showdialogsave(
+            context,
+            "Assets/cancel.png",
+            "Failed 400",
+          );
+        } else {
+          finalloading = false;
+          notifyListeners();
+          showdialogsave(
+            context,
+            "Assets/cancel.png",
+            "Server Not Connect",
+          );
+        }
+      });
 
       // }
     }
@@ -175,11 +172,10 @@ class SellableoDispController extends ChangeNotifier {
   List<GetboxSerial> GetBoxSeriallist = [];
   List<GetboxSerial> GetBoxSeriallist1 = [];
 
-
   bool isshowtextfield = false;
   bool generatednum = false;
   bool? isloading = false;
-  bool? checkFUR=false;
+  bool? checkFUR = false;
   afterproductscanned(String? code, BuildContext context) {
     FocusScope.of(context).unfocus();
     notifyListeners();
@@ -187,31 +183,27 @@ class SellableoDispController extends ChangeNotifier {
 
   afterserialScanned(String? code, BuildContext context) async {
     isloading = true;
-    checkFUR =false;
+    checkFUR = false;
     notifyListeners();
     scancontroller2.text = code.toString();
     await GetBoxDetailsSerialApi.getData(scancontroller2.text).then((value) {
       if (value.rescode! >= 200 && value.rescode! <= 210) {
         if (value.data! != null && value.data!.isNotEmpty) {
-      //  log(GetBoxSeriallist[1].toString());
+          //  log(GetBoxSeriallist[1].toString());
           GetBoxSeriallist = value.data!;
           isloading = false;
           isshowtextfield = true;
           notifyListeners();
-         scancontroller.clear(); 
-         notifyListeners();
-          if(GetBoxSeriallist[0].Division=="FUR"){
-            checkFUR=true;
-            
-             scancontroller.text= scancontroller2.text;
-            //  spnkit 
-            //  swipegallary(scrolling image)
+          scancontroller.clear();
+          notifyListeners();
+          if (GetBoxSeriallist[0].Division == "FUR") {
+            checkFUR = true;
 
-             
+            scancontroller.text = scancontroller2.text;
+            //  spnkit
+            //  swipegallary(scrolling image)
           }
-        } 
-        
-         else if (value.data! == null || value.data!.isEmpty) {
+        } else if (value.data! == null || value.data!.isEmpty) {
           isloading = false;
           scancontroller2.clear();
           FocusScope.of(context).unfocus();
@@ -234,7 +226,7 @@ class SellableoDispController extends ChangeNotifier {
         FocusScope.of(context).unfocus();
         isshowtextfield = false;
         isloading = false;
-        showdialogtoast(context, "Network issue..!!");
+        showdialogtoast(context, "Server Not Connect");
         notifyListeners();
       }
     });

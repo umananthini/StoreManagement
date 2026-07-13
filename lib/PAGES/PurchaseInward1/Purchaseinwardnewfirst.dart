@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:warehousemanagement/CONSTANT/color.dart';
 import 'package:warehousemanagement/CONSTANT/constantrouts.dart';
+import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
 import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/CONTROLLER/PurchaseInwardController/purchaseinwardctrl.dart';
 import 'package:warehousemanagement/PAGES/Scanner/scannerpage.dart';
@@ -86,6 +87,15 @@ class _PurchaseInwNewFirstState extends State<PurchaseInwNewFirst> {
                             fontWeight: FontWeight.w600,
                             fontSize: 22),
                       ),
+                      SizedBox(
+                        width: Screens.width(context) * 0.05,
+                      ),
+                      Text(
+                        'Version: ${"${ConstantValues.versionNum}"}',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      )
                     ],
                   ),
                   InkWell(

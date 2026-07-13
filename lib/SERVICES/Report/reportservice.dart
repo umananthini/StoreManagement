@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -11,10 +9,12 @@ import 'package:warehousemanagement/MODEL/PurchaseInwModel/PurchaseInwPendingMod
 import 'package:warehousemanagement/MODEL/ReportModel/reportmodel.dart';
 
 class reportservice {
-  static Future<ReportmodelPendingDetailheader> getdata(String? date,String? todata) async {
+  static Future<ReportmodelPendingDetailheader> getdata(
+      String? date, String? todata) async {
     int resCode = 500;
     try {
-      log("${URL.queryApi}Inv/v1/InwardDetails?fromdate=${date}&todate=${todata}&whscode=${ConstantValues.branch}:::ConstantValues.token::" + ConstantValues.token.toString());
+      log("${URL.queryApi}Inv/v1/InwardDetails?fromdate=${date}&todate=${todata}&whscode=${ConstantValues.branch}:::ConstantValues.token::" +
+          ConstantValues.token.toString());
       final response = await http.get(
           Uri.parse(
               "${URL.queryApi}Inv/v1/InwardDetails?fromdate=${date}&todate=${todata}&whscode=${ConstantValues.branch}"),

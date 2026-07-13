@@ -41,14 +41,14 @@ class LoginAPIServices {
       log("body login::" + "${responce.body}");
       if (responce.statusCode == 200) {
         Config config = new Config();
+        EncryptData Encrupt = new EncryptData();
         Map<String, dynamic> tokenNew3 = json.decode(responce.body);
         Map<String, dynamic> jres =
             config.parseJwt("${tokenNew3['data'].toString()}");
-        log("ABCD7333:::" + jres.toString());
-        EncryptData Encrupt = new EncryptData();
+        log("EncryptData:::" + jres.toString());
         String? testData2 = Encrupt.decrypt(jres['encryptedClaims']);
         Map<String, dynamic> jres2 = jsonDecode("${testData2}");
-        log("jres2:::" + jres2.toString());
+        log("tokenNew:::" + jres2.toString());
         Map<String, dynamic> tokenNew = json.decode(responce.body);
         // Utils.token = tokenNew['token'];
         helperfunction.saveTokenSharedPreference(tokenNew['data']);

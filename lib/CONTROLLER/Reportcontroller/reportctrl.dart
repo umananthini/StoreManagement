@@ -1,4 +1,3 @@
-
 // import 'dart:developer';
 
 // import 'package:flutter/material.dart';
@@ -18,9 +17,8 @@
 // List<Reportmodeltable1> reporttable1=[];
 // List<Reportmodeltable2> reporttable2=[];
 
-
 //   getreportsapi() async {
-   
+
 //     isreportloading = true;
 //     exception = '';
 //     notifyListeners();
@@ -90,12 +88,7 @@
 //                       (e).SellPrice.toString().toLowerCase().contains(v.toLowerCase(),) ||
 //                       (e).MRP.toString().toLowerCase().contains(v.toLowerCase(),) ,
 
-            
-                
-        
-      
 //       ).toList();
-      
 
 //       notifyListeners();
 //     } else if (v.isEmpty) {
@@ -104,19 +97,11 @@
 //     }
 //   }
 
-
-
-  
 //    secondpageinit() async{
 //     isscheckloading=false;
 //     report2pageloading =true;
 //     notifyListeners();
-    
 
-   
-                                               
-
-   
 //     for (int i = 0; i < reporttable2.length; i++) {
 //       log("secondpagevendorlist!.Code:" +
 //           secondpagereportlist!.Code.toString());
@@ -147,6 +132,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warehousemanagement/CONSTANT/color.dart';
 import 'package:warehousemanagement/MODEL/ReportModel/reportmodel.dart';
 import 'package:warehousemanagement/SERVICES/Report/reportservice.dart';
@@ -156,7 +142,8 @@ class Reportctrl extends ChangeNotifier {
   String? exception;
 
   List<Reportmodeltable1> reporttable1 = [];
-  List<Reportmodeltable1> originalReportList = []; // 🔹 backup list for filtering
+  List<Reportmodeltable1> originalReportList =
+      []; // 🔹 backup list for filtering
   List<Reportmodeltable2> reporttable2 = [];
 
   bool isscheckloading = false;
@@ -167,54 +154,58 @@ class Reportctrl extends ChangeNotifier {
 
   Reportmodeltable1? secondpagereportlist;
   int? docentryfirst;
-  TextEditingController datecontrol=TextEditingController();
-String? fromdate;
-String? todate;
+  TextEditingController datecontrol = TextEditingController();
+  String? fromdate;
+  String? todate;
   init() {
     log('report ctrl created');
     // // getreportsapi();
-    fromdate ='';
-    todate="";
+    fromdate = '';
+    todate = "";
 
     // datecontrol.clear();
     notifyListeners();
     searchfilterthirdpagereportlist.clear();
   }
-  getdate(BuildContext context,ThemeData t)async{
-      DateTimeRange? picked = await showDateRangePicker(
-  context: context,
-  firstDate: DateTime(2000),
-  lastDate: DateTime.now(),
-  initialDateRange: DateTimeRange(
-    start: DateTime.now().subtract(const Duration(days: 7)),
-    end: DateTime.now(),
-  ),
-  barrierColor: primarycolor.withOpacity(0.2), 
-  builder: (context, child) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: ColorScheme.light(
-          primary: primarycolor,
-          onPrimary: Colors.white, 
-          onSurface: Colors.black, 
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: primarycolor,           ),
-        ),
-      ),
-      child: child!,
-    );
-  },
-);
 
-                        if (picked != null) {
-                          fromdate ="${picked.start.year}-${picked.start.month}-${picked.start.day}";
-                         todate ="${picked.end.year}-${picked.end.month}-${picked.end.day}";
-                          datecontrol.text="${picked.start.day}-${picked.start.month}-${picked.start.year}/${picked.end.day}-${picked.end.month}-${picked.end.year}";
-                          notifyListeners();
-                          // context.read<Reportctrl>().filterByDate(picked.start, picked.end);
-                        }
+  getdate(BuildContext context, ThemeData t) async {
+    DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      initialDateRange: DateTimeRange(
+        start: DateTime.now().subtract(const Duration(days: 7)),
+        end: DateTime.now(),
+      ),
+      barrierColor: primarycolor.withOpacity(0.2),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primarycolor,
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: primarycolor,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      fromdate =
+          "${picked.start.year}-${picked.start.month}-${picked.start.day}";
+      todate = "${picked.end.year}-${picked.end.month}-${picked.end.day}";
+      datecontrol.text =
+          "${picked.start.day}-${picked.start.month}-${picked.start.year}/${picked.end.day}-${picked.end.month}-${picked.end.year}";
+      notifyListeners();
+      // context.read<Reportctrl>().filterByDate(picked.start, picked.end);
+    }
   }
 
   getreportsapi() async {
@@ -222,7 +213,7 @@ String? todate;
     exception = '';
     notifyListeners();
 
-    await reportservice.getdata(fromdate,todate).then((value) {
+    await reportservice.getdata(fromdate, todate).then((value) {
       if (value.stcode! >= 200 && value.stcode! <= 210) {
         if (value.inwardDetailheader!.itemlist != null &&
             value.inwardDetailheader!.itemlist!.isNotEmpty) {
@@ -238,17 +229,40 @@ String? todate;
         } else {
           isreportloading = false;
           exception = "No data Found..!!";
+          Fluttertoast.showToast(
+              msg: "No data Found..!!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           notifyListeners();
         }
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         isreportloading = false;
         exception = "${value.message}..${value.exception}..!!";
+        Fluttertoast.showToast(
+            msg: "${value.message}..${value.exception}..!!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
       } else {
-        if (value.exception!.contains("Network is unreachable")) {
+        if (value.exception!.contains("Server Not Connect")) {
           isreportloading = false;
-          exception =
-              "'${value.stcode!}..!!Network Issue..\nTry again Later..!!";
+          exception = "'${value.stcode!}..Server Not Connect";
+          Fluttertoast.showToast(
+              msg: "Server Not Connect",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           notifyListeners();
         } else {
           isreportloading = false;
@@ -264,9 +278,8 @@ String? todate;
       reporttable1 = originalReportList.where((e) {
         return e.Vendor.toString().toLowerCase().contains(v.toLowerCase()) ||
             e.DocNum.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.VendorCode.toString().toLowerCase().contains(v.toLowerCase())||
-            e.DocDate.toString().toLowerCase().contains(v.toLowerCase()) ;
-
+            e.VendorCode.toString().toLowerCase().contains(v.toLowerCase()) ||
+            e.DocDate.toString().toLowerCase().contains(v.toLowerCase());
       }).toList();
     } else {
       reporttable1 = List.from(originalReportList);
@@ -287,37 +300,36 @@ String? todate;
     notifyListeners();
   }
 
-
-
   //  RESET FILTER
   void resetFilter() {
     reporttable1 = List.from(originalReportList);
     notifyListeners();
   }
 
-
-
   //  SEARCH in third page (already had)
   SearchFiltereport(String v) {
     if (v.isNotEmpty) {
-      searchfilterthirdpagereportlist = thirdpagereportlist.where(
-        (e) =>
-            e.Segment.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.itemcode.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.ItemName.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.Qty.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.Price.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.TaxCode.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.TaxRate.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.SellPrice.toString().toLowerCase().contains(v.toLowerCase()) ||
-            e.MRP.toString().toLowerCase().contains(v.toLowerCase()),
-      ).toList();
+      searchfilterthirdpagereportlist = thirdpagereportlist
+          .where(
+            (e) =>
+                e.Segment.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.itemcode.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.ItemName.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.Qty.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.Price.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.TaxCode.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.TaxRate.toString().toLowerCase().contains(v.toLowerCase()) ||
+                e.SellPrice.toString()
+                    .toLowerCase()
+                    .contains(v.toLowerCase()) ||
+                e.MRP.toString().toLowerCase().contains(v.toLowerCase()),
+          )
+          .toList();
     } else {
       searchfilterthirdpagereportlist = thirdpagereportlist;
     }
     notifyListeners();
   }
-
 
   //  SECOND PAGE INIT
   secondpageinit() async {

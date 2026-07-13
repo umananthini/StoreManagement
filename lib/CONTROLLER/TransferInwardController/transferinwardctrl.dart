@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -14,7 +15,7 @@ import 'package:warehousemanagement/DBHELPER/DBOperation.dart';
 import 'package:warehousemanagement/DBHELPER/dbhelper.dart';
 import 'package:warehousemanagement/DBMODEL/InWardDBModel/inwarddbmodel.dart';
 import 'package:warehousemanagement/DBMODEL/TransferInwDBModel/TransferInwDBModel.dart';
-import 'package:warehousemanagement/MODEL/LoadTransferInwardModel/loadtransferinward.dart';
+import 'package:warehousemanagement/MODEL/LoadTransferInwardModel/loadtransferinwardmodel.dart';
 import 'package:warehousemanagement/MODEL/TransferInwardModel/Transferinwardmodel.dart';
 import 'package:warehousemanagement/SERVICES/TranferinwardPageApi/Ttranserinwardservice.dart';
 import 'package:warehousemanagement/SERVICES/TranferinwardPageApi/loadtransferinwardservices.dart';
@@ -26,11 +27,9 @@ class TransferInwardctrl extends ChangeNotifier {
   TextEditingController scanserialctrl1 = TextEditingController();
   TextEditingController searchfilter1 = TextEditingController();
   TextEditingController searchfilter2 = TextEditingController();
-  bool? quantityEnable=false;
+  bool? quantityEnable = false;
 
   TextEditingController quantitycontroller = TextEditingController();
-
-
 
   // TextEditingController qtyctrl=TextEditingController();
   int scanvalue = 1;
@@ -83,9 +82,11 @@ class TransferInwardctrl extends ChangeNotifier {
             "${TransferInward[i].ItemCode}", TransferInward[i].linenum, db)
         .then((value) {
       if (value.length > 0) {
-        print("length: " + value.length.toString());
+        print(
+            "transferinwardctrl getDBData length: " + value.length.toString());
         // print("docEntry: " + value[0].docEntry.toString());
-        print("itemCode: " + value[0].itemCode.toString());
+        print("transferinwardctrl getDBData itemCode: " +
+            value[0].itemCode.toString());
         // setState(() {
         DBdata = value;
         // });
@@ -248,19 +249,35 @@ class TransferInwardctrl extends ChangeNotifier {
         // SearchfilterTransferInward= TransferInward;
         notifyListeners();
 
-        log("inward data:::${Transinwdata}");
+        log("transferinwardctrl inward data:::${Transinwdata}");
       } else if (value.rescode! >= 400 && value.rescode! <= 400) {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: value.execption.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         gettransinwloading = false;
         notifyListeners();
 
-        log("error::${value.execption}");
+        log("transferinwardctrl 400 error::${value.execption}");
         notifyListeners();
       } else if (value.rescode! >= 500 && value.rescode! <= 510) {
         error = value.execption;
+        Fluttertoast.showToast(
+            msg: "Server not Connect",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
 
-        log("ffff::${value.execption}");
+        log("transferinwardctrl 500 error::${value.execption}");
         gettransinwloading = false;
 
         notifyListeners();
@@ -296,11 +313,11 @@ class TransferInwardctrl extends ChangeNotifier {
         filterTransferInward = value.Dataa!.LoadTransferInward1!;
         TransferInwarditem = value.Dataa!.LoadTransferInwardItems1!;
         TransferInward = filterTransferInward;
-       
+
         notifyListeners();
         loadtransinwloading = false;
         notifyListeners();
-        log("vvvvvv::${TransferInward}");
+        log("transferinwardctrl gettraniwload::${TransferInward}");
         if (TransferInward.isNotEmpty) {
           getqty.clear();
           filtergetqty.clear();
@@ -314,17 +331,33 @@ class TransferInwardctrl extends ChangeNotifier {
         } else {}
       } else if (value.statuscode! >= 400 && value.statuscode! <= 410) {
         errorr = value.execption;
+        Fluttertoast.showToast(
+            msg: value.execption.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
         loadtransinwloading = false;
         notifyListeners();
       } else if (value.statuscode! >= 500 && value.statuscode! <= 510) {
         errorr = value.execption;
+        Fluttertoast.showToast(
+            msg: "Server Not Connect",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
         loadtransinwloading = false;
         notifyListeners();
       }
     });
-     pageChanged =0;
+    pageChanged = 0;
     Get.toNamed(ConstantRoutes.loadtransferinward);
     notifyListeners();
   }
@@ -335,7 +368,8 @@ class TransferInwardctrl extends ChangeNotifier {
   }
 
   checksecond(loadtransferinward1 TransferInward22) {
-    log("TransferInward22::"+TransferInward22.linenum.toString());
+    log("transferinwardctrl TransferInward22::" +
+        TransferInward22.linenum.toString());
     bool isindata = false;
     int? inindex;
     isindata = false;
@@ -345,19 +379,19 @@ class TransferInwardctrl extends ChangeNotifier {
         isindata = true;
         inindex = i;
         break;
-      } 
+      }
     }
     if (isindata == true) {
       filtergetqty.add(getqty[inindex!]);
       notifyListeners();
     }
   }
-  bool issearchpressed1=false;
-  bool issearchpressed2=false;
 
+  bool issearchpressed1 = false;
+  bool issearchpressed2 = false;
 
-  SearchFiltertrans(String v) async{
-    print('saearch :' + v!);
+  SearchFiltertrans(String v) async {
+    print('transferinwardctrl saearch :' + v!);
     if (v.isNotEmpty) {
       // isloading=true;
 
@@ -372,17 +406,17 @@ class TransferInwardctrl extends ChangeNotifier {
                     ),
           )
           .toList();
-      filtergetqty=[];
+      filtergetqty = [];
       for (int i = 0; i < TransferInward.length; i++) {
         // filtergetqty=getqty.where((e) => ).toList();
-   await     checksecond(TransferInward[i]);
+        await checksecond(TransferInward[i]);
 // checksecond(i);
       }
 //       for(int i=0;i<filtergetqty.length;i++){
 // log("message22$i"+filtergetqty[i].toString());
 
 //       }
-      
+
       notifyListeners();
     } else if (v.isEmpty) {
       TransferInward = filterTransferInward;
@@ -493,9 +527,14 @@ class TransferInwardctrl extends ChangeNotifier {
 
         // await  playsound("scan_serial_wrong");
         notifyListeners();
-      } else if (qtys <= ScannedQty() || qtys < ScannedQty() + (TransferLoad1!.manageby!.toLowerCase() =='b'?int.parse(quantitycontroller.text):1)
-        // qtys <= ScannedQty() || qtys < ScannedQty() + 1
-        ) {
+      } else if (qtys <= ScannedQty() ||
+              qtys <
+                  ScannedQty() +
+                      (TransferLoad1!.manageby!.toLowerCase() == 'b'
+                          ? int.parse(quantitycontroller.text)
+                          : 1)
+          // qtys <= ScannedQty() || qtys < ScannedQty() + 1
+          ) {
         // const snackBar = SnackBar(
         //   duration: Duration(seconds: 4),
         //   backgroundColor: Colors.red,
@@ -527,23 +566,19 @@ class TransferInwardctrl extends ChangeNotifier {
       } else {
         if (DBdata.length > 0 && scanserialctrl1.text.isNotEmpty) {
           bool showlistadd = false;
-        
-                  int? dataindex = null;
+
+          int? dataindex = null;
           showlistadd = false;
           for (int i = 0; i < DBdata.length; i++) {
             if (DBdata[i].serialnum == scanserialctrl1.text) {
-             
-              dataindex=i;
+              dataindex = i;
               showlistadd = true;
               notifyListeners();
             }
-
-
-            
           }
           if (showlistadd) {
             // scanserialctrl1.clear();
-            
+
             // notifyListeners();
             // scanedvalueee = '';
 
@@ -555,34 +590,33 @@ class TransferInwardctrl extends ChangeNotifier {
             // notifyListeners();
             // showdialogtoast(context, "Serial number already added..!!");
 
-
             if (TransferLoad1!.manageby!.toLowerCase() == 'b') {
-                DBdata[dataindex!].scannedqty = DBdata[dataindex].scannedqty! +
-                    int.parse(quantitycontroller.text);
-                scanserialctrl1.clear();
-                quantityEnable = false;
-                notifyListeners();
-                scanedvalueee = '';
+              DBdata[dataindex!].scannedqty = DBdata[dataindex].scannedqty! +
+                  int.parse(quantitycontroller.text);
+              scanserialctrl1.clear();
+              quantityEnable = false;
+              notifyListeners();
+              scanedvalueee = '';
 
-                FocusScope.of(context).unfocus();
-                // showtoastInw(
-                //   "Greater than Qty..!!",
-                // );
-                isfinalloop = true;
-                notifyListeners();
-              } else {
-                scanserialctrl1.clear();
-                notifyListeners();
-                scanedvalueee = '';
+              FocusScope.of(context).unfocus();
+              // showtoastInw(
+              //   "Greater than Qty..!!",
+              // );
+              isfinalloop = true;
+              notifyListeners();
+            } else {
+              scanserialctrl1.clear();
+              notifyListeners();
+              scanedvalueee = '';
 
-                FocusScope.of(context).unfocus();
-                // showtoastInw(
-                //   "Greater than Qty..!!",
-                // );
-                isfinalloop = true;
-                notifyListeners();
-                showdialogtoast(context, "Serial number already added..!!");
-              }
+              FocusScope.of(context).unfocus();
+              // showtoastInw(
+              //   "Greater than Qty..!!",
+              // );
+              isfinalloop = true;
+              notifyListeners();
+              showdialogtoast(context, "Serial number already added..!!");
+            }
           } else {
             DBdata.add(wmstransInwtabSerialModel(
                 branch: ConstantValues.branch,
@@ -630,69 +664,69 @@ class TransferInwardctrl extends ChangeNotifier {
           //   notifyListeners();
           // }
 
-            if (TransferLoad1!.manageby!.toLowerCase() == 'b') {
-              if (scanserialctrl1.text.isNotEmpty && scanserialctrl1.text != '') {
-                DBdata.add(wmstransInwtabSerialModel(
-                    branch: ConstantValues.branch,
-                    scannedqty: int.parse(quantitycontroller.text),
-                    itemCode: TransferLoad1!.ItemCode!,
-                    lineID: TransferLoad1!.linenum!,
-                    qty: TransferLoad1!.Quantity!,
-                    serialnum: scanserialctrl1.text,
-                    manageBy: TransferLoad1!.manageby,
-                    transNum: tn.toString(),
-                    transtype: "inward"));
-                scanserialctrl1.clear();
-                notifyListeners();
-                scanedvalueee = '';
-                quantityEnable = false;
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio
-                //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
-                // notifyListeners();
-                // mycontroller[1].clear();
-                // serialscannedData = '';
-                // mycontroller[2].clear();
-                // mycontroller[3].clear();
-                // mycontroller[2].text = '1';
-                // notifyListeners();
-                isfinalloop = false;
-                notifyListeners();
-              }
-            } else {
-              if (scanserialctrl1.text.isNotEmpty && scanserialctrl1.text != '') {
-                DBdata.add(wmstransInwtabSerialModel(
-                    branch: ConstantValues.branch,
-                    scannedqty: 1,
-                    itemCode: TransferLoad1!.ItemCode!,
-                    lineID: TransferLoad1!.linenum!,
-                    qty: TransferLoad1!.Quantity!,
-                    serialnum: scanserialctrl1.text,
-                    manageBy: TransferLoad1!.manageby,
-                    transNum:  tn.toString(),
-                    transtype: "inward"));
-                scanserialctrl1.clear();
-                notifyListeners();
-                scanedvalueee = '';
-
-                // final audio = AudioPlayer();
-                // await audio.stop();
-                // await audio.setAsset("Asset/scan_serial_correct.mp3");
-                // audio
-                //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
-                // notifyListeners();
-                // mycontroller[1].clear();
-                // serialscannedData = '';
-                // mycontroller[2].clear();
-                // mycontroller[3].clear();
-                // mycontroller[2].text = '1';
-                // notifyListeners();
-                isfinalloop = false;
-                notifyListeners();
-              }
+          if (TransferLoad1!.manageby!.toLowerCase() == 'b') {
+            if (scanserialctrl1.text.isNotEmpty && scanserialctrl1.text != '') {
+              DBdata.add(wmstransInwtabSerialModel(
+                  branch: ConstantValues.branch,
+                  scannedqty: int.parse(quantitycontroller.text),
+                  itemCode: TransferLoad1!.ItemCode!,
+                  lineID: TransferLoad1!.linenum!,
+                  qty: TransferLoad1!.Quantity!,
+                  serialnum: scanserialctrl1.text,
+                  manageBy: TransferLoad1!.manageby,
+                  transNum: tn.toString(),
+                  transtype: "inward"));
+              scanserialctrl1.clear();
+              notifyListeners();
+              scanedvalueee = '';
+              quantityEnable = false;
+              // final audio = AudioPlayer();
+              // await audio.stop();
+              // await audio.setAsset("Asset/scan_serial_correct.mp3");
+              // audio
+              //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
+              // notifyListeners();
+              // mycontroller[1].clear();
+              // serialscannedData = '';
+              // mycontroller[2].clear();
+              // mycontroller[3].clear();
+              // mycontroller[2].text = '1';
+              // notifyListeners();
+              isfinalloop = false;
+              notifyListeners();
             }
+          } else {
+            if (scanserialctrl1.text.isNotEmpty && scanserialctrl1.text != '') {
+              DBdata.add(wmstransInwtabSerialModel(
+                  branch: ConstantValues.branch,
+                  scannedqty: 1,
+                  itemCode: TransferLoad1!.ItemCode!,
+                  lineID: TransferLoad1!.linenum!,
+                  qty: TransferLoad1!.Quantity!,
+                  serialnum: scanserialctrl1.text,
+                  manageBy: TransferLoad1!.manageby,
+                  transNum: tn.toString(),
+                  transtype: "inward"));
+              scanserialctrl1.clear();
+              notifyListeners();
+              scanedvalueee = '';
+
+              // final audio = AudioPlayer();
+              // await audio.stop();
+              // await audio.setAsset("Asset/scan_serial_correct.mp3");
+              // audio
+              //     .play(); // savelistinwardState().     playsound("scan_serial_correct");
+              // notifyListeners();
+              // mycontroller[1].clear();
+              // serialscannedData = '';
+              // mycontroller[2].clear();
+              // mycontroller[3].clear();
+              // mycontroller[2].text = '1';
+              // notifyListeners();
+              isfinalloop = false;
+              notifyListeners();
+            }
+          }
           // final audio = AudioPlayer();
           // await audio.stop();
           // await audio.setAsset("Asset/scan_serial_correct.mp3");
@@ -739,13 +773,13 @@ class TransferInwardctrl extends ChangeNotifier {
       tn.toString(),
     );
     if (finaldoc.isNotEmpty) {
-      log("finaldoc::" + finaldoc.length.toString());
+      log("transferinwardctrl finaldoc::" + finaldoc.length.toString());
       for (int i = 0; i < finaldoc.length; i++) {
         String? qty2 = finaldoc[i].scannedqty!.toStringAsFixed(0);
         log("qty2::" + qty2.toString());
-        log("ScanTotalbefore::" + qty2.toString());
+        log("transferinwardctrl ScanTotalbefore::" + qty2.toString());
         ScanTotal = ScanTotal! + int.parse(qty2);
-        log("ScanTotal::" + ScanTotal.toString());
+        log("transferinwardctrl ScanTotal::" + ScanTotal.toString());
       }
     }
 
@@ -787,21 +821,21 @@ class TransferInwardctrl extends ChangeNotifier {
         //     TransferLoad1!.linenum.toString(), db);
         var values2;
         var values;
-        if(DBdata.isNotEmpty){
- var val22 = wmstransInwtabitemModel(
-            docentry: TransferLoad1!.DocEntry,
-            fromWarehouse: ConstantValues.branch,
-            itemCode: TransferLoad1!.ItemCode,
-            lineID: TransferLoad1!.linenum,
-            quantity: TransferLoad1!.Quantity,
-            scannedqty: DBdata.length,
-            manageby:TransferLoad1!.manageby ,
-            toWarehouse: "",
-            uTransNum: tn!.toString());
-        values2 = val22;
-        Dboperation.insertInwitemdata([values2], db);
+        if (DBdata.isNotEmpty) {
+          var val22 = wmstransInwtabitemModel(
+              docentry: TransferLoad1!.DocEntry,
+              fromWarehouse: ConstantValues.branch,
+              itemCode: TransferLoad1!.ItemCode,
+              lineID: TransferLoad1!.linenum,
+              quantity: TransferLoad1!.Quantity,
+              scannedqty: DBdata.length,
+              manageby: TransferLoad1!.manageby,
+              toWarehouse: "",
+              uTransNum: tn!.toString());
+          values2 = val22;
+          Dboperation.insertInwitemdata([values2], db);
         }
-       
+
         for (int i1 = 0; i1 < DBdata.length; i1++) {
           print("data.length: ${DBdata.length}");
           print("i11111: $i1");
@@ -852,24 +886,24 @@ class TransferInwardctrl extends ChangeNotifier {
       } else {
         var values2;
         var values;
-         if(DBdata.isNotEmpty){
- var val22 = wmstransInwtabitemModel(
-            docentry: TransferLoad1!.DocEntry,
-            fromWarehouse: ConstantValues.branch,
-            itemCode: TransferLoad1!.ItemCode,
-            lineID: TransferLoad1!.linenum,
-            quantity: TransferLoad1!.Quantity,
-            manageby:TransferLoad1!.manageby ,
-            scannedqty: DBdata.length,
-            toWarehouse: "",
-            uTransNum: tn!.toString());
-        values2 = val22;
-        Dboperation.insertInwitemdata([values2], db);
-         }
-       
+        if (DBdata.isNotEmpty) {
+          var val22 = wmstransInwtabitemModel(
+              docentry: TransferLoad1!.DocEntry,
+              fromWarehouse: ConstantValues.branch,
+              itemCode: TransferLoad1!.ItemCode,
+              lineID: TransferLoad1!.linenum,
+              quantity: TransferLoad1!.Quantity,
+              manageby: TransferLoad1!.manageby,
+              scannedqty: DBdata.length,
+              toWarehouse: "",
+              uTransNum: tn!.toString());
+          values2 = val22;
+          Dboperation.insertInwitemdata([values2], db);
+        }
+
         for (int i1 = 0; i1 < DBdata.length; i1++) {
-          print("data.length: ${DBdata.length}");
-          print("i22222: $i1");
+          print("transferinwardctrl data.length: ${DBdata.length}");
+          print("transferinwardctrl i1: $i1");
 
           var val = wmstransInwtabSerialModel(
               branch: ConstantValues.branch,
@@ -877,7 +911,7 @@ class TransferInwardctrl extends ChangeNotifier {
               itemCode: TransferLoad1!.ItemCode,
               lineID: TransferLoad1!.linenum,
               qty: TransferLoad1!.Quantity,
-              manageBy:TransferLoad1!.manageby ,
+              manageBy: TransferLoad1!.manageby,
               serialnum: DBdata[i1].serialnum,
               transNum: tn!.toString(),
               transtype: "inward");
@@ -889,7 +923,7 @@ class TransferInwardctrl extends ChangeNotifier {
                 TransferLoad1!.ItemCode.toString(),
                 TransferLoad1!.linenum.toString(),
                 db);
-              
+
             // setState(() {
 
             //       ScanTotal=0;
@@ -937,7 +971,7 @@ class TransferInwardctrl extends ChangeNotifier {
               TransferInward[i].ItemCode.toString(), TransferInward[i].linenum)
           .then((value) {
         getqty.add(value);
-        filtergetqty =getqty;
+        filtergetqty = getqty;
         notifyListeners();
         log("getqty::" + getqty.length.toString());
         // log("getqty[i]::" + getqty[i].toString());
@@ -953,17 +987,17 @@ class TransferInwardctrl extends ChangeNotifier {
     bool issaveenable = false;
     issaveenable = false;
     if (filtergetqty.isNotEmpty) {
-      aaa=0;
+      aaa = 0;
       for (int i = 0; i < TransferInward.length; i++) {
         if (TransferInward[i].Quantity == filtergetqty[i]) {
-          aaa=aaa! +1;
+          aaa = aaa! + 1;
           issaveenable = true;
           // notifyListeners();
         }
       }
     }
 
-    if (issaveenable == true && aaa==TransferInward.length) {
+    if (issaveenable == true && aaa == TransferInward.length) {
       log("saveLLtrure");
       saveenablebutton = true;
     } else {
@@ -1141,17 +1175,17 @@ class TransferInwardctrl extends ChangeNotifier {
         finallodaing = false;
         showdialogsave(context, "Assets/check.png", "Success",
             "Transfer Inward Saved Successfully");
- await Dboperation.Transferinwfinaldelete( int.parse(tn!),db);
- await Dboperation.TransferInwfinalserialdelete(int.parse(tn!),db);
+        await Dboperation.Transferinwfinaldelete(int.parse(tn!), db);
+        await Dboperation.TransferInwfinalserialdelete(int.parse(tn!), db);
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         finallodaing = false;
-        showdialogsave(
-            context, "Assets/cancel.png", "Failed", value.exception.toString());
+        showdialogsave(context, "Assets/cancel.png", "Failed - 400",
+            value.exception.toString());
         notifyListeners();
       } else {
         finallodaing = false;
         showdialogsave(
-            context, "Assets/cancel.png", "Failed", value.exception.toString());
+            context, "Assets/cancel.png", "Failed", 'Server Not Connect');
         notifyListeners();
       }
 //       if (value.stcode! >= 200 && value.stcode! <= 210) {
@@ -1352,13 +1386,10 @@ class TransferInwardctrl extends ChangeNotifier {
             );
           });
         }).then((value) {
-           if (title.contains("Success")){
-                                 Get.offAllNamed(
-                                        ConstantRoutes.transferinward);
-
-           }
-            
-        });
+      if (title.contains("Success")) {
+        Get.offAllNamed(ConstantRoutes.transferinward);
+      }
+    });
   }
 
   showdialogtoast(BuildContext context, String? message) {

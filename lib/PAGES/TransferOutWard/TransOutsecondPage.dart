@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:warehousemanagement/CONSTANT/color.dart';
+import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
 import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/CONTROLLER/TransferOutwardController/getoutwardctrl.dart';
 import 'package:warehousemanagement/PAGES/Scanner/scannerpage.dart';
@@ -105,6 +106,12 @@ class _TransOutsecondpageState extends State<TransOutsecondpage> {
                     ),
                   ],
                 ),
+                Text(
+                  'Version: ${"${ConstantValues.versionNum}"}',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                )
               ],
             ),
           ),
@@ -713,40 +720,39 @@ class _TransOutsecondpageState extends State<TransOutsecondpage> {
                                                           TransferOutwardctrl>()
                                                       .scancontroller
                                                       .text;
-                                                   if (context
-                                                    .read<
-                                                        TransferOutwardctrl>()
-                                                    .thirdOutwarditems!
-                                                    .ManageBy!
-                                                    .toLowerCase()
-                                                    .toString() ==
-                                                "b") {
-                                              setState(() {
-                                                print(
-                                                    ">>>>>>>>>>>>${context.read<TransferOutwardctrl>().thirdOutwarditems!.ManageBy}");
+                                              if (context
+                                                      .read<
+                                                          TransferOutwardctrl>()
+                                                      .thirdOutwarditems!
+                                                      .ManageBy!
+                                                      .toLowerCase()
+                                                      .toString() ==
+                                                  "b") {
+                                                setState(() {
+                                                  print(
+                                                      ">>>>>>>>>>>>${context.read<TransferOutwardctrl>().thirdOutwarditems!.ManageBy}");
+                                                  context
+                                                      .read<
+                                                          TransferOutwardctrl>()
+                                                      .quantityEnable = true;
+                                                  context
+                                                      .read<
+                                                          TransferOutwardctrl>()
+                                                      .quantitycontroller
+                                                      .text = "1";
+                                                  // FocusScope.of(context).requestFocus(focusnode5);
+                                                });
+                                              } else {
                                                 context
-                                                    .read<
-                                                        TransferOutwardctrl>()
-                                                    .quantityEnable = true;
-                                                    context
-                                                    .read<
-                                                        TransferOutwardctrl>()
-                                                    .quantitycontroller
-                                                    .text = "1";
-                                                        // FocusScope.of(context).requestFocus(focusnode5);
-
-                                              });}
-                                              else{
-
-                                              context
-                                                  .read<TransferOutwardctrl>()
-                                                  .afterserialScanned(
-                                                      context
-                                                          .read<
-                                                              TransferOutwardctrl>()
-                                                          .scanedvalueee
-                                                          .toString(),
-                                                      context);}
+                                                    .read<TransferOutwardctrl>()
+                                                    .afterserialScanned(
+                                                        context
+                                                            .read<
+                                                                TransferOutwardctrl>()
+                                                            .scanedvalueee
+                                                            .toString(),
+                                                        context);
+                                              }
                                             },
                                           ),
                                         ),
@@ -795,19 +801,19 @@ class _TransOutsecondpageState extends State<TransOutsecondpage> {
                                                         .text = "1";
                                                     // FocusScope.of(context).requestFocus(focusnode5);
                                                   });
+                                                } else {
+                                                  context
+                                                      .read<
+                                                          TransferOutwardctrl>()
+                                                      .afterserialScanned(
+                                                          context
+                                                              .read<
+                                                                  TransferOutwardctrl>()
+                                                              .scanedvalueee
+                                                              .toString(),
+                                                          context);
                                                 }
-                                               else{
-                                                 context
-                                                    .read<TransferOutwardctrl>()
-                                                    .afterserialScanned(
-                                                        context
-                                                            .read<
-                                                                TransferOutwardctrl>()
-                                                            .scanedvalueee
-                                                            .toString(),
-                                                        context);
-                                               }
-                                            });
+                                              });
                                             });
                                           },
                                           child: Container(
@@ -833,116 +839,124 @@ class _TransOutsecondpageState extends State<TransOutsecondpage> {
                                       ],
                                     ),
                                   ),
+                                  context
+                                              .watch<TransferOutwardctrl>()
+                                              .quantityEnable ==
+                                          false
+                                      ? SizedBox()
+                                      : Column(
+                                          children: [
+                                            SizedBox(
+                                              height: Screens.padingHeight(
+                                                      context) *
+                                                  0.02,
+                                            ),
+                                            IntrinsicHeight(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                      left: Screens.width(
+                                                              context) *
+                                                          0.02,
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    width:
+                                                        Screens.width(context) *
+                                                            0.75,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              13),
+                                                      color: Colors.grey[200],
+                                                    ),
+                                                    child: TextFormField(
+                                                      // focusNode: focusnode5,
+                                                      controller: context
+                                                          .read<
+                                                              TransferOutwardctrl>()
+                                                          .quantitycontroller,
+                                                      // validator: (value) {
+                                                      //   if (value!.isEmpty) {
+                                                      //     return "Required *";
+                                                      //   }
 
-                                   context
-                                                                            .watch<TransferOutwardctrl>()
-                                                                            .quantityEnable ==
-                                                                        false
-                                                                    ? SizedBox()
-                                                                    : Column(
-                                                                        children: [
-                                                                          SizedBox(
-                                                                            height:
-                                                                                Screens.padingHeight(context) *
-                                                                                    0.02,
-                                                                          ),
-                                                                          IntrinsicHeight(
-                                                                            child: Row(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment
-                                                                                      .spaceAround,
-                                                                              children: [
-                                                                                Container(
-                                                                                  padding: EdgeInsets.only(
-                                                                                    left:
-                                                                                        Screens.width(context) *
-                                                                                            0.02,
-                                                                                  ),
-                                                                                  alignment: Alignment.center,
-                                                                                 width: Screens.width(context) * 0.75,
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius:
-                                                                                        BorderRadius.circular(
-                                                                                            13),
-                                                                                    color: Colors.grey[200],
-                                                                                  ),
-                                                                                  child: TextFormField(
-                                                                                    // focusNode: focusnode5,
-                                                                                    controller: context
-                                                                                        .read<
-                                                                                            TransferOutwardctrl>()
-                                                                                        .quantitycontroller,
-                                                                                    // validator: (value) {
-                                                                                    //   if (value!.isEmpty) {
-                                                                                    //     return "Required *";
-                                                                                    //   }
-
-                                                                                    //   return null;
-                                                                                    // },
-                                                                                    decoration: InputDecoration(
-                                                                                        labelText:
-                                                                                            'Enter Quantity',
-                                                                                        labelStyle: theme
-                                                                                            .textTheme
-                                                                                            .bodyMedium!
-                                                                                            .copyWith(
-                                                                                                fontSize: 15,
-                                                                                                color: Colors
-                                                                                                    .grey[500]),
-                                                                                        contentPadding: EdgeInsets.symmetric(
-                                                                                            vertical: Screens
-                                                                                                    .padingHeight(
-                                                                                                        context) *
-                                                                                                0.01,
-                                                                                            horizontal:
-                                                                                                Screens.width(
-                                                                                                        context) *
-                                                                                                    0.01),
-                                                                                        border:
-                                                                                            InputBorder.none),
-                                                                                    onEditingComplete: () {},
-                                                                                  ),
-                                                                                ),
-                                                                                InkWell(
-                                                                                  onTap: () {
-                                                                                    setState(() {
-                                            context
-                                  .read<TransferOutwardctrl>()
-                                  .afterserialScanned(
-                                      context
-                                          .read<TransferOutwardctrl>()
-                                          .scanedvalueee
-                                          .toString(),
-                                      context);
-                                                                                    });
-                                                                                  },
-                                                                                  child: Container(
-                                                                                       padding: EdgeInsets.symmetric(
-                                                                                horizontal:
-                                                                                    Screens.width(context) *
-                                                                                        0.018,
-                                                                                vertical: Screens.padingHeight(
-                                                                                        context) *
-                                                                                    0.01),
-                                                                            decoration: BoxDecoration(
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(10),
-                                                                              color: secondary,
-                                                                            ),
-                                                                                      alignment:
-                                                                                          Alignment.center,
-                                                                                      child: Icon(
-                                                                                        Icons
-                                                                                            .double_arrow_sharp,
-                                                                                        color: Colors.white,
-                                                                                        size: 30,
-                                                                                      )),
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                          )
-                                                                        ],
-                                                                      ),
+                                                      //   return null;
+                                                      // },
+                                                      decoration: InputDecoration(
+                                                          labelText:
+                                                              'Enter Quantity',
+                                                          labelStyle: theme
+                                                              .textTheme
+                                                              .bodyMedium!
+                                                              .copyWith(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      500]),
+                                                          contentPadding: EdgeInsets.symmetric(
+                                                              vertical:
+                                                                  Screens.padingHeight(
+                                                                          context) *
+                                                                      0.01,
+                                                              horizontal:
+                                                                  Screens.width(
+                                                                          context) *
+                                                                      0.01),
+                                                          border:
+                                                              InputBorder.none),
+                                                      onEditingComplete: () {},
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        context
+                                                            .read<
+                                                                TransferOutwardctrl>()
+                                                            .afterserialScanned(
+                                                                context
+                                                                    .read<
+                                                                        TransferOutwardctrl>()
+                                                                    .scanedvalueee
+                                                                    .toString(),
+                                                                context);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                        padding: EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                Screens.width(
+                                                                        context) *
+                                                                    0.018,
+                                                            vertical: Screens
+                                                                    .padingHeight(
+                                                                        context) *
+                                                                0.01),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          color: secondary,
+                                                        ),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Icon(
+                                                          Icons
+                                                              .double_arrow_sharp,
+                                                          color: Colors.white,
+                                                          size: 30,
+                                                        )),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                 ],
                               ),
                             ),

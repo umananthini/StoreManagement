@@ -11,17 +11,21 @@ class SerialnumApi {
   static Future<serialnumheader> getdata(
       String? branch, String? itemcode) async {
     try {
-      log("kkk::${ConstantValues.token}" +
+      log("${URL.queryApi}Inv/v1/SerialNum:::kkk::${ConstantValues.token}" +
           "");
+      log("ajsja::" +
+          jsonEncode({
+            "whscode": "${ConstantValues.branch}",
+            "itemCode": "${itemcode}"
+          }));
       final responce = await http.post(
         Uri.parse("${URL.queryApi}Inv/v1/SerialNum"),
-        headers: {"Authorization": "bearer ${ConstantValues.token}",
-        "Content-Type":"application/json"
+        headers: {
+          "Authorization": "bearer ${ConstantValues.token}",
+          "Content-Type": "application/json"
         },
-        body: jsonEncode({
-          "whscode": "${ConstantValues.branch}", 
-          "itemCode": "${itemcode}"
-          }),
+        body: jsonEncode(
+            {"whscode": "${ConstantValues.branch}", "itemCode": "${itemcode}"}),
       );
       log("Serialnum body :::${responce.body}");
       log("Serialnum body :::${responce.statusCode}");

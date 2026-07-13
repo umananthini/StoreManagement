@@ -1,14 +1,23 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:warehousemanagement/CONSTANT/color.dart';
 import 'package:warehousemanagement/CONSTANT/constantrouts.dart';
+import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
 import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/CONTROLLER/PurchaseInwardController/purchaseinwardctrl.dart';
 import 'package:warehousemanagement/PAGES/Scanner/scannerpage.dart';
+import 'package:warehousemanagement/SERVICES/newuploadAPI.dart';
 
 class PurchaseInwSecond extends StatefulWidget {
   const PurchaseInwSecond({super.key});
@@ -19,7 +28,7 @@ class PurchaseInwSecond extends StatefulWidget {
 
 class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
   @override
-  Future<void> Selecteddate() async {
+  Future<void> Selecteddate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
       firstDate: DateTime(2000),
@@ -48,6 +57,9 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
 
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      idProofImages.clear();
+
+      filedata33.clear();
       context.read<PurchaseInwardCtrl>().secondpageinit();
     });
   }
@@ -128,6 +140,12 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                     ),
                   ],
                 ),
+                Text(
+                  'Version: ${"${ConstantValues.versionNum}"}',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                )
                 //   InkWell(
                 //     onTap: (){
                 //       setState(() {
@@ -410,7 +428,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                     : Icons.arrow_drop_up,
                                 color: secondary,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -425,7 +443,8 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                   vertical:
                                       Screens.padingHeight(context) * 0.02),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.vertical(
+                                    bottom: Radius.circular(10)),
                                 color: white,
                               ),
                               child: Column(
@@ -440,7 +459,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                           readOnly: true,
                                           onTap: () {
                                             setState(() {
-                                              Selecteddate();
+                                              Selecteddate(context);
                                             });
                                           },
                                           controller: context
@@ -569,9 +588,151 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                     height:
                                         Screens.padingHeight(context) * 0.01,
                                   ),
+                                  Container(
+                                    child: TextFormField(
+                                      onTap: () =>
+                                          showPicker(true, setState, context),
+                                      controller: context
+                                          .read<PurchaseInwardCtrl>()
+                                          .uploadcontroller,
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 12),
+                                        // labelText: "Upload Files",
+                                        hintText: uploadimage.isEmpty
+                                            ? "Tap to attach images"
+                                            : "${uploadimage.length} images's selected",
+                                        suffixIcon: Icon(Icons.attach_file),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                        errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7)),
+                                      ),
+                                    ),
+                                  ),
+                                  if (idProofImages.isNotEmpty)
+                                    SizedBox(
+                                      height: 80,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: idProofImages.length,
+                                        itemBuilder: (_, i) => Padding(
+                                          padding: EdgeInsets.all(4),
+                                          child: Stack(children: [
+                                            Container(
+                                              child: Image.file(
+                                                File(idProofImages[i].path),
+                                                width: 70,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    idProofImages.removeAt(i);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  decoration: BoxDecoration(
+                                                    // borderRadius:
+                                                    //     BorderRadius.circular(
+                                                    //         10),
+                                                    color: Colors.black54,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    size: 14,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
+                      SizedBox(
+                        height: Screens.padingHeight(context) * 0.010,
+                      ),
+                      Container(
+                        height: Screens.padingHeight(context) * 0.06,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: TextFormField(
+                          controller:
+                              context.read<PurchaseInwardCtrl>().searchfilter11,
+                          cursorColor: thirdcolor,
+                          onChanged: (v) {
+                            setState(() {
+                              context
+                                  .read<PurchaseInwardCtrl>()
+                                  .SearchFilter2purchaseinvdetails(v);
+                            });
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: "Search",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            // suffixIcon: InkWell(
+                            //   onTap: () {
+                            //     setState(() {
+                            //         context.read<PurchaseInwardCtrl>().searchpurchase =
+                            //           null;
+
+                            //       QRscannerState.searchpurchasedetailsscan = true;
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) => QRscanner())).then((value) =>
+
+                            //               context.read<PurchaseInwardCtrl>().searchfilter1.text=context.read<PurchaseInwardCtrl>().searchpurchase.toString() );
+                            //     });
+                            //   },
+                            //   child: Icon(
+                            //     Icons.qr_code_2,
+                            //     color: primarycolor,
+                            //     size: 30,
+                            //   ),
+                            // ),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: primarycolor,
+                            ),
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                            errorBorder:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ),
 
                       // context.read<PurchaseInwardCtrl>().secondpagevendorlist !=
                       //         null
@@ -598,7 +759,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                       //       )
                       //     : Container(),
                       SizedBox(
-                        height: Screens.padingHeight(context) * 0.01,
+                        height: Screens.padingHeight(context) * 0.010,
                       ),
                       Expanded(
                           child: context
@@ -612,7 +773,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                 )
                               : context
                                       .read<PurchaseInwardCtrl>()
-                                      .filtersecondvendoritemlist
+                                      .searchfiltersecondvendoritemlist
                                       .isEmpty
                                   ? Container(
                                       // height: Screens.padingHeight(context),
@@ -640,7 +801,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                   : ListView.builder(
                                       itemCount: context
                                           .read<PurchaseInwardCtrl>()
-                                          .filtersecondvendoritemlist
+                                          .searchfiltersecondvendoritemlist
                                           .length,
                                       itemBuilder: (c, i) {
                                         return Padding(
@@ -689,7 +850,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                       .thirdvendoritemlist = context
                                                           .read<
                                                               PurchaseInwardCtrl>()
-                                                          .filtersecondvendoritemlist[
+                                                          .searchfiltersecondvendoritemlist[
                                                       i];
                                                 });
 
@@ -763,7 +924,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                                     0.9,
                                                                 //  color: Colors.red,
                                                                 child: Text(
-                                                                  "${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].itemcode}",
+                                                                  "${context.read<PurchaseInwardCtrl>().searchfiltersecondvendoritemlist[i].itemcode}",
                                                                   // "${grpDetailsFilter[i].ItemCode}",
                                                                   style: theme
                                                                       .textTheme
@@ -787,7 +948,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                                     0.9,
                                                                 //  color: Colors.red,
                                                                 child: Text(
-                                                                  "${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].ItemName}",
+                                                                  "${context.read<PurchaseInwardCtrl>().searchfiltersecondvendoritemlist[i].ItemName}",
                                                                   // "${grpDetailsFilter[i].Dscription}",
                                                                   style: theme
                                                                       .textTheme
@@ -829,7 +990,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                                                     0.01,
                                                               ),
                                                               Text(
-                                                                  "${context.read<PurchaseInwardCtrl>().filtersecondvendoritemlist[i].Price}")
+                                                                  "${context.read<PurchaseInwardCtrl>().searchfiltersecondvendoritemlist[i].Price}")
                                                             ],
                                                           ),
                                                           IconButton(
@@ -1092,7 +1253,7 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
                                 ),
                                 Container(
                                   child: Text(
-                                      "${context.read<PurchaseInwardCtrl>().grosstotal()}" ),
+                                      "${context.read<PurchaseInwardCtrl>().grosstotal()}"),
                                 ),
                               ],
                             ),
@@ -2121,5 +2282,171 @@ class _PurchaseInwSecondState extends State<PurchaseInwSecond> {
         ),
       ),
     );
+  }
+}
+
+List<XFile> uploadimage = [];
+List<XFile> idProofImages = [];
+final ImagePicker _picker = ImagePicker();
+List<PostAttachment> attachmentCollectionss = [];
+
+Future<void> uploadAndAddAttachment(
+  String imagePath,
+  Function setSt,
+) async {
+  final String urlImage = await UploadApi.getData(imagePath);
+
+  /// ❌ DO NOT ADD FAILED UPLOADS
+  if (urlImage.isEmpty || urlImage == "No Data Found.") {
+    Fluttertoast.showToast(
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      msg: "Image upload failed",
+    );
+    return;
+  }
+
+  setSt(() {
+    final bool alreadyExists = attachmentCollectionss.any(
+      (e) => e.attachment == urlImage,
+    );
+    print("Enter");
+    if (!alreadyExists) {
+      attachmentCollectionss.add(
+        PostAttachment(attachment: urlImage),
+      );
+    }
+  });
+}
+
+showtoastInw(String message) {
+  Fluttertoast.cancel();
+
+  Fluttertoast.showToast(
+      msg: "$message",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 0,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0);
+}
+
+List<FilesData33> filedata33 = [];
+Future<void> pickImage(
+  ImageSource source,
+  bool isIdProof,
+  Function setSt,
+) async {
+  List<File> filesz = [];
+  final image = await _picker.pickImage(source: source);
+  if (idProofImages.isEmpty) {
+    idProofImages.clear();
+    filesz.clear();
+    filedata33.clear();
+  }
+
+  if (image != null) {
+    setSt(() {
+      // if (isIdProof) {
+
+      filesz.add(File(image.path));
+      // } else {
+      //   uploadimage.add(image);
+      // }
+    });
+    if (filedata33.length < 1) {
+      idProofImages.add(image);
+      for (int i = 0; i < filesz.length; i++) {
+        List<int> intdata = filesz[i].readAsBytesSync();
+
+        String fileName = filesz[i].path.split('/').last;
+        String fileBytes = base64Encode(intdata);
+        String tempPath = '';
+
+        // notifyListeners();
+
+        if (Platform.isAndroid) {
+//  Directory tempDir =  await getTemporaryDirectory();
+
+//         log("tempDir::"+tempDir.toString());
+          tempPath = (await getExternalStorageDirectory())!.path;
+          // String? imagesaver = '$tempPath/$fileName';
+        } else if (Platform.isIOS) {
+          tempPath = (await getApplicationDocumentsDirectory())!.path;
+        }
+
+        String fullPath = '$tempPath/$fileName';
+        // await filesz[i].copy(fullPath);
+        setSt(() {
+          File(fullPath).writeAsBytesSync(intdata);
+        });
+        filedata33.add(
+            FilesData33(fileBytes: base64Encode(intdata), fileName: fullPath
+                // files[i].path.split('/').last
+                ));
+
+        ///  Upload immediately
+        /// l
+        await uploadAndAddAttachment(filedata33[0].fileName, setSt);
+      }
+    } else {
+      showtoastInw("More then one image not Allowed");
+    }
+  }
+}
+
+class FilesData33 {
+  String fileBytes;
+  String fileName;
+  // String filepath;
+
+  FilesData33({
+    required this.fileBytes,
+    required this.fileName,
+  });
+}
+
+void showPicker(bool isIDProof, Function setSt, BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
+      builder: (_) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text("camera"),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await pickImage(ImageSource.camera, isIDProof, setSt);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text("Gallery"),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await pickImage(ImageSource.gallery, isIDProof, setSt);
+                },
+              )
+            ],
+          ),
+        );
+      });
+}
+
+class PostAttachment {
+  String attachment;
+  PostAttachment({required this.attachment});
+  Map<String, dynamic> tojson() {
+    Map<String, dynamic> map = {
+      "attachment": attachment,
+    };
+    return map;
   }
 }

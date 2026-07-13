@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -12,27 +10,24 @@ class GetBoxDetailsSerialApi {
   int rescode = 500;
   static Future<GetboxSerialHeader> getData(String? serialnum) async {
     try {
-       log("GetOutward body:::${"${URL.queryApi}Inv/v1/GetSerialAvailable?whscode=${ConstantValues.branch}&serialnum=$serialnum"}fff::${ConstantValues.token.toString()}");
+      log("GetBoxSerialDetailsApi body:::${"${URL.queryApi}Inv/v1/GetSerialAvailable?whscode=${ConstantValues.branch}&serialnum=$serialnum"}fff::${ConstantValues.token.toString()}");
       final responce = await http.get(
           Uri.parse(
               "${URL.queryApi}Inv/v1/GetSerialAvailable?whscode=${ConstantValues.branch}&serialnum=$serialnum"),
           headers: {"Authorization": "bearer ${ConstantValues.token}"});
-      log("GetOutward bodyyy:::${responce.body.toString()}");
-      log("GetOutward statusCode:::${responce.statusCode.toString()}");
+      log("GetBoxSerialDetailsApi bodyyy:::${responce.body.toString()}");
+      log("GetBoxSerialDetailsApi statusCode:::${responce.statusCode.toString()}");
 
       if (responce.statusCode == 200) {
-       
-      return  GetboxSerialHeader.fromjson(
+        return GetboxSerialHeader.fromjson(
             json.decode(responce.body), responce.statusCode);
       } else {
-        return 
-        GetboxSerialHeader.execption(
+        return GetboxSerialHeader.execption(
             json.decode(responce.body), responce.statusCode);
       }
     } catch (e) {
-      log("GetOutwardcatch:::${e.toString()}");
-      return
-      GetboxSerialHeader.issues(e.toString(), 500);
+      log("GetBoxSerialDetailsApi 500 catch:::${e.toString()}");
+      return GetboxSerialHeader.issues(e.toString(), 500);
     }
   }
 }

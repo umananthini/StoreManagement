@@ -1,5 +1,3 @@
-
-
 const String wmstransInwSerialtable = "wmstransInwSerial";
 
 class wmstransInwtabSerialColumn {
@@ -11,7 +9,7 @@ class wmstransInwtabSerialColumn {
   static String itemCode = "ItemCode";
   static String qty = "Qty";
   static String scannedqty = "Scannedqty";
-  static String manageBy="ManageBy";
+  static String manageBy = "ManageBy";
 }
 
 class wmstransInwtabSerialModel {
@@ -59,7 +57,7 @@ class wmstransInwtabitemColumn {
   static String uTransNum = "UTransNum";
   static String scannedqty = "Scannedqty";
   static String docentry = "Docentry";
-   static String manageby= "ManageBy";
+  static String manageby = "ManageBy";
 }
 
 class wmstransInwtabitemModel {
@@ -90,7 +88,7 @@ class wmstransInwtabitemModel {
         wmstransInwtabitemColumn.scannedqty: scannedqty,
         wmstransInwtabitemColumn.toWarehouse: toWarehouse,
         wmstransInwtabitemColumn.uTransNum: uTransNum,
-       wmstransInwtabitemColumn.docentry: docentry,
-       wmstransInwtabitemColumn.manageby: manageby,
+        wmstransInwtabitemColumn.docentry: docentry,
+        wmstransInwtabitemColumn.manageby: manageby,
       };
 }

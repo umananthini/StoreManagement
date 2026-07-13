@@ -166,7 +166,7 @@ class _reportSecondscreenState extends State<reportSecondscreen> {
                                 child: CircularProgressIndicator(
                                   color: thirdcolor,
                                 ),
-                              ),
+                              ), 
                             ): context
                             .read<Reportctrl>()
                             .thirdpagereportlist

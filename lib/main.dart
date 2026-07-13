@@ -64,9 +64,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RequestController()),
 
         ChangeNotifierProvider(create: (_) => gggggg()),
-        
-
-        
       ],
       child: GetMaterialApp(
         builder: (context, child) {

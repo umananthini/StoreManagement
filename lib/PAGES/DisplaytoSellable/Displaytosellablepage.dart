@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:warehousemanagement/CONSTANT/color.dart';
 import 'package:warehousemanagement/CONSTANT/constantrouts.dart';
+import 'package:warehousemanagement/CONSTANT/constantvalues.dart';
 import 'package:warehousemanagement/CONSTANT/screens.dart';
 import 'package:warehousemanagement/CONTROLLER/Displaytosellable/displaytosellable.dart';
 import 'package:warehousemanagement/PAGES/DisplaytoSellable/displaytosllable2.dart';
@@ -67,6 +68,12 @@ class _DisplaytoSellableState extends State<DisplaytoSellable> {
                   ),
                 ],
               ),
+              Text(
+                'Version: ${"${ConstantValues.versionNum}"}',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              )
             ],
           ),
         ),

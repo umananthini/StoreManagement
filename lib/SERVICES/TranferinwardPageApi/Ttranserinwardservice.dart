@@ -9,7 +9,8 @@ import 'package:warehousemanagement/MODEL/TransferInwardModel/Transferinwardmode
 class TransferinwardService {
   int rescode = 500;
   static Future<TransferInwardDataModelHeader> getdata() async {
-    log("${ConstantValues.token}::aa::"+"${URL.queryApi}Inv/v1/TransferInward?loginbranch=${ConstantValues.branch}");
+    log("${ConstantValues.token}::aa::" +
+        "${URL.queryApi}Inv/v1/TransferInward?loginbranch=${ConstantValues.branch}");
     try {
       final response = await http.get(
           Uri.parse(
@@ -17,8 +18,8 @@ class TransferinwardService {
           headers: {
             "Authorization": "bearer ${ConstantValues.token}",
           });
-      log("aaakk::${response.statusCode}");
-       log("aaaaaa::"+response.body.toString());
+      log("Ttranserinwardservice statuscode::${response.statusCode}");
+      log("Ttranserinwardservice body::" + response.body.toString());
       if (response.statusCode == 200) {
         return TransferInwardDataModelHeader.fromJson(
             json.decode(response.body), response.statusCode);

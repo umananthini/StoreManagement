@@ -10,7 +10,7 @@ class Dboperation {
   static Future<List<wmstranspurchaseSerialModel>>
       purchaseinwsaveAllserialDatafinal(
           String docEntry, String itemCode, String lineNO, Database db) async {
-    //  final Database db = await createDB();
+    //  final Database db = await createDB(),
     final List<Map<String, Object?>> result = await db.rawQuery(
       'SELECT * FROM wmstranspurchaseSerial WHERE Docentry = "$docEntry" AND ItemCode ="$itemCode" AND LineNum = "$lineNO" ',
     );

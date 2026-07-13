@@ -15,6 +15,7 @@ import 'package:warehousemanagement/DBHELPER/dbhelper.dart';
 import 'package:warehousemanagement/DBMODEL/purchaseInwDBModel/PurchaseInwDBModel.dart';
 import 'package:warehousemanagement/MODEL/PurchaseInwModel/PurchaseInwPendingModel.dart';
 import 'package:warehousemanagement/MODEL/qrcodemodel.dart';
+import 'package:warehousemanagement/PAGES/PurchaseInward1/PurchaseInwardSecondPage.dart';
 import 'package:warehousemanagement/SERVICES/PurchaseInwardApi/FinalsaveApi.dart';
 import 'package:warehousemanagement/SERVICES/PurchaseInwardApi/GetPendingApi.dart';
 
@@ -22,6 +23,8 @@ class PurchaseInwardCtrl extends ChangeNotifier {
   TextEditingController scancontroller1 = TextEditingController();
   TextEditingController scancontroller2 = TextEditingController();
   TextEditingController searchfilter1 = TextEditingController();
+  TextEditingController searchfilter11 = TextEditingController();
+
   TextEditingController searchfilter2 = TextEditingController();
 
   TextEditingController priceController = TextEditingController();
@@ -192,6 +195,9 @@ class PurchaseInwardCtrl extends ChangeNotifier {
   savedbinw() async {
     final Database db = (await DBHelper.getinstance())!;
     int docEntry = thirdvendoritemlist!.DocEntry!;
+    log("aaa" + docEntry.toString());
+    log("bbb" + thirdvendoritemlist!.itemcode.toString());
+    log("cccc" + thirdvendoritemlist!.LineNum.toString());
     await Dboperation.purchaseinwitemuidExists(
             docEntry.toString(),
             thirdvendoritemlist!.itemcode.toString(),
@@ -220,7 +226,7 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               docentry: thirdvendoritemlist!.DocEntry,
               baseLine: thirdvendoritemlist!.LineNum,
               baseType: "Invoice",
-              itemCode: thirdvendoritemlist!.itemcode,
+              itemCode: thirdvendoritemlist!.itemcode!,
               itemDescription: thirdvendoritemlist!.ItemName,
               lineNum: thirdvendoritemlist!.LineNum,
               manageBy: "${thirdvendoritemlist!.manageBy}",
@@ -296,7 +302,7 @@ class PurchaseInwardCtrl extends ChangeNotifier {
               docentry: thirdvendoritemlist!.DocEntry,
               baseLine: thirdvendoritemlist!.LineNum,
               baseType: "I",
-              itemCode: thirdvendoritemlist!.itemcode,
+              itemCode: thirdvendoritemlist!.itemcode!,
               itemDescription: thirdvendoritemlist!.ItemName,
               lineNum: thirdvendoritemlist!.LineNum,
               manageBy: "${thirdvendoritemlist!.manageBy}",
@@ -1104,7 +1110,11 @@ class PurchaseInwardCtrl extends ChangeNotifier {
     secondpageloading = true;
     notifyListeners();
     getqty.clear();
+    searchfilter11.clear();
     notifyListeners();
+    searchfiltersecondvendoritemlist = filtersecondvendoritemlist;
+    notifyListeners();
+    log("searchfiltersecondvendoritemlist555555;;;;;;${searchfiltersecondvendoritemlist.length}");
 
     finallodaing = false;
     commentcontroller.clear();
@@ -1311,6 +1321,7 @@ class PurchaseInwardCtrl extends ChangeNotifier {
   }
 
   TextEditingController commentcontroller = TextEditingController();
+  TextEditingController uploadcontroller = TextEditingController();
   TextEditingController invoicenumcontroller = TextEditingController();
   TextEditingController invoicedatecontroller = TextEditingController();
   TextEditingController quantitycontroller = TextEditingController();
@@ -1380,19 +1391,19 @@ class PurchaseInwardCtrl extends ChangeNotifier {
     log("itemlist::" + itemlist.length.toString());
     await savefinalPurchaseInwApi
         .getdata(
-      itemlist,
-      secondpagevendorlist!.VendorCode,
-      secondpagevendorlist!.Vendor,
-      invoicenumcontroller.text.toString(),
-      "Invoice",
-      secondpagevendorlist!.DocDate,
-      double.parse(secondpagevendorlist!.DocTotal.toString()),
-      secondpagevendorlist!.Code.toString(),
-      invoicedatecontroller.text.toString(),
-      Config.alignexpiry(invoicedatecontroller.text),
-      ConstantValues.branch,
-      commentcontroller.text,
-    )
+            itemlist,
+            secondpagevendorlist!.VendorCode,
+            secondpagevendorlist!.Vendor,
+            invoicenumcontroller.text.toString(),
+            "Invoice",
+            secondpagevendorlist!.DocDate,
+            double.parse(secondpagevendorlist!.DocTotal.toString()),
+            secondpagevendorlist!.Code.toString(),
+            invoicedatecontroller.text.toString(),
+            Config.alignexpiry(invoicedatecontroller.text),
+            ConstantValues.branch,
+            commentcontroller.text,
+            attachmentCollectionss)
         .then((value) async {
       if (value.stcode! >= 200 && value.stcode! <= 210) {
         for (int i = 0; i < secondvendoritemlist.length; i++) {
@@ -1407,13 +1418,13 @@ class PurchaseInwardCtrl extends ChangeNotifier {
             value.data!.DocNumber.toString());
       } else if (value.stcode! >= 400 && value.stcode! <= 410) {
         finallodaing = false;
-        showdialogsave(context, "Assets/cancel.png", "Failed",
+        showdialogsave(context, "Assets/cancel.png", "Failed 400",
             "${value.exception}".toString());
         notifyListeners();
       } else {
         finallodaing = false;
-        showdialogsave(context, "Assets/cancel.png", "Failed",
-            "${value.exception}".toString());
+        showdialogsave(
+            context, "Assets/cancel.png", "Failed 500", "Server not Connect");
         notifyListeners();
       }
     });
@@ -1541,6 +1552,7 @@ class PurchaseInwardCtrl extends ChangeNotifier {
 
   List<PurchaseInwPendingDetailList> secondvendoritemlist = [];
   List<PurchaseInwPendingDetailList> filtersecondvendoritemlist = [];
+  List<PurchaseInwPendingDetailList> searchfiltersecondvendoritemlist = [];
 
   editclick(int i) {
     filtersecondvendoritemlist[i].priceedit =
@@ -1673,6 +1685,52 @@ class PurchaseInwardCtrl extends ChangeNotifier {
 
   List<Dataa> returnresponce = [];
 
+  SearchFilter2purchaseinvdetails(String v) {
+    print('saearch :' + v);
+    if (v.isNotEmpty) {
+      // isloading=true;
+      log("searchfiltersecondvendoritemlist1;;;;;;${searchfiltersecondvendoritemlist.length}");
+      searchfiltersecondvendoritemlist = [];
+      notifyListeners();
+      log("searchfiltersecondvendoritemlist2;;;;;;${searchfiltersecondvendoritemlist.length}");
+
+      searchfiltersecondvendoritemlist = filtersecondvendoritemlist
+          .where((e) =>
+              (e).DocEntry.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).ItemName.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).LineNum.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).MRP.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).Price.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).SellPrice.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).TaxCode.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ) ||
+              (e).TaxRate.toString().toLowerCase().contains(
+                    v.toLowerCase(),
+                  ))
+          .toList();
+      log("searchfiltersecondvendoritemlist3;;;;;;${searchfiltersecondvendoritemlist.length}");
+
+      notifyListeners();
+    } else if (v.isEmpty) {
+      searchfiltersecondvendoritemlist = filtersecondvendoritemlist;
+
+      notifyListeners();
+    }
+  }
+
   SearchFilterpurchaseinvdetails(String v) {
     print('saearch :' + v);
     if (v.isNotEmpty) {
@@ -1746,13 +1804,28 @@ class PurchaseInwardCtrl extends ChangeNotifier {
         isloading = false;
         // lottie = '';
         exception = "${value.message}..${value.exception}..!!";
+        Fluttertoast.showToast(
+            msg: "${value.message}..${value.exception}..!!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         notifyListeners();
       } else {
-        if (value.exception!.contains("Network is unreachable")) {
+        if (value.exception!.contains("Server not Connect")) {
           // lottie = 'Asset/network-signal.png';
           isloading = false;
-          exception =
-              "'${value.stcode!}..!!Network Issue..\nTry again Later..!!";
+          exception = "'${value.stcode!}..Server not Connect";
+          Fluttertoast.showToast(
+              msg: "Server not Connect",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           notifyListeners();
         } else {
           // lottie = 'Asset/warning.png';

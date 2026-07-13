@@ -1,7 +1,3 @@
-
-
-
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -14,27 +10,24 @@ class GetProductSerialApi {
   int rescode = 500;
   static Future<GetProductSerialHeader> getData(String? serialnum) async {
     try {
-       log("GetOutward body:::${ConstantValues.token.toString()}");
+      log("GetOutward body:::${ConstantValues.token.toString()}");
       final responce = await http.get(
           Uri.parse(
               "${URL.queryApi}Inv/v1/GetProductSerialAvailable?whscode=${ConstantValues.branch}&serialnum=$serialnum"),
           headers: {"Authorization": "bearer ${ConstantValues.token}"});
       log("GetOutward body:::${responce.body.toString()}");
-      log("GetOutward statusCode:::${responce.statusCode.toString()}");     
+      log("GetOutward statusCode:::${responce.statusCode.toString()}");
 
       if (responce.statusCode == 200) {
-       
-      return  GetProductSerialHeader.fromjson(
+        return GetProductSerialHeader.fromjson(
             json.decode(responce.body), responce.statusCode);
       } else {
-        return 
-        GetProductSerialHeader.execption(
+        return GetProductSerialHeader.execption(
             json.decode(responce.body), responce.statusCode);
       }
     } catch (e) {
       log("GetOutwardcatch:::${e.toString()}");
-      return
-      GetProductSerialHeader.issues(e.toString(), 500);
+      return GetProductSerialHeader.issues(e.toString(), 500);
     }
   }
 }
