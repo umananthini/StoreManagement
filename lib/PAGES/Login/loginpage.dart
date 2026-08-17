@@ -334,6 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                         context) *
                                                                 0.02,
                                                           ),
+
                                                           TextFormField(
                                                             style: theme
                                                                 .textTheme

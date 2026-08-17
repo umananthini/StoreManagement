@@ -172,8 +172,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 onPressed: () {
                                                   setst(() {
                                                     // isfinalloop = false;
-
-                                                    Navigator.pop(context);
                                                   });
                                                 },
                                                 child: Text("no")),

@@ -136,7 +136,6 @@ class Routes {
         page: () => const reportSecondscreen(),
         transition: Transition.fade,
         transitionDuration: const Duration(seconds: 1)),
-
     GetPage<dynamic>(
         name: ConstantRoutes.requestScreen,
         page: () => const RequestScreen(),
